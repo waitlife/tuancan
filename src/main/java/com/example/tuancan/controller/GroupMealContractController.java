@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class GroupMealContractController {
         if (pageNum==null||pageNum<=0){
             pageNum=1;
         }
-        Page<Object> page = PageHelper.startPage(pageNum, 5);
+        Page<Object> page = PageHelper.startPage(pageNum, 10);
         List<DeliveringCompany> deliveringCompanies = deliveringCompanyService.selectAllByStatus(StatusEnum.StatusUP.getCode());
         PageInfo<DeliveringCompany> pageInfo = new PageInfo<DeliveringCompany>(deliveringCompanies);
         PageUtil.setPageModel(model,pageInfo,"/groupMealContract/yes_list");
@@ -98,12 +99,24 @@ public class GroupMealContractController {
     }
 
     @RequestMapping(value = "/save",method = {RequestMethod.POST})
-    @ResponseBody
-    public String  setContract(GroupMealContract groupMealContract,@RequestParam(value = "monthoryear")Integer monthoryear,
+    public String  setContract(Model model,GroupMealContract groupMealContract,@RequestParam(value = "monthoryear")Integer monthoryear,
                                @RequestParam(value = "datenum")Integer datenum){
 
         log.info(JsonUtil.toJson(groupMealContract));
         log.info(datenum+">>"+monthoryear);
-        return "ok";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        if (monthoryear==0){
+            calendar.add(Calendar.MONTH,datenum);
+        }else {
+            calendar.add(Calendar.YEAR,datenum);
+        }
+        log.info(">>>"+calendar.getTime().toString());
+        groupMealContract.setGMlContractExpirydate(calendar.getTime());
+        int insertOne = groupMealContractService.insertOne(groupMealContract);
+        log.info("insertOne>>"+insertOne);
+        model.addAttribute("msg","合同提交成功！请等待对方确认");
+        return "manager/empty";
     }
 }

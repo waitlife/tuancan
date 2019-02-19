@@ -2,13 +2,14 @@ package com.example.tuancan.utils;
 
 import com.example.tuancan.dto.Recipeid_name_privce;
 import com.example.tuancan.model.Recipe;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
 public class RecipeUtil {
 
+    @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
     public static List<Recipeid_name_privce> getRecipes(List<Recipe> recipe){
 
         List<Recipeid_name_privce> recipeid_name_privces = new ArrayList<>();

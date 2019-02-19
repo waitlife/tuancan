@@ -352,7 +352,7 @@
 
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <form class="form-horizontal" role="form" id="savecontract" action="/groupMealContract/save" type="post">
+                                        <form class="form-horizontal" role="form" id="savecontract" action="/groupMealContract/save" method="post">
                                         <div class="col-lg-6">
                                             <input type="hidden" name="deliveringCompanyNo" id="dcno" th:value="${dm?.deliveringMasterId}">
 
@@ -456,11 +456,11 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="hidden" name="monthoryear"  class="form-control " id="monthoryear">
+                                                <input type="hidden" name="monthoryear"  class="form-control " value="1" id="monthoryear">
                                                 <div class="btn-toolbar" role="toolbar" >
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btnselect" th:text="月" lang="0" data-th-classappend="${dm?.deliveringMasterIsEmergency==0?'btn-success':'btn-default'}">否</button>
-                                                        <button type="button" class="btn btnselect" th:text="年" lang="1" data-th-classappend="${dm?.deliveringMasterIsEmergency==1?'btn-success':'btn-default'}">是</button>
+                                                        <button type="button" class="btn btnselect btn-success" th:text="年" lang="1" data-th-classappend="${dm?.deliveringMasterIsEmergency==1?'btn-success':'btn-default'}">是</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -470,7 +470,7 @@
                                                 <div class="row">
                                                     <label for="lastname" class="col-sm-2 control-label">荤菜数量 ：</label>
                                                     <div class="col-lg-2">
-                                                        <input type="text" name="gMContractMeatnumber" th:value="${1}" class="form-control" id="lastname" placeholder="无">
+                                                        <input type="number" name="gMContractMeatnumber" th:value="${1}" class="form-control" id="lastname" placeholder="无">
                                                     </div>
 
                                                 </div>
@@ -478,7 +478,7 @@
                                                 <div class="row">
                                                     <label for="lastname" class="col-sm-2 control-label">素菜数量 ：</label>
                                                     <div class="col-lg-2">
-                                                        <input type="text" name="gMlContractVegetablenumber" th:value="${1}" class="form-control" id="lastname" placeholder="无">
+                                                        <input type="number" name="gMlContractVegetablenumber" th:value="${1}" class="form-control" id="lastname" placeholder="无">
 
                                                     </div>
                                                 </div>
@@ -559,12 +559,13 @@
     <script src="/assets/js/custom-scripts.js"></script>
     <script type="text/javascript">
 
-        function Page(pagenum) {
-
+        function asyc(pagenum) {
             $.ajax({
-                url:"/groupMealContract/yes_list/"+pagenum,
+                url:"/deliveringCompany/yes_list/"+pagenum,
                 type:"POST",
-                data:{},
+                data:{
+                    asyc:true,
+                },
                 success:function (data) {
                     $('#searchtable').html(data);
                 },
@@ -573,6 +574,15 @@
                 }
             });
         }
+        /*异步请求*/
+        $(function () {
+            asyc(1);
+        });
+        /*分页*/
+        function Page(pagenum) {
+            asyc(pagenum);
+
+        };
         var dinings;
         function select(dcno,dcname) {
             $('#dcdining').find("option").remove();

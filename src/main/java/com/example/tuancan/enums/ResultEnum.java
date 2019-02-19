@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * 结果类型枚举
+ * @author Administrator
  */
 @Getter
 public enum ResultEnum {

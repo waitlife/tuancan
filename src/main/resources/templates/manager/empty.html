@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -304,13 +304,9 @@
             <div id="page-inner">
 			 <div class="row">
                     <div class="col-md-12">
-                        <div class="ztree-dropdown">
-                            <input class="custom-input" id="partInput" type="text" readonly value="请选择主分部分项" style="width:120px;"/>
-                            <div hidden id="ztreeDropdownContent" class="ztree-dropdown-content" style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
-                             background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
-                                <ul id="partTree" class="ztree"></ul>
-                            </div>
-                        </div>
+
+                        <h2> <button type="button" class="btn btn-success btn-circle"><i class="fa fa-check"></i>
+                        </button>[[${msg}]]</h2>
                     </div>
                 </div> 
                  <!-- /. ROW  -->
@@ -335,65 +331,7 @@
     
    <script type="text/javascript">
 
-       var setting={
-           view: {
-               showLine: true,
-               showIcon:true,
-           },
-           //获取json数据
-           async : {
-               enable : true,
-               url: "/foodMaterial/getTree", // Ajax 获取数据的 URL 地址
-               autoParam : [ "id", "name" ] //ajax提交的时候，传的是id值
-           },
-           callback:{
-               onAsyncError:function () {
-                   alert("网络错误");
-               },
-               beforeClick:function (treeId, treeNode) {
-                   var check = (treeNode && !treeNode.isParent);
-                   if (!check){
-                       alert("请选择下级分类");
-                   }
-                   return check;
-               },
-               onClick:function (event, treeId, treeNode) {
-                   if(!treeNode.isParent){
-                       $("#").val(treeNode.id);
-                       $("#").val(treeNode.text)
-                   }
-               }
-           },
-           data: {
-               simpleData: {
-                   enable: true,
-                   idKey: "id",
-                   pIdKey: "pId",
-                   rootPId: 0,
-               }
-           },
 
-       };
-       function showMenu() {
-           var cityObj = $("#partInput");
-           var cityOffset = $("#partInput").offset();
-           $("#ztreeDropdownContent").css({left:cityOffset.left+"px",top:cityOffset.top+cityObj.outerHeight()+"px"}).slideDown("fast");
-           $("#ztreeDropdownContent").slideDown("fast");
-           $("body").bind("mousedown", onBodyDown);
-       }
-       function hideMenu() {
-           $("#ztreeDropdownContent").fadeOut("fast");
-           $("body").unbind("mousedown", onBodyDown);
-       }
-       function onBodyDown(event) {
-           if (!(event.target.id == "partInput" || event.target.id == "ztreeDropdownContent" || $(event.target).parents("#ztreeDropdownContent").length>0)) {
-               hideMenu();
-           }
-       }
-       $.fn.zTree.init($("#partTree"), setting);
-       $("#partInput").focus(function(){
-           showMenu();
-       });
    </script>
 </body>
 </html>
