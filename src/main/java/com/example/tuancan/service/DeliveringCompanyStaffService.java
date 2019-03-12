@@ -16,14 +16,14 @@ public interface DeliveringCompanyStaffService {
 
     public int updateOneById(DeliveringCompanyStaff deliveringCompanyStaff);
 
-    public  int insertOne(DeliveringCompanyStaff deliveringCompanyStaff);
+    public int insertOne(DeliveringCompanyStaff deliveringCompanyStaff);
 
-   public List<DeliveringCompanyStaff> selecyStaffByLikeName(Integer id,String value);
+    public List<DeliveringCompanyStaff> selecyStaffByLikeName(Integer id, String value);
 
     /*账号查询*/
-   public DeliveringCompanyStaff selectStaffByLoginName(@Param("companyId") Integer id,@Param("name") String name);
+    public DeliveringCompanyStaff selectStaffByLoginName(@Param("companyId") Integer id, @Param("name") String name);
 
-
+    public DeliveringCompanyStaff selectStaffByName(@Param("name") String name);
 
 
 }
