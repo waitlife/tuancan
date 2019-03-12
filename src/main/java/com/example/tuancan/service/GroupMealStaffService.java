@@ -1,11 +1,6 @@
 package com.example.tuancan.service;
 
 import com.example.tuancan.model.GroupMealStaff;
-import com.example.tuancan.model.GroupMealUnit;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -21,7 +16,7 @@ public interface GroupMealStaffService {
     public List<GroupMealStaff> selectByUnitId(Integer id);
 
     /*根据name查询*/
-    public GroupMealStaff selectByName(String name);
+    public List<GroupMealStaff> selectByName(String name,Integer id);
 
     /*根据状态查询*/
     public List<GroupMealStaff> selectByStatus(int status);
@@ -53,5 +48,12 @@ public interface GroupMealStaffService {
     /*更新数据*/
     public int updateOne(GroupMealStaff groupMealStaff);
 
+    /**
+     * 更新状态
+     * @param id
+     * @param status
+     * @return
+     */
+    public int updateStatusById( Integer id,Integer status);
 
 }

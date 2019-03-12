@@ -5,10 +5,12 @@ import com.example.tuancan.model.GroupMealStaff;
 import com.example.tuancan.service.GroupMealStaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class GroupMealStaffServiceImpl implements GroupMealStaffService {
 
     @Autowired
@@ -31,9 +33,10 @@ public class GroupMealStaffServiceImpl implements GroupMealStaffService {
     }
     /*根据name查询*/
     @Override
-    public GroupMealStaff selectByName(String name) {
-        return groupMealStaffMapper.selectByName(name);
+    public List<GroupMealStaff> selectByName(String name, Integer id) {
+        return groupMealStaffMapper.selectByName(name,id);
     }
+
     /*根据状态查询*/
     @Override
     public List<GroupMealStaff> selectByStatus(int status) {
@@ -84,5 +87,10 @@ public class GroupMealStaffServiceImpl implements GroupMealStaffService {
     @Override
     public int updateOne(GroupMealStaff groupMealStaff) {
         return groupMealStaffMapper.updateOne(groupMealStaff);
+    }
+
+    @Override
+    public int updateStatusById(Integer id, Integer status) {
+        return groupMealStaffMapper.updateStatusById(id,status);
     }
 }

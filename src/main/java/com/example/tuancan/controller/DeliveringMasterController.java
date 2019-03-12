@@ -89,8 +89,10 @@ public class DeliveringMasterController {
 
     /*用餐单位查看配送情况细节*/
     @RequestMapping(value = "/dm_unit_details/{id}",method = {RequestMethod.GET})
-    public String getUnitdm(@PathVariable(value = "id")Integer id,Model model){
-        detailFun(id,model);
+    public String getUnitdm(HttpServletRequest httpServletRequest, @PathVariable(value = "id")Integer id,Model model){
+        Integer unitID = (Integer) httpServletRequest.getSession().getAttribute("unitID");
+        log.info("公司id:"+ unitID);
+        detailFun(unitID,model);
         return "/unitmealmanager/dm_unit_update";
     }
 

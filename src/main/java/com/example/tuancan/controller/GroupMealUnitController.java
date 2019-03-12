@@ -5,6 +5,7 @@ import com.example.tuancan.model.GroupMealUnit;
 import com.example.tuancan.service.GroupMealUnitService;
 import com.example.tuancan.utils.JsonUtil;
 import com.example.tuancan.utils.PageUtil;
+import com.example.tuancan.utils.ResultUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/groupMealUnit")
@@ -82,24 +84,29 @@ public class GroupMealUnitController {
         return "ok";
     }
 
+    /**
+     * 保存用餐信息，平台注册
+     * @param unit
+     * @return
+     */
     @RequestMapping(value = "/save",method = {RequestMethod.POST})
     @ResponseBody
     public String savedc(GroupMealUnit unit){
-        //更新
-        if (unit.getGroupMealUnitId()==null){
-            return "error";
-        }else {
+
+        unit.setGroupMealUnitStatus(StatusEnum.StatusNew.getCode());
+        unit.setGroupMealUnitCreateDate(new Date());
+        //TODO 平台注册就生成ticket，将来用于生成二维码，就是该公司默认的二维码
+        unit.setGroupMealUnitTickerId("");
+        try {
+            int insertOne = groupMealUnitService.insertOne(unit);
             log.info(JsonUtil.toJson(unit));
-            GroupMealUnit groupMealUnit = groupMealUnitService.selectOneById(unit.getGroupMealUnitId());
-            groupMealUnit.setGroupMealUnitContact(unit.getGroupMealUnitContact());
-            groupMealUnit.setGroupMealUnitName(unit.getGroupMealUnitName());
-            //........平台没有修改内容权利
-            log.info(JsonUtil.toJson(groupMealUnit));
-            int i = groupMealUnitService.updateOne(groupMealUnit);
-            log.info(i+"");
+            log.info(insertOne+"");
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }
-        return "ok";
-        // return "forward:/deliveringCompany/yes_list";
+        //TODO ........通知平台平台审核信息
+
+        return JsonUtil.toJson(ResultUtil.status(200,"注册成功"));
     }
 
     @RequestMapping(value = {"/search/{name}","/search/{name}/{pagenum}"},method = {RequestMethod.POST,RequestMethod.GET})

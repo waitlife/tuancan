@@ -27,13 +27,11 @@ public interface GroupMealStaffMapper extends Mapper<GroupMealStaff>{
 
     /*查询公司对应的所有员工*/
     @Select("select * from groupmealstaff where GroupMealUnit_id = #{id}")
-    @ResultMap(value = "getone")
     public List<GroupMealStaff> selectByUnitId(Integer id);
 
     /*根据name查询*/
-    @Select("select * from groupmealstaff where GMStaff_name = #{name}")
-    @ResultMap(value = "getone")
-    public GroupMealStaff selectByName(String name);
+    @Select("select * from groupmealstaff where GMStaff_name like '%${value}%' and GroupMealUnit_id=#{id}")
+    public List<GroupMealStaff> selectByName(@Param("value") String name,@Param("id") Integer id);
 
     /*根据状态查询*/
     @Select("select * from groupmealstaff where GMStaff_status = #{status}")
@@ -74,7 +72,7 @@ public interface GroupMealStaffMapper extends Mapper<GroupMealStaff>{
     @Insert("insert into groupmealstaff values(null,#{groupMealUnitId.groupMealUnitId},#{gMStafMobile},#{gMStaffName}" +
             ",#{gMStaffStatus},#{gMStaffSex},#{gMStafIsdefualt},#{gMStafLoginname}," +
             "#{gMStafPassword},#{unitTickerId},#{gMStaffOpenId},#{gMStafCreateDate})")
-
+    @Options( useGeneratedKeys = true,keyColumn = "GMStaff_id",keyProperty = "gMStaffId")
     public int insertOne(GroupMealStaff groupMealStaff);
 
     /*删除数据*/
@@ -88,4 +86,8 @@ public interface GroupMealStaffMapper extends Mapper<GroupMealStaff>{
             "GMStaf_loginname = #{gMStafLoginname},GMStaf_password = #{gMStafPassword},Unit_ticker_id = #{unitTickerId},GMStaff_OpenId = #{gMStaffOpenId},GMStaf_createDate = #{gMStafCreateDate} where GMStaff_id = #{gMStaffId}")
 
     public int updateOne(GroupMealStaff groupMealStaff);
+
+    /*更新数据*/
+    @Update("update  groupmealstaff set GMStaff_status = #{gMStaffStatus} where GMStaff_id = #{id}")
+    public int updateStatusById(@Param("id") Integer id,@Param("gMStaffStatus") Integer status);
 }

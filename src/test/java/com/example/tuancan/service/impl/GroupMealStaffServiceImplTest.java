@@ -43,8 +43,8 @@ public class GroupMealStaffServiceImplTest {
     /*测试通过name查找*/
     @Test
     public void selectByName() throws Exception {
-        GroupMealStaff groupMealStaff = groupMealStaffService.selectByName("2");
-        System.out.println(JsonUtil.toJson(groupMealStaff));
+       /* GroupMealStaff groupMealStaff = groupMealStaffService.selectByName("2");
+        System.out.println(JsonUtil.toJson(groupMealStaff));*/
     }
 
     /*测试通过状态查找*/
