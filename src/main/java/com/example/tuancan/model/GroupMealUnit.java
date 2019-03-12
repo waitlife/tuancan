@@ -54,7 +54,7 @@ public class GroupMealUnit implements Serializable{
 
     /*  状态(1：停用，1：启用) */
     @Column(name = "GroupMealUnit_status")
-    private int groupMealUnitStatus= StatusEnum.StatusUP.getCode();
+    private int groupMealUnitStatus= StatusEnum.StatusDOWN.getCode();
 
     /*  办公电话  */
     @Column(name = "GroupMealUnit_officetel")
