@@ -36,10 +36,30 @@ public class IndexController {
         return "/groupmanager/login";
     }
 
+    //修改密码
+    @RequestMapping("/updatePassword")
+    public String updatePassword(Model model, HttpServletRequest httpServletRequest) {
+
+        if (httpServletRequest.getSession().getAttribute("staffUsername") == null) {
+            return null;
+        }
+        String username = httpServletRequest.getSession().getAttribute("staffUsername").toString();
+        model.addAttribute("username", username);
+        return "/groupmanager/updatePassword";
+    }
+
+
+    //执行修改密码
+    @RequestMapping("/doUpdatePassword")
+    public String doUpdatePassword( @RequestParam(name = "username") String username,@RequestParam(name = "newpassword") String newpassword,
+                                   @RequestParam(name = "password") String password) {
+
+        return "/groupmanager/updatePassword";
+    }
 
     @RequestMapping("/doLogin")
     public String doLogin(@RequestParam(name = "username") String name, @RequestParam(name = "password") String password,
-                          Model model,HttpServletRequest httpServletRequest) {
+                          Model model, HttpServletRequest httpServletRequest) {
 
         DeliveringCompanyStaff deliveringCompanyStaff = deliveringCompanyStaffService.selectStaffByName(name);
         if (deliveringCompanyStaff == null) {
@@ -49,14 +69,15 @@ public class IndexController {
         if (deliveringCompanyStaff.getDCompanyStaffStatus() == ENABLE_MANAGER) {
             if (StringUtil.stringEquals(deliveringCompanyStaff.getDCompanyStaffPassword(), password)) {
                 httpServletRequest.getSession().setAttribute("companyId", deliveringCompanyStaff.getDeliveringCompany().getDeliveringCompanyNo());
-                return "/groupmanager/index";
+                httpServletRequest.getSession().setAttribute("staffUsername", deliveringCompanyStaff.getDCompanyStaffLoginname());
+                return "redirect:/index";
             } else {
                 model.addAttribute("message", "密码或账号错误！");
                 return "/groupmanager/login";
             }
         } else {
             model.addAttribute("message", "该账号已被停用！");
-            return "redirect:/groupmanager/login";
+            return "/groupmanager/login";
         }
     }
 }
