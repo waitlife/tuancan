@@ -147,7 +147,7 @@ public class DeliveringMasterController {
         List<GroupMealContract> mealContracts = groupMealContractService.selectOneByUnitId(unitID);
         DeliveringCompany deliveringCompany = mealContracts.get(0).getStandard().getDeliveringCompany();
         deliveringMaster.setDeliveringCompany(deliveringCompany);
-        //需要对方处理的是确认人，配送单状态
+        //TODO 需要对方处理的是确认人，配送单状态
         deliveringMasterService.insertOne(deliveringMaster);
         log.info(JsonUtil.toJson(deliveringMaster));
         return "";
