@@ -14,4 +14,15 @@ public class IndexController {
         httpServletRequest.getSession().setAttribute("companyId",2);
         return "/groupmanager/index";
     }
+
+    /**
+     * 微信首页
+     * @param httpServletRequest
+     * @return
+     */
+    @RequestMapping("/wxindex")
+    public String weixinindex(HttpServletRequest httpServletRequest){
+        httpServletRequest.getSession().setAttribute("unitID",2);
+        return "/unitmealmanager/index";
+    }
 }

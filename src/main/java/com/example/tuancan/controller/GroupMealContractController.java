@@ -79,39 +79,40 @@ public class GroupMealContractController {
      * @return
      */
     @RequestMapping(value = "/show",method = {RequestMethod.GET})
+    @ResponseBody
     public String showContract(Model model, HttpServletRequest request){
          /*获取登录的用餐公司id*/
-        String unitIDstr = (String) request.getSession().getAttribute("unitID");
+        String unitIDstr = String.valueOf(request.getSession().getAttribute("unitID"));
         if (StringUtils.isEmpty(unitIDstr) || "".equals(unitIDstr)){
             return "redirect:/login";
         }
-        log.info("unitID>>>session>>"+unitIDstr);
+        log.info("unitID:{}>>>session>>",unitIDstr);
         Integer unitID=Integer.parseInt(unitIDstr);
         List<GroupMealContract> groupMealContracts = groupMealContractService.selectOneByUnitId(unitID);
         if (CollectionUtils.isEmpty(groupMealContracts)){
             //以前未签订合同  直接展示空页面提示无合同信息
-            //String s = dcStausYeslist(model, 1);
             //TODO
             return "/unitmealmanager/contract_details";
 
         }else {
             //有合同 直接展示合同页面
-            Date expirydate = groupMealContracts.get(0).getGMlContractExpirydate();
+            Date expirydate = groupMealContracts.get(0).getGmlContractExpirydate();
             Date date = new Date();
-            log.info("expirydate"+expirydate.getTime()+">>>"+date.getTime());
-            if(expirydate.getTime()<date.getTime()){
+            log.info("expirydate:{}>>now:{}",expirydate.getTime(),date.getTime());
+            if(expirydate.getTime()>date.getTime()){
                 //合同在有效期内 直接展示或者计算还有多久过期并提示
-
+                return JsonUtil.toJson(groupMealContracts);
             }else {
                 //合同过期 页面提示过期
                 //TODO
             }
         }
-        return "";
+        return "ok";
     }
 
+
     /**
-     * 保存合同信息，状态待确认
+     * 用餐公司保存合同信息，状态待确认
      * @param model
      * @param groupMealContract
      * @param monthoryear
@@ -119,16 +120,17 @@ public class GroupMealContractController {
      * @return
      */
     @RequestMapping(value = "/save",method = {RequestMethod.POST})
-    public String  setContract(HttpServletRequest httpServletRequest,Model model,GroupMealContract groupMealContract,@RequestParam(value = "monthoryear")Integer monthoryear,
+    @ResponseBody
+    public String  setContract(HttpServletRequest httpServletRequest,Model model,@RequestBody GroupMealContract groupMealContract,@RequestParam(value = "monthoryear")Integer monthoryear,
                                @RequestParam(value = "datenum")Integer datenum){
         Integer unitID = (Integer) httpServletRequest.getSession().getAttribute("unitID");
 
         log.info(JsonUtil.toJson(groupMealContract));
-        log.info(datenum+">>"+monthoryear);
+        log.info("datenum:{},monthoryear:{}",datenum,monthoryear);
         List<GroupMealContract> groupMealContracts = groupMealContractService.selectOneByUnitId(unitID);
-        if (CollectionUtils.isEmpty(groupMealContracts)){
+        if (CollectionUtils.isEmpty(groupMealContracts) || groupMealContracts.size() == 0){
             //以前未签订合同
-            String s = dcStausYeslist(model, 1);
+            //String s = dcStausYeslist(model, 1);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             if (monthoryear==0){
@@ -137,16 +139,32 @@ public class GroupMealContractController {
                 calendar.add(Calendar.YEAR,datenum);
             }
             log.info(">>>"+calendar.getTime().toString());
-            groupMealContract.setGMlContractExpirydate(calendar.getTime());
+            //设置合同有效期
+            groupMealContract.setGmlContractExpirydate(calendar.getTime());
             GroupMealUnit groupMealUnit = new GroupMealUnit();
             groupMealUnit.setGroupMealUnitId(unitID);
             groupMealContract.setGroupMealUnit(groupMealUnit);
+            groupMealContract.setGmContractCreateDate(new Date());
+            groupMealContract.setGmContractSigndate(new Date());
+            groupMealContract.setGmlContractStatus(StatusEnum.STATUS_AVA.getCode());
             int insertOne = groupMealContractService.insertOne(groupMealContract);
-            log.info("insertOne>>"+insertOne);
+            log.info("insertOne>>{}",JsonUtil.toJson(groupMealContract));
             //TODO websocket通知团餐公司确认合同信息
             model.addAttribute("msg","合同提交成功！请等待对方确认");
         }else {
-            //有合同 直接展示合同页面
+            //有合同
+            GroupMealContract contract = groupMealContracts.get(0);
+            Date expirydate = contract.getGmlContractExpirydate();
+            Date date = new Date();
+            log.info("expirydate:{}>>now:{}",expirydate.getTime(),date.getTime());
+            if(expirydate.getTime()<date.getTime()){
+                //这步为安全操作 万一用户进入保存页面了 合同在有效期内 直接展示或者计算还有多久过期并提示
+                return JsonUtil.toJson(contract);
+            }else {
+                //合同过期 修改之前的合同为不可用
+                int update = groupMealContractService.updateByStatus(StatusEnum.StatusDOWN.getCode(),contract.getGmContractId());
+                log.info("更新合同id:{}》》{}",contract,update);
+            }
         }
         return "manager/empty";
     }

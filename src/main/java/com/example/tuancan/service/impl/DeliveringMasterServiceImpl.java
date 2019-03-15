@@ -6,7 +6,6 @@ import com.example.tuancan.service.DeliveringMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -78,6 +77,11 @@ public class DeliveringMasterServiceImpl implements DeliveringMasterService {
     @Override
     public int updateOne(DeliveringMaster deliveringMaster) {
         return deliveringMasterMapper.updateOne(deliveringMaster);
+    }
+
+    @Override
+    public int updateNumById(Integer id, Integer num) {
+        return deliveringMasterMapper.updateNumById(id,num);
     }
 
     /**

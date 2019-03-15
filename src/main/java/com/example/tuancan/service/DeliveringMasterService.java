@@ -1,7 +1,6 @@
 package com.example.tuancan.service;
 
 import com.example.tuancan.model.DeliveringMaster;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +23,8 @@ public interface DeliveringMasterService {
     public List<DeliveringMaster> selectByIsEmergency(DeliveringMaster deliveringMaster);
 
     public int updateOne(DeliveringMaster deliveringMaster);
+
+    public int updateNumById(Integer id,Integer num);
 
     public List<DeliveringMaster> selectByUnitAndCompanyAndByDeliverdate ( Integer unitid, Integer companyid, Date startTime, Date endTime);
 

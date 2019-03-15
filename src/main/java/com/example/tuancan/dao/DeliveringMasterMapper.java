@@ -65,6 +65,16 @@ public interface DeliveringMasterMapper extends Mapper<DeliveringMaster>{
             "DeliveringMaster_creater=#{deliveringMasterCreater},DeliveringMaster_confirmer=#{deliveringMasterConfirmer} where DeliveringMaster_id=#{deliveringMasterId}"})
     public int updateOne(DeliveringMaster deliveringMaster);
 
+
+    /**
+     * 更新数量
+     * @param id
+     * @param num
+     * @return
+     */
+    @Update({"update deliveringmaster set DeliveringMaster_amount=#{num},DeliveringMaster_status=1 where DeliveringMaster_id=#{id}"})
+    public int updateNumById(@Param("id") Integer id,@Param("num") Integer num);
+
     /*通过用餐公司id查询*/
     @Select({"select * from deliveringmaster where GroupMealUnit_id=#{unitId}"})
     @Results(id = "selectByUnitId",value = {

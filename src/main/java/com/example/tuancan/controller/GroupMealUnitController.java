@@ -91,11 +91,12 @@ public class GroupMealUnitController {
      */
     @RequestMapping(value = "/save",method = {RequestMethod.POST})
     @ResponseBody
-    public String savedc(GroupMealUnit unit){
+    public String savedc(@RequestBody GroupMealUnit unit){
 
         unit.setGroupMealUnitStatus(StatusEnum.StatusNew.getCode());
         unit.setGroupMealUnitCreateDate(new Date());
         //TODO 平台注册就生成ticket，将来用于生成二维码，就是该公司默认的二维码
+        unit.setQrCode("");
         unit.setGroupMealUnitTickerId("");
         try {
             int insertOne = groupMealUnitService.insertOne(unit);

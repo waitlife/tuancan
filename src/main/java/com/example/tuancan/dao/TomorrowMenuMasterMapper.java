@@ -26,7 +26,7 @@ public interface TomorrowMenuMasterMapper extends Mapper<TomorrowMenuMaster> {
 
     /*xx根据用餐单位,使用期限，有效期查询唯一菜单主表查询*/
     @Select("select * from tomorrowmenumaster where GroupMealUnit_id = #{unitid} and " +
-            "DATE_ADD(CURDATE(),INTERVAL 1 DAY) <= TomorrowMenuMaster_usedate and now() < TomorrowMenuMaster_expiredate order by TomorrowMenuMaster_createdate desc")
+            "TIMESTAMPDIFF(HOUR,NOW(),TomorrowMenuMaster_usedate) >=1  and now() < TomorrowMenuMaster_expiredate order by TomorrowMenuMaster_createdate desc")
     public List<TomorrowMenuMaster> selectByUnitIdAndUseDateAndExpireDate(@Param("unitid") Integer unitid);
 
     /*根据状态查询*/

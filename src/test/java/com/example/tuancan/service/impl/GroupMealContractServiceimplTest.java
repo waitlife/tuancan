@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -48,7 +47,7 @@ public class GroupMealContractServiceimplTest {
 
     @Test
     public void insertOne() throws Exception {
-
+/*
         GroupMealContract groupMealContract = new GroupMealContract();
 
         DiningStandard standard = new DiningStandard();
@@ -56,21 +55,9 @@ public class GroupMealContractServiceimplTest {
         GroupMealUnit groupMealUnit = new GroupMealUnit();
         groupMealUnit.setGroupMealUnitId(1);
 
-        groupMealContract.setStandard(standard);
-        groupMealContract.setGroupMealUnit(groupMealUnit);
-        groupMealContract.setGMlContractName("合同");
-        groupMealContract.setGMlContractDisc("描述");
-//        groupMealContract.setGMlContractExpirydate(new Date());
-        groupMealContract.setGMContractMeatnumber(5);
-        groupMealContract.setGMlContractVegetablenumber(3);
-        groupMealContract.setGMlContractStatus(1);
-        groupMealContract.setGMContractSigndate(new Date());
-        groupMealContract.setGMlContractGroupA("xiao");
-        groupMealContract.setGMContractGroupB("wc");
-
         int i = service.insertOne(groupMealContract);
         System.out.println(i);
-        System.out.println(JsonUtil.toJson(groupMealContract));
+        System.out.println(JsonUtil.toJson(groupMealContract));*/
     }
 
     @Test
@@ -82,19 +69,9 @@ public class GroupMealContractServiceimplTest {
         GroupMealUnit groupMealUnit = new GroupMealUnit();
         groupMealUnit.setGroupMealUnitId(1);
 
-        groupMealContract.setGMContractId(2);
+        groupMealContract.setGmContractId(2);
         groupMealContract.setStandard(standard);
         groupMealContract.setGroupMealUnit(groupMealUnit);
-        groupMealContract.setGMlContractName("update合同");
-        groupMealContract.setGMlContractDisc("update描述");
-//        groupMealContract.setGMlContractExpirydate(new Date());
-        groupMealContract.setGMContractMeatnumber(5);
-        groupMealContract.setGMlContractVegetablenumber(3);
-        groupMealContract.setGMlContractStatus(1);
-        groupMealContract.setGMContractSigndate(new Date());
-        groupMealContract.setGMlContractGroupA("xiao");
-        groupMealContract.setGMContractGroupB("wc");
-
         int i = service.updateOne(groupMealContract);
         System.out.println(i);
         System.out.println(JsonUtil.toJson(groupMealContract));

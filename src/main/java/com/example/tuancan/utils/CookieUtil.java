@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class CookieUtil {
@@ -56,5 +57,16 @@ public class CookieUtil {
             }
         }
         return cookieMap;
+    }
+
+    public static Integer getSessionId(HttpServletRequest request){
+        Object unitID = request.getSession().getAttribute("unitID");
+        if (Objects.isNull(unitID)){
+            throw new RuntimeException();
+        }
+        String unitIDstr = String.valueOf(unitID);
+
+        return Integer.valueOf(unitIDstr);
+
     }
 }

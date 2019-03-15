@@ -5,7 +5,6 @@ import com.example.tuancan.dto.UnitAndOrder;
 import com.example.tuancan.enums.StatusEnum;
 import com.example.tuancan.model.*;
 import com.example.tuancan.service.*;
-import com.example.tuancan.utils.JsonUtil;
 import com.example.tuancan.utils.OrderListUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +56,8 @@ public class DeliveringController {
                 Integer unit_id = groupMealContract.getGroupMealUnit().getGroupMealUnitId();
                 UnitAndOrder unitAndOrder = new UnitAndOrder();
                 /*设置合同荤素数量*/
-                int hun = groupMealContract.getGMContractMeatnumber();
-                int su = groupMealContract.getGMlContractVegetablenumber();
+                int hun = groupMealContract.getGmContractMeatnumber();
+                int su = groupMealContract.getGmlContractVegetablenumber();
                 unitAndOrder.setHun_number(hun);
                 unitAndOrder.setSu_number(su);
                 unitAndOrder.setPrice(standard.getStandardPrice());

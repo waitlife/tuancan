@@ -4,6 +4,7 @@ import com.example.tuancan.dto.UnitAndStandard;
 import com.example.tuancan.enums.StatusEnum;
 import com.example.tuancan.model.*;
 import com.example.tuancan.service.*;
+import com.example.tuancan.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,8 +58,8 @@ public class TommorwMenuController {
                 /*合同基本信息*/
                 Integer unit_id = groupMealContract.getGroupMealUnit().getGroupMealUnitId();
                 UnitAndStandard unitAndStandard = new UnitAndStandard();
-                unitAndStandard.setHun_number(groupMealContract.getGMContractMeatnumber());
-                unitAndStandard.setSu_number(groupMealContract.getGMlContractVegetablenumber());
+                unitAndStandard.setHun_number(groupMealContract.getGmContractMeatnumber());
+                unitAndStandard.setSu_number(groupMealContract.getGmlContractVegetablenumber());
                 unitAndStandard.setUnitID(unit_id);
                 unitAndStandard.setUnitName(groupMealContract.getGroupMealUnit().getGroupMealUnitName());
                 /*是否已经添加 0：未添加 1：已添加*/
@@ -151,5 +152,30 @@ public class TommorwMenuController {
         return "5255";
     }
 
+    /**
+     * 查询明日菜单
+     * @param value
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = {"/show"})
+    public String showTomorrowMenu(@RequestParam("unitId")Integer value,HttpServletRequest request){
+        Integer unitID = Integer.valueOf(String.valueOf(request.getSession().getAttribute("unitID")));
+
+        if (Objects.isNull(unitID)){
+            return "/login";
+        }
+        List<TomorrowMenuMaster> tomorrowMenuMasters = tomorrowMenuMasterService.selectByUnitIdAndUseDateAndExpireDate(unitID);
+        if (Objects.isNull(tomorrowMenuMasters) || tomorrowMenuMasters.size() == 0){
+            return "";
+        }
+        TomorrowMenuMaster menuMaster = tomorrowMenuMasters.get(0);
+        List<TomorrowMenudetail> tomorrowMenudetails = tomorrowMenuDetailService.selectByMenuMasterId(menuMaster.getTomorrowMenuMasterId());
+
+        log.info(JsonUtil.toJson(menuMaster));
+        log.info(JsonUtil.toJson(tomorrowMenudetails));
+
+        return "";
+    }
 
 }

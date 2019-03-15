@@ -1,10 +1,8 @@
 package com.example.tuancan.controller;
 
 import com.example.tuancan.dto.UnitAndStandard;
-import com.example.tuancan.enums.StatusEnum;
 import com.example.tuancan.model.*;
 import com.example.tuancan.service.*;
-import com.example.tuancan.utils.JsonUtil;
 import com.example.tuancan.utils.RecipeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import sun.security.provider.Sun;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -66,9 +62,9 @@ public class UnitMenuController {
                 UnitAndStandard unitAndStandard = new UnitAndStandard();
                 unitAndStandard.setDiningStandard(standard);
                 /*荤菜个数*/
-                int hun = groupMealContract.getGMContractMeatnumber();
+                int hun = groupMealContract.getGmContractMeatnumber();
                 /*素菜个数*/
-                int su = groupMealContract.getGMlContractVegetablenumber();
+                int su = groupMealContract.getGmlContractVegetablenumber();
                 unitAndStandard.setHun_number(hun);
                 unitAndStandard.setSu_number(su);
                 unitAndStandard.setUnitID(unit_id);

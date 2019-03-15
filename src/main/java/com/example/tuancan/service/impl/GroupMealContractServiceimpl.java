@@ -56,4 +56,14 @@ public class GroupMealContractServiceimpl implements GroupMealContractService {
     public int updateOne(GroupMealContract groupMealContract) {
         return groupMealContractMapper.updateOne(groupMealContract);
     }
+
+    @Override
+    public int deleteOne(Integer id) {
+        return groupMealContractMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByStatus(Integer status, Integer id) {
+        return groupMealContractMapper.updateByStatus(status,id);
+    }
 }

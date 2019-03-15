@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <!--<link rel="stylesheet" href="css/demos.css">-->
+    <!-- head 中 -->
+    <!--
+        <link rel="stylesheet" href="../lib/weui.min.css">
+        <link rel="stylesheet" href="../css/jquery-weui.css">-->
+    <!--<link rel="stylesheet" href="./css/demos.css">-->
+    <link rel="stylesheet" href="/css/demos.css">
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+
+</head>
+
+<body ontouchstart>
+<div class="weui-cell">
+    <a href="javacript:;">
+        <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block"></div>
+    </a>
+    <div class="weui-cell__bd">
+        <p>账户</p>
+    </div>
+    <div class="weui-cell__ft">
+            <!--<a href="javascript:;" class="weui-btn weui-btn_primary open-popup" data-target="#full">显示全屏(默认)Popup</a>-->
+            <a href="javascript:;" class="weui-form-preview__btn weui-form-preview__btn_primary open-popup" data-target="#half">操作</a>
+        <!--<button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary">操作</button>-->
+    </div>
+</div>
+<div class="weui-tab">
+    <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+            <div class="weui-form-preview" id="delivers" th:each="dm,stat : ${page?.list}"
+                 th:if="${not #lists.isEmpty(page.list)}">
+                <div class="weui-form-preview__hd">
+                    <label class="weui-form-preview__label">单价</label>
+                    <em class="weui-form-preview__value" th:text="${'¥'+dm.deliveringMasterPrice}">¥24.00</em>
+                </div>
+                <div class="weui-form-preview__bd">
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">份数</label>
+                            <div class="weui-count">
+                                <a class="weui-count__btn weui-count__decrease"></a>
+                                <input class="weui-count__number" type="number" th:value="${dm?.deliveringMasterAmount}" />
+                                <a class="weui-count__btn weui-count__increase"></a>
+                            </div>
+                        <!--<span class="weui-form-preview__value" th:text="${dm?.deliveringMasterAmount}">11</span>-->
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">公司</label>
+                        <span class="weui-form-preview__value"
+                              th:text="${dm?.deliveringCompany?.deliveringCompanyName}">名字名字名字</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">配送时间</label>
+                        <span class="weui-form-preview__value time"
+                              th:text="${#dates.format(dm?.deliveringMasterDelivedate,'yyyy-MM-dd')}"></span>
+                        <!--<input style="right: 2em;" class="" type="date" value="2017-08-15" th:value="${#dates.format(dm.deliveringMasterDelivedate,'yyyy-MM-dd')}">-->
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">备注</label>
+                        <span class="weui-form-preview__value" th:text="${dm.deliveringMasterMemo}">备注</span>
+                    </div>
+                </div>
+                <div class="weui-form-preview__ft">
+                    <a class="weui-form-preview__btn weui-form-preview__btn_default"
+                       th:href="@{'/deliveringMaster/dm_unit_details/'+${dm.deliveringMasterId} }">查看详情</a>
+                    <!--th:onclick="'statusbtn('+${dc?.deliveringCompanyNo}+','+${dc?.deliveringCompanyStatus+1}+')'" onclick="javascript:confirmSubmit(2);"-->
+                    <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary confirm"
+                            th:id="${dm?.deliveringMasterId}" th:lang="0">确认
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="weui-loadmore" th:id="loadmo">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+
+        <div id="tab2" class="weui-tab__bd-item">
+            <h1>员工管理</h1>
+        </div>
+        <div id="tab3" class="weui-tab__bd-item">
+            <h1>点餐，获取明日菜单</h1>
+        </div>
+        <div id="tab4" class="weui-tab__bd-item">
+            <h1>问卷，评价，投诉，点餐订单</h1>
+        </div>
+    </div>
+
+
+    <div class="weui-tabbar" style="position: absolute;bottom: 0em;">
+        <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
+            <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+            <div class="weui-tabbar__icon">
+                <img src="/icon/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">首页</p>
+        </a>
+        <a href="#tab2" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/icon/icon_nav_msg.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">员工</p>
+        </a>
+        <a href="#tab3" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/icon/icon_nav_article.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">点餐</p>
+        </a>
+        <a href="#tab4" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/icon/icon_nav_cell.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">其他</p>
+        </a>
+    </div>
+
+    <!--//pop-->
+    <div id="half" class='weui-popup__container popup-bottom' style="z-index: 999;">
+        <div class="weui-popup__overlay"></div>
+        <div class="weui-popup__modal">
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                    <h1 class="title">操作</h1>
+                </div>
+            </div>
+            <div class="modal-content">
+                <div class="weui-grids">
+                    <a href="javascript:;"  class="emergy weui-grid js_grid" data-id="dialog">
+                        <div class="weui-grid__icon">
+                            <img src="/icon/icon_nav_dialog.png" alt="">
+                        </div>
+                        <p class="weui-grid__label">
+                            应急
+                        </p>
+                    </a>
+                    <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
+                        <div class="weui-grid__icon">
+                            <img src="/icon/icon_nav_progress.png" alt="">
+                        </div>
+                        <p class="weui-grid__label">
+                            消息
+                        </p>
+                    </a>
+                    <a href="javascript:;" class="weui-grid js_grid" data-id="msg">
+                        <div class="weui-grid__icon">
+                            <img src="/icon/icon_nav_msg.png" alt="">
+                        </div>
+                        <p class="weui-grid__label">
+                            刷新
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form1" style="display: none">
+        <div class="weui-cells weui-cells_form " >
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">单价:</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="inputprice" type="text" value="" placeholder="请输入单价">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">数量:</label></div>
+                <div class="weui-cell__bd">
+                    <div class="weui-count">
+                        <a class="weui-count__btn weui-count__decrease"></a>
+                        <input class="weui-count__number " id="inputnum" type="number" th:value="1" />
+                        <a class="weui-count__btn weui-count__increase"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">配送日期</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="inputdate" type="date" value="">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">备注:</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="inputmemo" type="text"  placeholder="填写备注">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--
+<script src="/webjars/jquery/3.3.0/jquery.js"></script>
+-->
+
+<!-- body 最后 -->
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<!--
+<script src="../lib/jquery-2.1.4.js"></script>
+-->
+<script src="/js/fastclick.js"></script>
+
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<!-- 如果使用了某些拓展插件还需要额外的JS -->
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/city-picker.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var pageNum = 1;
+        FastClick.attach(document.body);
+        //页面加载完成，载入配送单
+        $.ajax({
+            url: "/deliveringMaster/unitlist/",
+            type: "POST",
+            data: {},
+            error: function (error) {
+                $.toast("网络错误", "cancel");
+            },
+            success: function (result) {
+                //alert("ok");
+                $("#tab1").append(result + "<div class=\"weui-loadmore weui-loadmore_line\">\n" +
+                    "               <span class=\"weui-loadmore__tips\">以下为历史消息,上滑刷新</span>\n" +
+                    "              </div>");
+            },
+        });
+        //tabar状态转换
+        $(".weui-tabbar__item").click(function () {
+            var $this = $(this);
+            var id = $this.attr("id");
+            var href = $this.attr("href");
+            alert(href);
+            if ($this.hasClass("weui-bar__item--on")) {
+                return;
+            }
+            $(id).siblings("div").removeClass("weui-tab__bd-item--active").addClass("weui-tab__bd-item--active");
+
+        });
+        //确认提交
+        $(document).on("click", ".confirm", function () {
+            $this = $(this);
+            var idstr = $($this).attr("id");
+            var time=$($this).parent("div").prev("div").find("span.time").text();
+            var num = $($this).parent("div").prev("div").find("input.weui-count__number").val();
+            console.log(num);
+            $.confirm({
+                title: '确认提交？',
+                text: '用餐人数:'+num+'，配送时间:'+time+'，确认无误后提交',
+                onOK: function () {
+                    //点击确认
+                    $.ajax({
+                        url: "/deliveringMaster/updatenum/",
+                        type: "POST",
+                        data: {
+                            "id": idstr,
+                            "num": num
+                        },
+                        error: function (error) {
+                            $.toast("网络错误", "cancel");
+                        },
+                        success: function (result) {
+                            $($this).text("已确认");
+                            $($this).removeClass("weui-form-preview__btn_primary confirm").addClass("weui-form-preview__btn_disable");
+                            $.toast("确认成功!");
+                        },
+                    });
+                },
+                onCancel: function () {
+                    $.toast("取消操作", "cancel");
+                }
+
+            });
+        });
+
+        function confirmSubmit(id) {
+            $.confirm({
+                title: '确认提交？',
+                text: '用餐人数12，配送时间2019-08-08，确认无误后提交',
+                onOK: function () {
+                    //点击确认
+                    $.toast("文件已经删除!");
+                },
+                onCancel: function () {
+                }
+            });
+        }
+
+        //加载刷新时间
+        var loading = false;  //状态标记
+        var htm = "<div class=\"weui-loadmore weui-loadmore_line weui-loadmore_dot\">\n" +
+            "  <span class=\"weui-loadmore__tips\"></span>\n" +
+            "</div>";
+        //$(document.body).infinite(200);
+        $(document.body).infinite().on("infinite", function () {
+            if (loading) return;
+            loading = true;
+            setTimeout(function () {
+                pageNum++;
+                $.ajax({
+                    url: "/deliveringMaster/unitlist/" + pageNum,
+                    type: "POST",
+                    data: {},
+                    error: function (error) {
+                        $.toast("网络错误", "cancel");
+                    },
+                    success: function (result) {
+                        //alert(result);
+                        if (result == "" || result == null) {
+                            $(document.body).destroyInfinite();
+                            $('#loadmo').remove();
+                            //  $(".weui-loadmore").fadeOut();
+                            $("#tab1").append("<div class=\"weui-loadmore weui-loadmore_line\">\n" +
+                                "  <span class=\"weui-loadmore__tips\">暂无数据</span>\n" +
+                                "</div>");
+                            $(".weui-loadmore").last().prev().remove();
+                            return;
+                        }
+                        $("#tab1").append(result + htm);
+                    },
+                });
+                loading = false;
+            }, 1000);
+
+            //如果你不需要滚动加载了，比如已经加载完了所有内容，
+            // 调用 $(document.body).destroyInfinite() 可以销毁插件。
+        });
+
+        //数量增加
+        var MAX = 99, MIN = 1;
+        $(document).on("click", ".weui-count__decrease", function (e) {
+            //$('.weui-count__decrease').click(function (e) {
+            var $input = $(e.currentTarget).parent().find('.weui-count__number');
+            var number = parseInt($input.val() || "0") - 1;
+            if (number < MIN) number = MIN;
+            //alert(number);
+            $input.val(number);
+        });
+        $(document).on("click", ".weui-count__increase", function (e) {
+           // $('.weui-count__increase').click(function (e) {
+            var $input = $(e.currentTarget).parent().find('.weui-count__number');
+            var number = parseInt($input.val() || "0") + 1;
+            if (number > MAX) number = MAX;
+            $input.val(number);
+        });
+
+        //发布
+        $(document).on("change", "#inputprice", function (e) {
+            regparam=$("#inputprice").val();
+           var reg=/^(\d+)([.]?)(\d{1,2})$/;
+           if(!reg.test(regparam)){
+               $.toast("输入错误","cancel");
+           }
+      /*     console.log(reg.test("15.6"));
+           console.log(reg.test("15.67"));
+           console.log(reg.test("15.678"));
+           console.log(reg.test("5.68"));
+           console.log(reg.test(".68"));*/
+        });
+        $(".emergy").click(function () {
+           var model= $(".form1").html();
+           //alert(model);
+            $.modal({
+                title: "填写应急配送单",
+                text: model,
+                buttons: [
+                    { text: "取消", className: "default", onClick: function(){
+                        console.log(3)
+                    }},
+                    { text: "确认", onClick: function(){
+                        price=$("#inputprice").val();
+                        datetimer=$("#inputdate").val();
+                        memo=$("#inputmemo").val();
+                        num=$("#inputnum").val();
+
+                        $.ajax({
+                            url: "/deliveringMaster/emergency/",
+                            type: "POST",
+                            data: {
+                                "deliveringMasterPrice":price,
+                                "deliveringMasterDelivedate":datetimer,
+                                "deliveringMasterAmount":num,
+                                "deliveringMasterMemo":memo
+                            },
+                            error: function (error) {
+                                $.toast("网络错误", "cancel");
+                            },
+                            success: function (result) {
+                                $.toast("提交成功！");
+                               // $.closeModal();
+                            },
+                        });
+                    }}
+                ]
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

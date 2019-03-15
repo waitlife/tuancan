@@ -24,4 +24,9 @@ public interface GroupMealContractService {
 
     public int updateOne(GroupMealContract groupMealContract);
 
+    public int deleteOne(Integer id);
+
+    public int updateByStatus(Integer status,Integer id);
+
+
 }

@@ -71,6 +71,12 @@ public class ComplaintController {
         return "/manager/cp_update";
     }
 
+    /**
+     * 平台投诉
+     * @param model
+     * @param complaint
+     * @return
+     */
     @RequestMapping(value = "/save",method = {RequestMethod.POST})
     @ResponseBody
     public String  saveorupdate(Model model,Complaint  complaint){

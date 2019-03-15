@@ -28,7 +28,7 @@ public interface GroupMealContractMapper  extends Mapper<GroupMealContract>{
 
 
     /*根据单位编号查询数据*/
-    @Select("select * from  groupmealcontract where GroupMealUnit_id=#{id}")
+    @Select("select * from  groupmealcontract where GroupMealUnit_id=#{id} and GMlContract_status=1")
     @ResultMap(value = "selectOne")
     public List<GroupMealContract> selectOneByUnitId(Integer id);
 
@@ -65,10 +65,10 @@ public interface GroupMealContractMapper  extends Mapper<GroupMealContract>{
      * @param groupMealContract
      * @return
      */
-    @Insert({"insert into groupmealcontract values(null,#{standard.standardId},#{groupMealUnit.groupMealUnitId},#{gMlContractName}," +
-            "#{gMlContractDisc},#{gMlContractExpirydate},#{gMContractMeatnumber},#{gMlContractVegetablenumber}," +
-            "#{gMlContractStatus},#{gMContractSigndate},#{gMlContractGroupA},#{gMContractGroupB},#{gMContractCreateDate})"})
-    @Options(useGeneratedKeys = true,keyColumn = "GMContract_id",keyProperty = "gMContractId")
+    @Insert({"insert into groupmealcontract values(null,#{standard.standardId},#{groupMealUnit.groupMealUnitId},#{gmlContractName}," +
+            "#{gmlContractDisc},#{gmlContractExpirydate},#{gmContractMeatnumber},#{gmlContractVegetablenumber}," +
+            "#{gmlContractStatus},#{gmContractSigndate},#{gmlContractGroupA},#{gmlContractGroupB},#{gmContractCreateDate})"})
+    @Options(useGeneratedKeys = true,keyColumn = "GMContract_id",keyProperty = "gmContractId")
     public int insertOne(GroupMealContract groupMealContract);
 
 
@@ -77,10 +77,13 @@ public interface GroupMealContractMapper  extends Mapper<GroupMealContract>{
      * @param groupMealContract
      * @return
      */
-    @Update({"update groupmealcontract set Standard_id=#{standard.standardId},GroupMealUnit_id=#{groupMealUnit.groupMealUnitId},GMlContract_name=#{gMlContractName}," +
-            "GMlContract_disc=#{gMlContractDisc},GMlContract_expirydate=#{gMlContractExpirydate},GMContract_meatnumber=#{gMContractMeatnumber},GMlContract_vegetablenumber=#{gMlContractVegetablenumber}," +
-            "GMlContract_status=#{gMlContractStatus} where GMContract_id=#{gMContractId}"})
-    @Options(useGeneratedKeys = true,keyColumn = "GMContract_id",keyProperty = "gMContractId")
+    @Update({"update groupmealcontract set Standard_id=#{standard.standardId},GroupMealUnit_id=#{groupMealUnit.groupMealUnitId},GMlContract_name=#{gmlContractName}," +
+            "GMlContract_disc=#{gmlContractDisc},GMlContract_expirydate=#{gmlContractExpirydate},gmContract_meatnumber=#{gmContractMeatnumber},GMlContract_vegetablenumber=#{gmlContractVegetablenumber}," +
+            "GMlContract_status=#{gmlContractStatus} where GMContract_id=#{gmContractId}"})
+    @Options(useGeneratedKeys = true,keyColumn = "GMContract_id",keyProperty = "gmContractId")
     public int updateOne(GroupMealContract groupMealContract);
+
+    @Update({"update groupmealcontract set GMlContract_status=#{gmlContractStatus} where GMContract_id=#{gmContractId}"})
+    public int updateByStatus(@Param("gmlContractStatus") Integer status,@Param("gmContractId") Integer id);
 
 }

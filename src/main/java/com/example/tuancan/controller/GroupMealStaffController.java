@@ -35,18 +35,54 @@ public class GroupMealStaffController {
     private GroupMealStaffService groupMealStaffService;
 
     /*跳转到员工列表页面*/
-    @RequestMapping("/manager")
-    public String getAllStaff(Model model, HttpServletRequest httpServletRequest){
+    @RequestMapping(value = {"/manager/{pagenum}","/manager"})
+    public String getAllStaff(Model model,@PathVariable(value = "pagenum",required = false) Integer pageNum, HttpServletRequest httpServletRequest){
         //存储公司登陆信息
         //TODO 也许会用redis
         httpServletRequest.getSession().setAttribute("unitID",2);
         //获取公司id
+        if (pageNum==null||pageNum<=0){
+            pageNum=1;
+        }
+        Page<Object> page = PageHelper.startPage(pageNum, 10);
         Integer companyId = (Integer) httpServletRequest.getSession().getAttribute("unitID");
         List<GroupMealStaff> groupMealStaffs = groupMealStaffService.selectByUnitId(companyId);
 
-        //model.addAttribute("staff_list",groupMealStaffs);
-        JsonUtil.toJson(groupMealStaffs);
-        return "/groupmanager/companystaff_list";
+        PageInfo<GroupMealStaff> pageInfo = new PageInfo<GroupMealStaff>(groupMealStaffs);
+        PageUtil.setPageModel(model,pageInfo,"/groupmealstaff/manager");
+
+         return JsonUtil.toJson(groupMealStaffs);
+        //return "/unitmealmanager/unitstaff_list";
+        /**
+         * [
+         {
+         "gMStaffId": 10,
+         "gMStafMobile": "11111111111",
+         "gMStaffName": "ds1",
+         "gMStaffStatus": 0,
+         "gMStaffSex": "nv",
+         "gMStafIsdefualt": 0,
+         "gMStafLoginname": "xx",
+         "gMStafPassword": "123",
+         "unitTickerId": "4",
+         "gMStaffOpenId": "sfsf",
+         "gMStafCreateDate": "Mar 12, 2019 10:03:08 PM"
+         },
+         {
+         "gMStaffId": 11,
+         "gMStafMobile": "111111111111",
+         "gMStaffName": "ds1a",
+         "gMStaffStatus": 0,
+         "gMStaffSex": "nv111111",
+         "gMStafIsdefualt": 0,
+         "gMStafLoginname": "yy",
+         "gMStafPassword": "123",
+         "unitTickerId": "3",
+         "gMStaffOpenId": "sdfsg",
+         "gMStafCreateDate": "Mar 12, 2019 10:03:10 PM"
+         }
+         ]
+         */
     }
 
     /*查询员工*/
@@ -84,32 +120,31 @@ public class GroupMealStaffController {
     }
     /*添加员工*/
     @RequestMapping("/addstaff")
-    public String addStaff(HttpServletRequest httpServletRequest,GroupMealStaff groupMealStaff,@RequestParam("name") String name, Model model){
+    public String addStaff(HttpServletRequest httpServletRequest,@RequestBody GroupMealStaff groupMealStaff, Model model){
         Integer companyId = (Integer) httpServletRequest.getSession().getAttribute("unitID");
-        log.info("公司id:"+ companyId + " name:"+name );
-        GroupMealStaff mealStaff = new GroupMealStaff();
+        log.info("公司id:"+ companyId  );
 
         GroupMealUnit groupMealUnit = new GroupMealUnit();
         groupMealUnit.setGroupMealUnitId(companyId);
 
-        mealStaff.setGMStaffName(groupMealStaff.getGMStaffName());
-        mealStaff.setGMStaffSex(groupMealStaff.getGMStaffSex());
-        mealStaff.setGMStafMobile(groupMealStaff.getGMStafMobile());
-        mealStaff.setGroupMealUnitId(groupMealUnit);
-        mealStaff.setGMStafIsdefualt(StatusEnum.IsDefaultAcoount.getCode());
-        mealStaff.setGMStafPassword("123456");
-        mealStaff.setGMStafCreateDate(new Date());
-        mealStaff.setGMStafLoginname(groupMealStaff.getGMStaffName());
+        groupMealStaff.setGMStaffName(groupMealStaff.getGMStaffName());
+        groupMealStaff.setGMStaffSex(groupMealStaff.getGMStaffSex());
+        groupMealStaff.setGMStafMobile(groupMealStaff.getGMStafMobile());
+        groupMealStaff.setGroupMealUnitId(groupMealUnit);
+        groupMealStaff.setGMStafIsdefualt(StatusEnum.IsDefaultAcoount.getCode());
+        groupMealStaff.setGMStafPassword("123456");
+        groupMealStaff.setGMStafCreateDate(new Date());
+        groupMealStaff.setGMStafLoginname(groupMealStaff.getGMStaffName());
 
-        groupMealStaffService.insertOne(mealStaff);
-        JsonUtil.toJson(mealStaff);
+        groupMealStaffService.insertOne(groupMealStaff);
+        log.info(JsonUtil.toJson(groupMealStaff));
         return "redirect:/companystaff/manager";
     }
 
     /*更改状态*/
     @RequestMapping("/updatestatus")
-    public String updateStaffStatus(@RequestParam("id")Integer id,@RequestParam("name")String name){
-        log.info("公司id:"+id + " 账号:" + name );
+    public String updateStaffStatus(@RequestParam("id")Integer id){
+        log.info("公司id:"+id );
         GroupMealStaff groupMealStaff = groupMealStaffService.selectOneById(id);
         int staffStatus = groupMealStaff.getGMStaffStatus();
         if(staffStatus == 1){
