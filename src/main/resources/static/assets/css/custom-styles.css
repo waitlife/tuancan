@@ -70,7 +70,7 @@ p {
 border-radius:0px;
 }
 .navbar-side .nav > li > a > i{
-color: #FFFFFF;
+color: #000000;
 padding: 8px;
 width: 30px;
 text-align: center;
@@ -500,12 +500,9 @@ line-height: 21px;
 padding-top: 4px;
 }
 .active-menu {
-
     color: #1f7fff !important;
 }
-.active-menu i{
-color: #fff !important;
-}
+
 .arrow {
     float: right;
     margin-top: 8px;
@@ -597,7 +594,6 @@ background-color: #FFF;
 }
 .nav > li > a > i {
     margin-right:10px;
-    color: #FFF;
 }
 .dropdown-menu>li>a>strong {
   color: #1CC09F;

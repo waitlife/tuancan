@@ -52,9 +52,18 @@ public class IndexController {
     //执行修改密码
     @RequestMapping("/doUpdatePassword")
     public String doUpdatePassword( @RequestParam(name = "username") String username,@RequestParam(name = "newpassword") String newpassword,
-                                   @RequestParam(name = "password") String password) {
-
-        return "/groupmanager/updatePassword";
+                                   @RequestParam(name = "password") String password,Model model) {
+        if(StringUtil.stringEquals(newpassword,password)){
+            DeliveringCompanyStaff deliveringCompanyStaff = deliveringCompanyStaffService.selectStaffByName(username);
+            deliveringCompanyStaff.setDCompanyStaffPassword(newpassword);
+            deliveringCompanyStaffService.updateOneById(deliveringCompanyStaff);
+            model.addAttribute("message", "密码成功修改，请重新登录！");
+            model.addAttribute("username", username);
+            return "/groupmanager/login";
+        }else {
+            model.addAttribute("message", "两次输入的密码不一致！");
+            return "/groupmanager/updatePassword";
+        }
     }
 
     @RequestMapping("/doLogin")
