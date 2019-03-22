@@ -56,6 +56,8 @@ public class IndexController {
         if(StringUtil.stringEquals(newpassword,password)){
             DeliveringCompanyStaff deliveringCompanyStaff = deliveringCompanyStaffService.selectStaffByName(username);
             deliveringCompanyStaff.setDCompanyStaffPassword(newpassword);
+            //第一次修改密码，更新账号的状态
+            deliveringCompanyStaff.setDCompanyStaffDefault(0);
             deliveringCompanyStaffService.updateOneById(deliveringCompanyStaff);
             model.addAttribute("message", "密码成功修改，请重新登录！");
             model.addAttribute("username", username);
