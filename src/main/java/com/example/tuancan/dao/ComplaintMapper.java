@@ -19,6 +19,16 @@ public interface ComplaintMapper extends Mapper<Complaint>{
     @Select({"select * from complaint where manager_id=#{managerId}"})
     public List<Complaint> selectAllByManagerId(Integer managerId);
 
+    /**
+     *
+     * @param complainter
+     * @return
+     */
+    @Select({"select * from complaint where Complainter=#{complainter}"})
+    @ResultMap(value = "selectByManagerId")
+    public List<Complaint> selectAllByComplainter(String complainter);
+
+    @Override
     @Select({"select * from complaint order by Complaint_date desc"})
     @ResultMap(value = "selectByManagerId")
     public List<Complaint> selectAll();

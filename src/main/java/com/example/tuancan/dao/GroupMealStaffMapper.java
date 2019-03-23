@@ -27,6 +27,7 @@ public interface GroupMealStaffMapper extends Mapper<GroupMealStaff>{
 
     /*查询公司对应的所有员工*/
     @Select("select * from groupmealstaff where GroupMealUnit_id = #{id}")
+    @ResultMap(value = "getone")
     public List<GroupMealStaff> selectByUnitId(Integer id);
 
     /*根据name查询*/

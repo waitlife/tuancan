@@ -11,6 +11,8 @@ public interface ComplaintService {
 
     public List<Complaint> selectAllByManagerId(Integer managerId);
 
+    public List<Complaint> selectAllByComplainter(String complainter);
+
     public List<Complaint> selectNULL();
 
     public List<Complaint> selectAll();

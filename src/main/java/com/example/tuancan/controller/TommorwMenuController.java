@@ -1,15 +1,20 @@
 package com.example.tuancan.controller;
 
+import com.example.tuancan.config.ProjectUrlConfig;
+import com.example.tuancan.convert.ConvertToCMV;
+import com.example.tuancan.dto.CommendOrMealOrVegetable;
 import com.example.tuancan.dto.UnitAndStandard;
 import com.example.tuancan.enums.StatusEnum;
 import com.example.tuancan.model.*;
 import com.example.tuancan.service.*;
 import com.example.tuancan.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,6 +46,12 @@ public class TommorwMenuController {
 
     @Autowired
     private TomorrowMenuDetailService tomorrowMenuDetailService;
+
+    @Autowired
+    private GroupMealStaffService groupMealStaffService;
+
+    @Autowired
+    private ProjectUrlConfig projectUrlConfig;
 
     @RequestMapping("/menu")
     public String menuAll(HttpServletRequest httpServletRequest, Model model){
@@ -154,28 +165,51 @@ public class TommorwMenuController {
 
     /**
      * 查询明日菜单
-     * @param value
      * @param request
      * @return
      */
-    @RequestMapping(value = {"/show"})
-    public String showTomorrowMenu(@RequestParam("unitId")Integer value,HttpServletRequest request){
-        Integer unitID = Integer.valueOf(String.valueOf(request.getSession().getAttribute("unitID")));
-
-        if (Objects.isNull(unitID)){
-            return "/login";
+    @RequestMapping(value = {"/show"},method = {RequestMethod.GET})
+    public String showTomorrowMenu(HttpServletRequest request,Model model){
+        request.getSession(true).setAttribute("openId","xxx123");
+        String openId = (String) request.getSession(true).getAttribute("openId");
+        log.info("openid:"+openId);
+        if (StringUtils.isEmpty(openId)){
+            //没有openid 重新授权
+            return "redirect:"+projectUrlConfig.getWhchatAuthorize()+"/wechat/authorize";
         }
-        List<TomorrowMenuMaster> tomorrowMenuMasters = tomorrowMenuMasterService.selectByUnitIdAndUseDateAndExpireDate(unitID);
+        //查公司
+        GroupMealStaff groupMealStaff = groupMealStaffService.selectByOpenid(openId);
+        Integer unitId = groupMealStaff.getGroupMealUnitId().getGroupMealUnitId();
+
+        //查明日菜单主表
+        List<TomorrowMenuMaster> tomorrowMenuMasters = tomorrowMenuMasterService.selectByUnitIdAndUseDateAndExpireDate(unitId);
+
         if (Objects.isNull(tomorrowMenuMasters) || tomorrowMenuMasters.size() == 0){
+            return "再无数据";
+        }
+        Integer menuId=tomorrowMenuMasters.get(0).getTomorrowMenuMasterId();
+        log.info("menuId:"+menuId);
+
+        //通过主表id 查明日菜单明细表
+        List<TomorrowMenudetail> tomorrowMenudetails = tomorrowMenuDetailService.selectByMenuMasterId(menuId);
+
+        if (Objects.isNull(tomorrowMenudetails) || tomorrowMenudetails.size() == 0){
             return "";
         }
-        TomorrowMenuMaster menuMaster = tomorrowMenuMasters.get(0);
-        List<TomorrowMenudetail> tomorrowMenudetails = tomorrowMenuDetailService.selectByMenuMasterId(menuMaster.getTomorrowMenuMasterId());
 
-        log.info(JsonUtil.toJson(menuMaster));
+        log.info("明日荤素菜单明细");
         log.info(JsonUtil.toJson(tomorrowMenudetails));
 
-        return "";
+        DeliveringCompany deliveringCompany=recipeService.selectOneById(tomorrowMenudetails.get(0).getRecipe().getRecipeId()).getDeliveringCompanyNo();
+
+        //装配配推荐，荤素菜
+        CommendOrMealOrVegetable commendOrMealOrVegetable = ConvertToCMV.convertCommendOrMealOrVegetable(tomorrowMenudetails,deliveringCompany, groupMealStaff.getGroupMealUnitId());
+
+        log.info(JsonUtil.toJson(commendOrMealOrVegetable));
+
+
+        model.addAttribute("cmv",commendOrMealOrVegetable);
+        return "unitmealmanager/index :: #ordercontent";
     }
 
 }

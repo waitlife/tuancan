@@ -8,8 +8,8 @@ public enum StatusEnum {
     StatusUP(3,"审核通过"),
     STATUS_AVA(1,"启用"),
 
-    IsDefaultAcoount(0,"默认账号"),
-    NotDefaultAccount(1,"不是默认账号"),
+    IsDefaultAcoount(1,"默认账号"),
+    NotDefaultAccount(0,"不是默认账号"),
 
     MasterStatusNEW(0,"新建配送单"),
     MasterStatusCOMFIRM(1,"确认配送单"),

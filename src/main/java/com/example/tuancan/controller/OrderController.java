@@ -1,26 +1,31 @@
 package com.example.tuancan.controller;
 
-import com.example.tuancan.convert.ConvertToCMV;
 import com.example.tuancan.config.ProjectUrlConfig;
+import com.example.tuancan.convert.ConvertToCMV;
 import com.example.tuancan.dto.CommendOrMealOrVegetable;
-import com.example.tuancan.model.DeliveringCompany;
-import com.example.tuancan.model.GroupMealStaff;
-import com.example.tuancan.model.TomorrowMenuMaster;
-import com.example.tuancan.model.TomorrowMenudetail;
-import com.example.tuancan.service.GroupMealStaffService;
-import com.example.tuancan.service.RecipeService;
-import com.example.tuancan.service.TomorrowMenuDetailService;
-import com.example.tuancan.service.TomorrowMenuMasterService;
+import com.example.tuancan.dto.Result;
+import com.example.tuancan.model.*;
+import com.example.tuancan.service.*;
 import com.example.tuancan.utils.JsonUtil;
+import com.example.tuancan.utils.PageUtil;
+import com.example.tuancan.utils.ResultUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/order")
@@ -41,8 +46,58 @@ public class OrderController {
 
     @Autowired
     private ProjectUrlConfig projectUrlConfig;
-    /*@Autowired
-    private GroupMealMenumasterService groupMealMenumasterService;*/
+
+    @Autowired
+    private StaffOrderService staffOrderService;
+
+    /**
+     * 用餐员工查看个人订单情况
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = {"/unitorderlist/{pagenum}","/unitorderlist"})
+    public String  unitcplist(HttpServletRequest request,Model model, @PathVariable(value = "pagenum",required = false) Integer pageNum){
+        if (pageNum==null||pageNum<=0){
+            pageNum=1;
+        }
+        //TODO 获取当前用户
+        Page<Object> page = PageHelper.startPage(pageNum, 5);
+        List<StaffOrder> staffOrders = staffOrderService.selectOneByStaffId(1);
+        Map<Date, List<StaffOrder>> collect = staffOrders.stream().collect(Collectors.groupingBy(StaffOrder::getStaffOrderDate));
+
+        PageInfo<StaffOrder> pageInfo = new PageInfo<StaffOrder>(staffOrders);
+        model.addAttribute("ordermap",collect);
+        log.info(JsonUtil.toJson(collect));
+        PageUtil.setPageModel(model,pageInfo,"/order/unitorderlist");
+
+        return "/unitmealmanager/order_list";
+    }
+
+    @RequestMapping(value = {"/save"},method = {RequestMethod.POST})
+    @ResponseBody
+    public Result save(@RequestParam(value = "recipeids") String recipeids){
+        log.info(recipeids);
+        String[] ids = recipeids.split(",");
+        StaffOrder staffOrder;
+        for (String id : ids) {
+            staffOrder=new StaffOrder();
+            staffOrder.setStaffOrderUsedate(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+            staffOrder.setStaffOrderDate(new Date());
+            Recipe recipe = new Recipe();
+            recipe.setRecipeId(Integer.parseInt(id));
+            staffOrder.setRecipe(recipe);
+            //TODO 当前微信登录用户
+            staffOrder.setGMStaff(groupMealStaffService.selectByOpenid("xxx123"));
+
+            log.info(JsonUtil.toJson(staffOrder));
+
+            int insertOne = staffOrderService.insertOne(staffOrder);
+            log.info(insertOne+">>");
+        }
+
+        return ResultUtil.status(200,"msg");
+    }
 
     @RequestMapping("/get")
     //@ResponseBody
@@ -50,6 +105,7 @@ public class OrderController {
         /*Cookie cookie = CookieUtil.get(request, "openid");
         String openid = cookie.getValue();*/
         //session
+        request.getSession(true).setAttribute("openId","xxx123");
         String openId = (String) request.getSession(true).getAttribute("openId");
         log.info("openid:"+openId);
         if (StringUtils.isEmpty(openId)){
@@ -84,66 +140,5 @@ public class OrderController {
         return "/webhtml/order";
         //return "redirect:"+projectUrlConfig.getWhchatAuthorize()+"/order/getMeal";
     }
-/**前台数据
- * "commends": [
- {
- "recipeId": 1,
- "recipeName": "回锅肉",
- "recipeMaterial": "1",
- "recipeAccessorie": "1",
- "recipeProcessing": "1",
- "recipeMeatOrVegetable": 1,
- "recipeType": 1,
- "recipeIsCakes": 1,
- "recipeCharacter": "1",
- "recipePeople": "1",
- "recipeIcon": "1",
- "recipeCostprice": 1.00,
- "recipeStatus": 1,
- "recipeOwner": "1",
- "recipeCreatedate": "Jul 23, 2018 11:19:46 AM"
- }
- ],
- "meals": [
- {
- "recipeId": 1,
- "recipeName": "回锅肉",
- "recipeMaterial": "1",
- "recipeAccessorie": "1",
- "recipeProcessing": "1",
- "recipeMeatOrVegetable": 1,
- "recipeType": 1,
- "recipeIsCakes": 1,
- "recipeCharacter": "1",
- "recipePeople": "1",
- "recipeIcon": "1",
- "recipeCostprice": 1.00,
- "recipeStatus": 1,
- "recipeOwner": "1",
- "recipeCreatedate": "Jul 23, 2018 11:19:46 AM"
- }
- ],
- "veges": [
- {
- "recipeId": 3,
- "recipeName": "土豆丝",
- "recipeMeatOrVegetable": 2,
- "recipeType": 5,
- "recipeIsCakes": 2,
- "recipeCharacter": "2",
- "recipePeople": "2",
- "recipeIcon": "2",
- "recipeCostprice": 2.00,
- "recipeStatus": 2,
- "recipeOwner": "2",
- "recipeCreatedate": "Jul 23, 2018 1:16:38 PM"
- }
- ],
- "Unitname": "sanshe",
- "address": "西华大学",
- "tel": "012-4515",
- "staffName": "1"
- }
- */
 
 }

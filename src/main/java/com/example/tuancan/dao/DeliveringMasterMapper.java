@@ -76,7 +76,7 @@ public interface DeliveringMasterMapper extends Mapper<DeliveringMaster>{
     public int updateNumById(@Param("id") Integer id,@Param("num") Integer num);
 
     /*通过用餐公司id查询*/
-    @Select({"select * from deliveringmaster where GroupMealUnit_id=#{unitId}"})
+    @Select({"select * from deliveringmaster where GroupMealUnit_id=#{unitId} order by DeliveringMaster_delivedate desc"})
     @Results(id = "selectByUnitId",value = {
             @Result(column = "DeliveringCompany_no",property = "deliveringCompany",javaType = DeliveringCompany.class,
                     one = @One(select = "com.example.tuancan.dao.DeliveringCompanyMapper.selectByPrimaryKey"))

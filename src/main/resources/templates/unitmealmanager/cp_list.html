@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    ">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/demos.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <!-- order Styles-->
+    <!--<link href="/css/order.css" type="text/css" rel="stylesheet">-->
+<!--
+    <link href="/webjars/amazeui/2.7.2/dist/css/amazeui.css" type="text/css" rel="stylesheet">
+-->
+
+</head>
+
+<body ontouchstart>
+<div class="weui-cell" style="border-bottom: 1px solid #ddd">
+    <a href="javacript:;">
+        <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
+        </div>
+    </a>
+    <div class="weui-cell__bd">
+        <p>账户</p>
+    </div>
+    <div class="weui-cell__ft">
+        <a href="javascript:;" class="weui-form-preview__btn weui-form-preview__btn_primary open-popup"
+           data-target="#half">操作</a>
+    </div>
+</div>
+<div class="weui-tab" id="tabbody">
+    <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+            <div class="col-md-4 col-sm-4" th:each="cp,stat : ${page.list}">
+
+                <div class="panel" data-th-classappend="${cp?.manager?.managerName}?'panel-success':'panel-danger'">
+                    <div class="panel-heading"  style="height: 40px">
+                                                <span class="pull-left"data-th-text="${cp?.manager?.managerName}?'已处理':'未处理'">
+                                                    向左快速浮动
+                                                </span>
+                        <span data-toggle="modal" data-target="#deletetype" th:onclick="'deletecp('+${cp.complaintId}+')'"
+                              class="pull-right glyphicon glyphicon-remove-circle" style="width: 15px;height: 15px;">
+                                                </span>
+                    </div>
+                    <div class="panel-body">
+                        <a  th:href="@{'/complaint/cp_details/'+${cp.complaintId} }"><p style="width: 400px;overflow: hidden;white-space: nowrap;-o-text-overflow:ellipsis;text-overflow: ellipsis;"  th:text="${cp?.complaintContent}"></p></a>
+                    </div>
+                    <div class="panel-footer" style="height: 40px">
+                                        <span class="pull-left" th:text="${cp.complainter}">
+                                            向左快速浮动
+                                        </span>
+                        <span class="pull-right" th:text="${#dates.format(cp?.complaintDate,'yyyy-MM-dd')}">
+                                            向右快速浮动
+                                        </span>
+                    </div>
+                </div>
+            </div>
+            <div th:include="manager/page::page"></div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-cell" style="padding: 5px 10px">
+                    <div class="weui-cell__hd">
+                        <img src="/icon/icon_doubleleft.png" alt="" style="width:20px;margin-right:5px;display:block">
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p></p>
+                    </div>
+                    <div class="weui-cell__ft">
+                       <a href="" style="background-image: url('/icon/icon_arrowleft.png')"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="weui-loadmore loadmo">
+    <i class="weui-loading"></i>
+    <span class="weui-loadmore__tips">正在加载</span>
+</div>-->
+<!--//pop-->
+<div id="half" class='weui-popup__container popup-bottom' style="z-index: 999;">
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                <!--<h1 class="title">操作</h1>-->
+            </div>
+        </div>
+        <div class="modal-content">
+            <div class="weui-grids">
+                <!--<button id="addtype" data-toggle="modal" data-target="#myModal" class="btn btn-primary" type="button">添加</button>-->
+                <a href="javascript:;" class="emergy weui-grid js_grid" data-id="dialog" data-toggle="modal"
+                   data-target="#myModal">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_progress.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        新增
+                    </p>
+                </a>
+                <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_dialog.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        消息
+                    </p>
+                </a>
+                <a href="/complaint/save" class="emergy weui-grid js_grid" data-id="msg">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_msg.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        添加员工
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<script src="/webjars/jquery/3.3.0/jquery.js"></script>
+-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    填写投诉单
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="weui-cells weui-cells_form ">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">投诉人:</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" id="cpname" type="text" placeholder="请输入">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">投诉内容:</label></div>
+                        <div class="weui-cell__bd">
+                            <textarea  name="" rows="4" cols="10" style="resize: none" id="cpcontent"></textarea>
+                            <!--<input class="weui-input" id="cpcontent" type="text" placeholder="填写内容">-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button id="confirm_commit" type="button" class="btn btn-primary">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="deletetype" tabindex="-1" role="dialog" aria-labelledby="authorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close closedel" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="deleteModalLabel">
+                    确认删除该投诉内容吗？
+                </h4>
+            </div>
+            <!--<div class="modal-body">
+
+            </div>-->
+            <div class="modal-footer">
+                <input type="hidden" name="cpid" value="" id="deltypeId">
+                <button type="button" class="btn btn-default closedel" data-dismiss="modal">关闭
+                </button>
+                <button id="confirm_del" type="button" class="btn btn-danger">
+                    确认删除
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- body 最后 -->
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<!--
+<script src="../lib/jquery-2.1.4.js"></script>
+-->
+<script src="/js/fastclick.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<!-- 如果使用了某些拓展插件还需要额外的JS -->
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/city-picker.min.js"></script>
+<script type="text/javascript">
+    function deletecp(id) {
+        console.log(window.event.srcElement || window.event.target);
+        var srcclick=window.event.srcElement || window.event.target;
+        $(srcclick).addClass('rm');
+        $('#deltypeId').val(id);
+    };
+    $(function () {
+        var pageNum = 1;
+
+        FastClick.attach(document.body);
+        /*删除*/
+
+        $('#deletetype').on('hidden.bs.modal', function () {
+            // 执行一些动作...
+            $('.rm').removeClass('rm');
+
+        });
+        $('#confirm_del').click(function () {
+            typeid=$('#deltypeId').val();
+
+            $.ajax({
+                url:"/complaint/delete/"+typeid,
+                type:"POST",
+                data:{},
+                error:function (error) {
+                    // alert("网络错误");
+                    $("#warnlabel").text("糟糕！网络错误");
+                    $('#warning').modal('show');
+                },
+                success:function (result) {
+                    //location.reload();
+                    $('.rm').parent().parent().parent().hide();
+                    //alert("添加成功");
+                    $("#warnlabel").text("操作成功");
+                    $('#warning').modal('show');
+                    $('#deletetype').modal('hide');
+                }
+            });
+        });
+
+        //发布
+        var num = 1;
+        var memo = "";
+        var check = true;
+        $(document).on("click", "#confirm_commit", function (e) {
+            $.ajax({
+                url:"/complaint/save",
+                type:"POST",
+                data:formdata,
+                error:function (error) {
+                    $.toast("网络错误", "cancel");
+
+                },
+                success:function (result) {
+                    $('#myModal').modal('hide');
+                    $.toast("提交成功！");
+                },
+            });
+
+        });
+
+        $('#myModal').on('hidden.bs.modal', function () {
+            // 执行一些动作...
+            $('#inputdate').val('');
+            $('#inputprice').val('');
+            $('#inputnum').val('');
+            $('#inputmemo').val('');
+        });
+
+        //搜索
+        var searchanme;
+        var searchnum=1;
+        function searchname() {
+            setTimeout(function () {
+                $.ajax({
+                    url: "/",
+                    type: "POST",
+                    data: {
+                        "asyc":true,
+                    },
+                    error: function (error) {
+                        $.toast("网络错误", "cancel");
+                    },
+                    success: function (result) {
+                        if (result == "" || result == null) {
+                            $.hideLoading();
+                            $.toast("没有更多数据了","cancel");
+                            return;
+                        }
+                        $("#searchtable").html(result);
+                        $.hideLoading();
+                        $('.weui-cell_swiped').swipeout();
+                    },
+                });
+            },1000);
+        }
+        $("#searchInput").keydown(function (e) {
+
+            if (e.keyCode == 13) {
+                e.preventDefault();
+               // alert($(e.currentTarget).val());
+                searchanme=$(e.currentTarget).val();
+                $.showLoading();
+                searchname();
+            }
+        });
+
+        //查看更多
+        $(document).on('click', '#seemore', function (e) {
+            $.showLoading();
+            namepath=$("#manager").attr("lang");
+            console.log(namepath);
+            e.preventDefault();
+            setTimeout(function () {
+                $.ajax({
+                    url: namepath,
+                    type: "POST",
+                    data: {
+                        "asyc":true,
+                    },
+                    error: function (error) {
+                        $.toast("网络错误", "cancel");
+                    },
+                    success: function (result) {
+                        if (result == "" || result == null) {
+                            $.hideLoading();
+                            $.toast("没有更多数据了","cancel");
+                            return;
+                        }
+                        $("#searchtable").append(result);
+                        $.hideLoading();
+                        $('.weui-cell_swiped').swipeout();
+                    },
+                });
+            },1000);
+
+        });
+
+    });
+</script>
+
+</body>
+</html>

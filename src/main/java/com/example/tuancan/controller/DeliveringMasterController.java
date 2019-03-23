@@ -19,8 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -100,7 +102,7 @@ public class DeliveringMasterController {
         Integer unitID= CookieUtil.getSessionId(request);
         log.info("公司id:"+ unitID);
         detailFun(id,model);
-        return "/unitmealmanager/dm_unit_update";
+        return "/unitmealmanager/dm_details";
     }
 
     /*用餐单位查看配送情况*/
@@ -125,16 +127,27 @@ public class DeliveringMasterController {
 
     /**
      * 新建应急配送单
-     * @param deliveringMaster
+     * @param
      * @return
      */
-    @RequestMapping(value = {"/emergency"})
+    @RequestMapping(value = {"/emergency"},method = {RequestMethod.POST})
     @ResponseBody
-    public String emergencyMaster(@RequestBody DeliveringMaster deliveringMaster,HttpServletRequest request){
+    public String emergencyMaster( HttpServletRequest request){
        /* String unitIDstr = String.valueOf(request.getSession().getAttribute("unitID"));
         if (Objects.isNull(unitIDstr)){
             return "login";
         }*/
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        log.info(JsonUtil.toJson(parameterMap));
+        String price=request.getParameter("price");
+        String memo = request.getParameter("memo");
+        Integer num = Integer.valueOf(request.getParameter("num"));
+        Long date = Long.parseLong(request.getParameter("date"));
+        DeliveringMaster deliveringMaster = new DeliveringMaster();
+        deliveringMaster.setDeliveringMasterPrice(new BigDecimal(price));
+        deliveringMaster.setDeliveringMasterMemo(memo);
+        deliveringMaster.setDeliveringMasterAmount(num);
+        deliveringMaster.setDeliveringMasterDelivedate(new Date(date));
         Integer unitID= CookieUtil.getSessionId(request);
         log.info("unitID>>>session>>"+unitID);
         deliveringMaster.setDeliveringMasterCreater("登陆用户");

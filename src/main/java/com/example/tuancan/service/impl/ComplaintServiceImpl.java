@@ -47,6 +47,11 @@ public class ComplaintServiceImpl implements ComplaintService{
     }
 
     @Override
+    public List<Complaint> selectAllByComplainter(String complainter) {
+        return complaintMapper.selectAllByComplainter(complainter);
+    }
+
+    @Override
     public List<Complaint> selectNULL() {
         return complaintMapper.selectNULL();
     }

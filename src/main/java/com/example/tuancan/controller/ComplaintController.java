@@ -1,9 +1,11 @@
 package com.example.tuancan.controller;
 
+import com.example.tuancan.dto.Result;
 import com.example.tuancan.model.Complaint;
 import com.example.tuancan.service.ComplaintService;
 import com.example.tuancan.utils.JsonUtil;
 import com.example.tuancan.utils.PageUtil;
+import com.example.tuancan.utils.ResultUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -77,18 +79,17 @@ public class ComplaintController {
      * @param complaint
      * @return
      */
-    @RequestMapping(value = "/save",method = {RequestMethod.POST})
-    @ResponseBody
+    @RequestMapping(value = "/save",method = {RequestMethod.POST,RequestMethod.GET})
     public String  saveorupdate(Model model,Complaint  complaint){
         log.info(JsonUtil.toJson(complaint));
         if (complaint.getComplaintId()!=null){
             //更新
             int updateOne = complaintService.updateOne(complaint);
             log.info(updateOne+"updateOne");
+            return "";
         }else {
-
+           return "manager/cp_update.html";
         }
-        return "ok";
     }
 
     @RequestMapping(value = "/delete/{id}",method = {RequestMethod.POST})
@@ -137,17 +138,15 @@ public class ComplaintController {
     /*主页*/
     @RequestMapping("/new")
     public String newComplaint() {
-
-
         return "/groupmanager/complaint";
     }
 
     /*新建*/
     @ResponseBody
     @RequestMapping("/creat")
-    public String creatComplaint(@RequestParam("text") String text, @RequestParam("name") String name) {
+    public Result creatComplaint(@RequestParam("text") String text, @RequestParam(value = "name",required = false) String name) {
         log.info("text:" + text + " name:" + name);
-
+        //TODO 获取当前登录系统的用户
         Complaint complaint = new Complaint();
         complaint.setComplainter(name);
         complaint.setComplaintContent(text);
@@ -155,9 +154,30 @@ public class ComplaintController {
         complaint.setComplaintDate(date);
 
         complaintService.insertOne(complaint);
-//        System.out.println(JsonUtil.toJson(complaint));
-        return "SUCCESS";
+        log.info(JsonUtil.toJson(complaint));
+        return ResultUtil.status(200,"msg");
 
     }
 
+    /**
+     * 用餐员工查看个人投诉情况
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = {"/unitcomplaintlist/{pagenum}","/unitcomplaintlist"})
+    public String  unitcplist(Model model, @PathVariable(value = "pagenum",required = false) Integer pageNum){
+        if (pageNum==null||pageNum<=0){
+            pageNum=1;
+        }
+        //TODO 获取当前用户
+        Page<Object> page = PageHelper.startPage(pageNum, 5);
+        List<Complaint> complaints = complaintService.selectAllByComplainter("当前用户");
+        PageInfo<Complaint> pageInfo = new PageInfo<Complaint>(complaints);
+
+        log.info(JsonUtil.toJson(page.getResult()));
+        PageUtil.setPageModel(model,pageInfo,"/complaint/unitcomplaintlist");
+
+        return "/unitmealmanager/cp_list";
+    }
 }
