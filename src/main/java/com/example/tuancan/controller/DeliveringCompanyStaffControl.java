@@ -37,12 +37,6 @@ public class DeliveringCompanyStaffControl {
     }
 
 
-    /*跳转到员工列表页面*/
-    @RequestMapping(value = {"/staff_page/{pagenum}"})
-    public String getStaffListByNumber(@PathVariable(value = "pagenum", required = false) Integer pageNum) {
-        return "redirect:/companystaff/staff_list/" + pageNum;
-    }
-
 
     /*跳转到员工列表页面*/
     @RequestMapping(value = {"/staff_list/{pagenum}"})

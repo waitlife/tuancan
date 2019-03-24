@@ -204,6 +204,16 @@
                     <ul class="top_search">
 
                         <div class="container-fluid">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <form class="">
+                                        按名称 <span class="text-info"></span> 查询： <input id="search_input"
+                                                                                            class="input-medium search-query"
+                                                                                            type="text"/>
+                                        <button id="search_name" class=" btn-mini btn_search" type="button">查询</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -211,7 +221,7 @@
 
                     <div class="text_data ">
 
-                        <table id="table_staff" class="table table-hover  table-striped table-bordered table_shadow">
+                        <table id="table_recipe" class="table table-hover  table-striped table-bordered table_shadow">
 
                             <thead>
                             <tr>
@@ -260,13 +270,24 @@
 
 
                         <ul class=" pagination pagination-lg pull-right">
-                            <li><a href="#">&laquo;</a></li>
-                            <li><a href="#" >1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&raquo;</a></li>
+
+                            <li data-th-classappend="*{isFirstPage} ? 'disabled' : ''">
+                                <a href="javascript:void(0);" th:if="*{isFirstPage eq true}">&laquo;</a>
+                                <a th:href="'/recipe/getallrecipes/'+ ${pageNum-1}" th:if="*{isFirstPage eq false}">&laquo;</a>
+
+                            </li>
+                            <li th:each="i:${#numbers.sequence(1, pageTotal)}"
+                                data-th-classappend="${pageNum eq i} ? 'active' : ''">
+                                <a th:href="'/recipe/getallrecipes/'+ ${i}">
+                                    <span th:text="${i}"></span>
+                                </a>
+                            </li>
+
+                            <li data-th-classappend="*{isLastPage} ? 'disabled' : ''">
+                                <a href="javascript:void(0);" th:if="*{isLastPage}">&raquo;</a>
+                                <a th:href="'/recipe/getallrecipes/'+ ${pageNum+1}" th:if="*{!isLastPage}">&raquo;</a>
+                            </li>
+
                         </ul>
 
                     </div>
@@ -308,6 +329,25 @@
     function getMessage(id) {
         location.href = "/recipe/updaterecipe?id=" + id;
     }
+
+    //        ajax查询staff
+    $(function () {
+        $("#search_name").click(function () {
+            var name = $("#search_input").val();
+            var id = [[${session.companyId}]];
+            $.ajax({
+                url: "/recipe/search",
+                type: "POST",
+                data: {"id": id, "name": name},
+                success: function (result) {
+                    $("#table_recipe").html(result);
+                },
+                error: function (result) {
+                    alert("搜索失败!");
+                }
+            });
+        });
+    });
 
 
 </script>

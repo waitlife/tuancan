@@ -16,8 +16,8 @@
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <style>
-        .table>tbody>tr>td{
-            border:0px;
+        .table > tbody > tr > td {
+            border: 0px;
         }
 
     </style>
@@ -154,9 +154,9 @@
                 <!--食谱与餐标-->
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o"></i> 食谱与餐标<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse in"aria-expanded="true">
+                    <ul class="nav nav-second-level collapse in" aria-expanded="true">
                         <li>
-                            <a href="#"  class="active-menu">定义食谱</a>
+                            <a href="#" class="active-menu">定义食谱</a>
                         </li>
                         <li>
                             <a href="/groupmanager/standard">定义餐标</a>
@@ -165,7 +165,7 @@
                 </li>
                 <!--管理与授权 -->
                 <li>
-                    <a href="/companystaff/manager " ><i class="fa fa-user"></i> 管理与授权</a>
+                    <a href="/companystaff/manager "><i class="fa fa-user"></i> 管理与授权</a>
                 </li>
 
                 <!--其他操作-->
@@ -208,177 +208,203 @@
 
                     <ul class="top_search">
 
-                  <form id="form" action="/recipe/addrecipe" >
-                        <div class="container-fluid">
+                        <form id="form" action="/recipe/addrecipe">
+                            <div class="container-fluid">
 
-                            <table class="table">
-                                <a href="/recipe/getallrecipes">查看食谱</a>
-                                <br>
-                                <br>
-                                <tbody>
+                                <table class="table">
+                                    <a href="/recipe/getallrecipes">查看食谱</a>
+                                    <br>
+                                    <br>
+                                    <tbody>
 
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <label>食谱分类编号</label>
-                                            <select class="form-control" name="type">
-                                                <option disabled="disabled" selected style="display: none">请选择分类</option>
-                                                <option th:each="type,count:${recipelist}" th:text="${type.recipeTypeName}"
-                                                        th:value="${type.recipeTypeId}"></option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <label >食谱名称</label>
-                                            <input autocomplete="off" name="recipeName" type="text" class="form-control" placeholder="请输入食谱名称">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group" >
-                                            <label >原料</label>
-                                            <input autocomplete="off" id="modal_type" type="text" class="form-control" placeholder="请选择原料">
-                                            <div hidden id="ztreeDropdownContent" class="ztree-dropdown-content" style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
-                                               background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
-                                                <ul id="partTree" class="ztree"></ul>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>食谱分类编号</label>
+                                                <select class="form-control" name="type" id="fenlei">
+                                                    <option disabled="disabled" selected style="display: none">
+                                                        请选择分类(必须)
+                                                    </option>
+                                                    <option th:each="type,count:${recipelist}"
+                                                            th:text="${type.recipeTypeName}"
+                                                            th:value="${type.recipeTypeId}"></option>
+                                                </select>
                                             </div>
-                                            <div hidden id="food_weight" class="ztree-dropdown-content" style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
-                                               background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
-                                                <input type="text" id="yuanliao_weight" class="form-control" placeholder="请输入重量(克为单位)">
-                                                <br>
-                                                <button type="button" class="btn btn-info pull-right" onclick="addYuanliao()">添加</button>
-
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>食谱名称</label>
+                                                <input autocomplete="off" name="recipeName" type="text"
+                                                       class="form-control" placeholder="请输入食谱名称">
                                             </div>
-                                            <input id="modal_id" name="recipeMaterial" hidden="hidden">
-
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <label >辅料</label>
-
-                                            <input autocomplete="off" id="modal_type2" type="text" class="form-control" placeholder="请选择原料">
-                                            <div hidden id="ztreeDropdownContent2" class="ztree-dropdown-content" style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>原料</label>
+                                                <input autocomplete="off" id="modal_type" type="text"
+                                                       class="form-control" placeholder="请选择原料">
+                                                <div hidden id="ztreeDropdownContent" class="ztree-dropdown-content"
+                                                     style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
                                                background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
-                                                <ul id="partTree2" class="ztree"></ul>
-                                            </div>
-
-                                            <div hidden id="food_weight1" class="ztree-dropdown-content" style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
+                                                    <ul id="partTree" class="ztree"></ul>
+                                                </div>
+                                                <div hidden id="food_weight" class="ztree-dropdown-content" style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
                                                background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
+                                                    <input type="text" id="yuanliao_weight" class="form-control"
+                                                           placeholder="请输入重量(克为单位)">
+                                                    <br>
+                                                    <button type="button" class="btn btn-info pull-right"
+                                                            onclick="addYuanliao()">添加
+                                                    </button>
 
-                                                <br>
-                                                <button type="button" class="btn btn-info pull-left" onclick="addFuliao(this)">少许</button>
-                                                <button type="button" class="btn btn-info pull-center" onclick="addFuliao(this)">适量</button>
-                                                <button type="button" class="btn btn-info pull-right" onclick="addFuliao(this)">过量</button>
+                                                </div>
+                                                <input id="modal_id" name="recipeMaterial" hidden="hidden">
 
                                             </div>
-                                            <input id="modal_id2" name="recipeAccessorie" hidden="hidden">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <label >荤素标志</label>
-                                            <select name="recipeMeatOrVegetable" class="form-control">
-                                                <option disabled="disabled" selected style="display: none">请选择荤素</option>
-                                                <option value="1">荤菜</option>
-                                                <option value="2">素菜</option>
+                                        </td>
+                                    </tr>
 
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <label >菜品类型</label>
-                                            <select class="form-control"  name="recipeType">
-                                                <option disabled="disabled" selected style="display: none">请选择菜品类型</option>
-                                                <option value="1">炒菜</option>
-                                                <option value="2">凉菜</option>
-                                                <option value="3">汤菜</option>
-                                                <option value="4">蒸菜</option>
-                                                <option value="5">烧菜</option>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>辅料</label>
 
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <label>是否糕点</label>
-                                            <select name="recipeIsCakes" class="form-control" >
-                                                <option disabled="disabled" selected style="display: none">请选择是否糕点</option>
-                                                <option value="0">不是</option>
-                                                <option value="1">是</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <label >菜品特色</label>
-                                            <input autocomplete="off" name="recipeCharacter" type="text" class="form-control" placeholder="菜品特色">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <label >适合人群</label>
-                                            <input autocomplete="off" name="recipePeople" type="text" class="form-control" placeholder="菜品特色">
-                                        </div>
-                                    </td>
+                                                <input autocomplete="off" id="modal_type2" type="text"
+                                                       class="form-control" placeholder="请选择原料">
+                                                <div hidden id="ztreeDropdownContent2" class="ztree-dropdown-content"
+                                                     style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
+                                               background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
+                                                    <ul id="partTree2" class="ztree"></ul>
+                                                </div>
 
-                                </tr>
-                                <tr>
+                                                <div hidden id="food_weight1" class="ztree-dropdown-content" style="display:none; position:absolute;z-index:999;height:300px; min-width:163px;
+                                               background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
+
+                                                    <br>
+                                                    <button type="button" class="btn btn-info pull-left"
+                                                            onclick="addFuliao(this)">少许
+                                                    </button>
+                                                    <button type="button" class="btn btn-info pull-center"
+                                                            onclick="addFuliao(this)">适量
+                                                    </button>
+                                                    <button type="button" class="btn btn-info pull-right"
+                                                            onclick="addFuliao(this)">过量
+                                                    </button>
+
+                                                </div>
+                                                <input id="modal_id2" name="recipeAccessorie" hidden="hidden">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>荤素标志</label>
+                                                <select name="recipeMeatOrVegetable" class="form-control">
+                                                    <option disabled="disabled" selected style="display: none">请选择荤素
+                                                    </option>
+                                                    <option value="1">荤菜</option>
+                                                    <option value="2">素菜</option>
+
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>菜品类型</label>
+                                                <select class="form-control" name="recipeType">
+                                                    <option disabled="disabled" selected style="display: none">请选择菜品类型
+                                                    </option>
+                                                    <option value="1">炒菜</option>
+                                                    <option value="2">凉菜</option>
+                                                    <option value="3">汤菜</option>
+                                                    <option value="4">蒸菜</option>
+                                                    <option value="5">烧菜</option>
+
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>是否糕点</label>
+                                                <select name="recipeIsCakes" class="form-control">
+                                                    <option disabled="disabled" selected style="display: none">请选择是否糕点
+                                                    </option>
+                                                    <option value="0">不是</option>
+                                                    <option value="1">是</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>菜品特色</label>
+                                                <input autocomplete="off" name="recipeCharacter" type="text"
+                                                       class="form-control" placeholder="菜品特色">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>适合人群</label>
+                                                <input autocomplete="off" name="recipePeople" type="text"
+                                                       class="form-control" placeholder="菜品特色">
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
 
 
+                                        <td>
+                                            <div class="form-group">
+                                                <label>成本单价</label>
+                                                <input autocomplete="off" name="recipeCostprice" type="text"
+                                                       class="form-control" placeholder="请输入成本单价">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>菜谱状态</label>
+                                                <select name="recipeStatus" class="form-control">
+                                                    <option disabled="disabled" selected style="display: none">请选择菜品状态
+                                                    </option>
+                                                    <option value="1">可用</option>
+                                                    <option value="0">不可用</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>创建者</label>
+                                                <input autocomplete=" off" name="recipeOwner" type="text"
+                                                       class="form-control" placeholder="创建者">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>菜谱图标</label>
+                                                <input name="recipeIcon" type="file" id="inputfile">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>加工流程</label>
+                                                <textarea name="recipeProcessing" class="form-control" rows="3"
+                                                          style="resize:none" placeholder="在这里输入加工流程..."></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button" id="Sub" class="btn btn-info pull-right" onclick="sub()">添加食谱
+                                </button>
 
-                                    <td>
-                                        <div class="form-group">
-                                            <label >成本单价</label>
-                                            <input autocomplete="off"  name="recipeCostprice" type="text" class="form-control" placeholder="请输入成本单价">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <label >菜谱状态</label>
-                                            <select name="recipeStatus" class="form-control">
-                                                <option disabled="disabled" selected style="display: none">请选择菜品状态</option>
-                                                <option value="1" >可用</option>
-                                                <option value="0">不可用</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <label>创建者</label>
-                                            <input  autocomplete=" off"name="recipeOwner" type="text" class="form-control" placeholder="创建者">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <label>菜谱图标</label>
-                                            <input name="recipeIcon" type="file" id="inputfile">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <div class="form-group">
-                                        <label>加工流程</label>
-                                        <textarea name="recipeProcessing" class="form-control" rows="3" style="resize:none"  placeholder="在这里输入加工流程..."></textarea>
-                                    </div>
-                                </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <button type="button" id="Sub" class="btn btn-info pull-right" onclick="sub()">添加食谱</button>
+                            </div>
 
-                        </div>
-
-            </form>
+                        </form>
                     </ul>
 
 
@@ -396,7 +422,6 @@
     <!--</div>-->
 
 </div>
-
 
 
 <!-- /. WRAPPER  -->
@@ -418,79 +443,83 @@
 
     function addYuanliao() {
 
-        var ids =  $("#modal_id").val();
-        var to =  $("#modal_type").val();
+        var ids = $("#modal_id").val();
+        var to = $("#modal_type").val();
         to = to + "( " + $("#yuanliao_weight").val() + "克),";
         ids = ids + ":" + $("#yuanliao_weight").val() + ",";
         $("#modal_type").val(to);
         $("#modal_id").val(ids);
-        $("#food_weight").css("display","none");
+        $("#food_weight").css("display", "none");
         $("#yuanliao_weight").val("");
     }
 
     function addFuliao(obj) {
         var $_this = $(obj);
-        var ids =  $("#modal_id2").val();
-        var to =  $("#modal_type2").val();
+        var ids = $("#modal_id2").val();
+        var to = $("#modal_type2").val();
 
-        if($_this.text() == "少许"){
+        if ($_this.text() == "少许") {
             to = to + "( 少许),";
             ids = ids + ":少许,";
-        }else if($_this.text() == "适量"){
+        } else if ($_this.text() == "适量") {
             to = to + "( 适量),";
             ids = ids + ":适量,";
-        }else if($_this.text() == "过量") {
+        } else if ($_this.text() == "过量") {
             to = to + "( 过量),";
             ids = ids + ":过量,";
         }
 
         $("#modal_type2").val(to);
         $("#modal_id2").val(ids);
-        $("#food_weight1").css("display","none");
+        $("#food_weight1").css("display", "none");
     }
 
     function sub() {
-        alert("添加成功!");
-        $("#form").submit();
+        if ($("#fenlei").val() != null) {
+            $("#form").submit();
+            alert("添加成功!");
+        } else {
+            alert("请选择分类!")
+        }
     }
 
     /*辅料*/
     $(function () {
         /*树级菜单*/
-        var setting={
+        var setting = {
             view: {
                 showLine: true,
-                showIcon:true,
+                showIcon: true,
             },
             //获取json数据
-            async : {
-                enable : true,
+            async: {
+                enable: true,
                 url: "/foodMaterial/yuanliao", // Ajax 获取数据的 URL 地址
-                autoParam : [ "id", "name" ] //ajax提交的时候，传的是id值
+                autoParam: ["id", "name"] //ajax提交的时候，传的是id值
             },
-            callback:{
-                onAsyncError:function () {
+            callback: {
+                onAsyncError: function () {
                     alert("网络错误");
                 },
-                beforeClick:function (treeId, treeNode) {
+                beforeClick: function (treeId, treeNode) {
                     var check = (treeNode && !treeNode.isParent);
-                    if (!check){
+                    if (!check) {
                         alert("请选择下级分类");
                     }
                     return check;
                 },
-                onClick:function (event, treeId, treeNode) {
-                    var names =   $("#modal_type2").val();
-                    var ids =  $("#modal_id2").val();
-                    if(!treeNode.isParent){
-                        ids = ids + treeNode.id ;
+                onClick: function (event, treeId, treeNode) {
+                    var names = $("#modal_type2").val();
+                    var ids = $("#modal_id2").val();
+                    if (!treeNode.isParent) {
+                        ids = ids + treeNode.id;
                         $("#modal_id2").val(ids);
                         names = names + treeNode.name
                         $("#modal_type2").val(names);
 
                         $("#food_weight1").show();
                         hideMenu();
-                    }else {
+                    } else {
                         var zTree = $.fn.zTree.getZTreeObj("partTree2");
                         var node = zTree.getNodeByParam("id", $('#modal_id').val(), null);
                         zTree.selectNode(node);
@@ -513,6 +542,7 @@
 
             $("body").bind("mousedown", onBodyDown);
         }
+
         function hideMenu() {
             $("#ztreeDropdownContent2").slideUp("fast");
             /*折叠所有*/
@@ -521,12 +551,12 @@
         }
 
         function onBodyDown(event) {
-            if (!(event.target.id == "modal_type2" || event.target.id == "ztreeDropdownContent2" || $(event.target).parents("#ztreeDropdownContent2").length>0)) {
+            if (!(event.target.id == "modal_type2" || event.target.id == "ztreeDropdownContent2" || $(event.target).parents("#ztreeDropdownContent2").length > 0)) {
                 hideMenu();
             }
         }
 
-        $("#modal_type2").click(function(){
+        $("#modal_type2").click(function () {
             showMenu();
         });
     });
@@ -535,34 +565,34 @@
     /*原料*/
     $(function () {
         /*树级菜单*/
-        var setting={
+        var setting = {
             view: {
                 showLine: true,
-                showIcon:true,
+                showIcon: true,
             },
             //获取json数据
-            async : {
-                enable : true,
+            async: {
+                enable: true,
                 url: "/foodMaterial/yuanliao", // Ajax 获取数据的 URL 地址
-                autoParam : [ "id", "name" ] //ajax提交的时候，传的是id值
+                autoParam: ["id", "name"] //ajax提交的时候，传的是id值
             },
-            callback:{
-                onAsyncError:function () {
+            callback: {
+                onAsyncError: function () {
                     alert("网络错误");
                 },
-                beforeClick:function (treeId, treeNode) {
+                beforeClick: function (treeId, treeNode) {
                     var check = (treeNode && !treeNode.isParent);
-                    if (!check){
+                    if (!check) {
                         alert("请选择下级分类");
                     }
                     return check;
                 },
-                onClick:function (event, treeId, treeNode) {
-                    var names =   $("#modal_type").val();
-                    var ids =  $("#modal_id").val();
-                    if(!treeNode.isParent){
+                onClick: function (event, treeId, treeNode) {
+                    var names = $("#modal_type").val();
+                    var ids = $("#modal_id").val();
+                    if (!treeNode.isParent) {
 
-                        ids = ids + treeNode.id ;
+                        ids = ids + treeNode.id;
                         $("#modal_id").val(ids);
 
                         names = names + treeNode.name
@@ -570,7 +600,7 @@
                         $("#food_weight").show();
                         $("#yuanliao_weight").focus();
                         hideMenu();
-                    }else {
+                    } else {
                         var zTree = $.fn.zTree.getZTreeObj("partTree");
                         var node = zTree.getNodeByParam("id", $('#modal_id').val(), null);
                         zTree.selectNode(node);
@@ -587,11 +617,13 @@
             }
         }
         $.fn.zTree.init($("#partTree"), setting);
+
         function showMenu() {
             $("#ztreeDropdownContent").slideDown("fast");
 
             $("body").bind("mousedown", onBodyDown);
         }
+
         function hideMenu() {
             $("#ztreeDropdownContent").slideUp("fast");
             /*折叠所有*/
@@ -600,18 +632,15 @@
         }
 
         function onBodyDown(event) {
-            if (!(event.target.id == "modal_type" || event.target.id == "ztreeDropdownContent" || $(event.target).parents("#ztreeDropdownContent").length>0)) {
+            if (!(event.target.id == "modal_type" || event.target.id == "ztreeDropdownContent" || $(event.target).parents("#ztreeDropdownContent").length > 0)) {
                 hideMenu();
             }
         }
 
-        $("#modal_type").click(function(){
+        $("#modal_type").click(function () {
             showMenu();
         });
     });
-
-
-
 
 
 </script>

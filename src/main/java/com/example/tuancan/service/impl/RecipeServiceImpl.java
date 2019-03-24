@@ -108,7 +108,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe selectByCompanyIdAndName(Integer companyid, String name) {
+    public List<Recipe> selectByCompanyIdAndName(Integer companyid, String name) {
         return recipeMapper.selectByCompanyIdAndName(companyid,name);
     }
 
