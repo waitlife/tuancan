@@ -21,7 +21,7 @@
 </head>
 
 <body ontouchstart>
-<div class="weui-cell">
+<div class="weui-cell" id="headavr">
     <a href="javacript:;">
         <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
         </div>
@@ -67,7 +67,7 @@
                     <div class="weui-form-preview__item">
                         <label class="weui-form-preview__label">状态</label>
                         <span class="weui-form-preview__value time"
-                              th:text="${dm?.deliveringMasterIsEmergency==0?'普通配送':'应急配送'+','+dm?.deliveringMasterStatus==0?'未确认':(dm?.deliveringMasterStatus==1?'已确认':'已支付')}">
+                              th:text="${(dm?.deliveringMasterIsEmergency==0?'普通配送':'应急配送')+','+(dm?.deliveringMasterStatus==0?'未确认':(dm?.deliveringMasterStatus==1?'已确认':'已支付'))}">
                         </span>
                     </div>
                     <div class="weui-form-preview__item">
@@ -373,12 +373,17 @@
         </div>
 
         <div id="tab4" class="weui-tab__bd-item">
-            <header class='demos-header'>
-                <h1 class="demos-title">个人头像</h1>
+            <header class='demos-header' style="background-color: #58b2e1;padding: 15px 0;">
+                <div style="display: inline;">
+                    <img src="/icon/avatar2.jpg" style="width: 30px;border: 2px solid #3f8ae6;width: 80px;height: 80px;border-radius: 50%;background-color: aliceblue;line-height: 70px;text-align: center;margin: 0 0 0 15px;">
+                </div>
+                <div style="display: inline;float: right;margin-right: 10px;">
+                    <a href=";"><img src="/icon/icon_arrowleft.png" width=""></a>
+                </div>
             </header>
 
-            <div class="weui-grids">
-                <a href="" class="weui-grid js_grid">
+            <div class="weui-grids" style="padding-bottom: 80px;">
+                <a th:href="@{'/questionNaire/show'}" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/icon/icon_edit.png" alt="">
                     </div>
@@ -426,15 +431,15 @@
                         消息
                     </p>
                 </a>
-                <a href="" class="weui-grid js_grid">
+                <a href="/groupMealContract/show" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/icon/icon_gn.png" alt="">
                     </div>
                     <p class="weui-grid__label">
-                        功能
+                        我的合同
                     </p>
                 </a>
-                <a href="" class="weui-grid js_grid">
+                <a th:href="@{'/kefu' }" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/icon/icon_kefu.png" alt="">
                     </div>
@@ -664,6 +669,7 @@
             "  <span class=\"weui-loadmore__tips\"></span>\n" +
             "</div>";
         FastClick.attach(document.body);
+        $("#headavr").show();
         //页面加载完成，载入配送单
         $.ajax({
             url: "/deliveringMaster/unitlist/",
@@ -692,6 +698,7 @@
 
             if (href == '#tab2') {
                 //alert(href);
+                $("#headavr").show();
                 $.showLoading();
                 setTimeout(function() {
                     $.ajax({
@@ -710,13 +717,15 @@
                 }, 1000);
             } else if (href == '#tab3') {
                 //alert(href);
+                $("#headavr").show();
                 //$("#cart_msg").hide();
                 orderlist();
 
             } else if (href == "#tab4") {
               //  alert(href);
-
+                $("#headavr").hide();
             } else {
+                $("#headavr").show();
                 return;
             }
         });

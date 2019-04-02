@@ -35,7 +35,7 @@ public class WechatController {
 
     @RequestMapping(value = "/wechat",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public String index(HttpServletRequest request,@RequestBody Scan scan){
+    public String index(HttpServletRequest request,@RequestBody(required = false) Scan scan){
         Map<String, String[]> map = request.getParameterMap();
         log.info(JsonUtil.toJson(map));
         String signature=request.getParameter("signature");
@@ -56,21 +56,21 @@ public class WechatController {
         WxMenuButton button1 = new WxMenuButton();
         button1.setType("view");
         button1.setName("点餐");
-        button1.setUrl(projectUrlConfig.getWhchatAuthorize()+"/wechat/authorize");
+        button1.setUrl(projectUrlConfig.getWhchatAuthorize()+"/wxindex/");
         //一级菜单
         WxMenuButton button2 = new WxMenuButton();
         button2.setName("个人管理");
           //二级菜单
         List<WxMenuButton> subButtons = new ArrayList<WxMenuButton>();
         WxMenuButton subButton1 = new WxMenuButton();
-        subButton1.setType("click");
-        subButton1.setName("点击推送");
-        subButton1.setKey("tuisong");
+        subButton1.setType("view");
+        subButton1.setName("首页");
+        subButton1.setUrl(projectUrlConfig.getWhchatAuthorize()+"/");
 
         WxMenuButton subButton2 = new WxMenuButton();
-        subButton2.setType("scancode_waitmsg");
-        subButton2.setName("扫码");
-        subButton2.setKey("saoma");
+        subButton2.setType("view");
+        subButton2.setName("平台注册");
+        subButton2.setUrl(projectUrlConfig.getWhchatAuthorize()+"/");
         subButton2.setSubButtons(new ArrayList<>());
         //个人管理设置二级菜单
         subButtons.add(subButton1);
@@ -158,8 +158,8 @@ public class WechatController {
     @GetMapping("/wechat/authorize")
     public String authorize() {
         //1. 配置
-        //2. 调用方法
-        String returnUrl=projectUrlConfig.getWhchatAuthorize()+"/order/get";
+        //2. state参数
+        String returnUrl=projectUrlConfig.getWhchatAuthorize()+"/wxindex";
         //回调url
         String url =projectUrlConfig.getWhchatAuthorize()+"/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl));
@@ -174,13 +174,12 @@ public class WechatController {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
             log.error("【微信网页授权】{}", e);
-           // throw new SellException(ResultEnum.WECHAT_MP_ERROR.getCode(), e.getError().getErrorMsg());
         }
 
         String openId = wxMpOAuth2AccessToken.getOpenId();
         //设置session
         request.getSession(true).setAttribute("openId",openId);
         log.info("returnUrl={},openid={}",returnUrl,openId);
-        return "redirect:" + returnUrl;
+        return "redirect:" + returnUrl+"?openId="+openId;
     }
 }

@@ -60,7 +60,7 @@
                     <div class="weui-cell__bd">
                         <div class="weui-count">
                         <a class="weui-count__btn weui-count__decrease"></a>
-                        <input class="weui-count__number" type="number" th:value="${dm?.deliveringMasterAmount}"/>
+                        <input class="weui-count__number" id="dcnum" type="number" th:value="${dm?.deliveringMasterAmount}"/>
                         <a class="weui-count__btn weui-count__increase"></a>
                         </div>
                     </div>
@@ -119,8 +119,8 @@
                 </div>
             </div>
             <div class="weui-btn-area">
-                <a class="weui-btn weui-btn_primary" th:id="${dm.deliveringMasterId}" href="javascript:"
-                   th:if="${dm?.deliveringMasterIsEmergency ==0 && dm?.deliveringMasterStatus==0}" id="showTooltips">确定</a>
+                <a class="weui-btn weui-btn_primary confirm" th:id="${dm.deliveringMasterId}" href="javascript:"
+                   th:if="${dm?.deliveringMasterIsEmergency ==0 && dm?.deliveringMasterStatus==0}">确定</a>
                 <a class="weui-btn weui-btn_primary" th:id="${dm.deliveringMasterId}" href="javascript:"
                    th:if="${dm?.deliveringMasterIsEmergency ==0 && dm?.deliveringMasterStatus==1}" >您已确认</a>
                 <a class="weui-btn weui-btn_primary" th:id="${dm.deliveringMasterId}" href="javascript:"
@@ -136,53 +136,12 @@
 </div>
 
 <!--//pop-->
-<div id="half" class='weui-popup__container popup-bottom' style="z-index: 999;">
-    <div class="weui-popup__overlay"></div>
-    <div class="weui-popup__modal">
-        <div class="toolbar">
-            <div class="toolbar-inner">
-                <a href="javascript:;" class="picker-button close-popup">关闭</a>
-                <!--<h1 class="title">操作</h1>-->
-            </div>
-        </div>
-        <div class="modal-content">
-            <div class="weui-grids">
-                <!--<button id="addtype" data-toggle="modal" data-target="#myModal" class="btn btn-primary" type="button">添加</button>-->
-                <a href="javascript:;" class="emergy weui-grid js_grid" data-id="dialog" data-toggle="modal"
-                   data-target="#myModal">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_nav_progress.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        新增
-                    </p>
-                </a>
-                <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_nav_dialog.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        消息
-                    </p>
-                </a>
-                <a href="/complaint/save" class="emergy weui-grid js_grid" data-id="msg">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_nav_msg.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        添加员工
-                    </p>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- body 最后 -->
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 
 <script src="/js/fastclick.js"></script>
-<script src="/assets/js/bootstrap.min.js"></script>
+<!--<script src="/assets/js/bootstrap.min.js"></script>-->
 
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <!-- 如果使用了某些拓展插件还需要额外的JS -->
@@ -213,8 +172,9 @@
             $input.val(number);
             num=number;
         });
-        $("#showTooltips").click(function(e) {
-            var time = $(e.currentTarget).parent("div").find("#dmtime").text();
+        $(".confirm").click(function(e) {
+            num= $(e.currentTarget).parent("div").siblings("div").find("#dcnum").val();
+            var time = $(e.currentTarget).parent("div").siblings("div").find("#dmtime").text();
             var idstr = $(e.currentTarget).attr("id");
             $.confirm({
                 title: '确认提交？',
@@ -233,10 +193,13 @@
                             $.toast("网络错误", "cancel");
                         },
                         success: function (result) {
-                            $($this).text("已确认");
-                            $($this).removeClass("weui-form-preview__btn_primary confirm").addClass("weui-form-preview__btn_disable");
+                            $(e.currentTarget).text("已确认");
+                            $(e.currentTarget).removeClass("weui-form-preview__btn_primary confirm").addClass("weui-form-preview__btn_disable");
                             $.hideLoading();
                             $.toast("确认成功!");
+                            setTimeout(function (e) {
+                                window.location.href="http://localhost/msg";
+                            },200);
                         },
                     });
                 },

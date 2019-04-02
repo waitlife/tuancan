@@ -89,6 +89,7 @@ var cartlist3 = "</span>\n" +
                 cartnum=0;
                 cartpricesum=0;
                 $.hideLoading();
+                $.toast("提交成功！");
             },
         });
 

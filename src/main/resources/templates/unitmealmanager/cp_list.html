@@ -21,21 +21,22 @@
 </head>
 
 <body ontouchstart>
-<div class="weui-cell" style="border-bottom: 1px solid #ddd">
-    <a href="javacript:;">
-        <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
-        </div>
-    </a>
-    <div class="weui-cell__bd">
-        <p>账户</p>
-    </div>
-    <div class="weui-cell__ft">
-        <a href="javascript:;" class="weui-form-preview__btn weui-form-preview__btn_primary open-popup"
-           data-target="#half">操作</a>
-    </div>
-</div>
 <div class="weui-tab" id="tabbody">
     <div class="weui-tab__bd">
+        <div class="weui-cell" style="border-bottom: 1px solid #ddd">
+            <a href="javacript:;">
+                <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
+                </div>
+            </a>
+            <div class="weui-cell__bd">
+                <p>账户</p>
+            </div>
+            <div class="weui-cell__ft">
+                <a href="javascript:;" class="weui-form-preview__btn weui-form-preview__btn_primary open-popup"
+                   data-target="#half">操作</a>
+            </div>
+        </div>
+
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
             <div class="col-md-4 col-sm-4" th:each="cp,stat : ${page.list}">
 
@@ -97,13 +98,12 @@
         <div class="modal-content">
             <div class="weui-grids">
                 <!--<button id="addtype" data-toggle="modal" data-target="#myModal" class="btn btn-primary" type="button">添加</button>-->
-                <a href="javascript:;" class="emergy weui-grid js_grid" data-id="dialog" data-toggle="modal"
-                   data-target="#myModal">
+                <a href="/complaint/save" class="emergy weui-grid js_grid" data-id="dialog" >
                     <div class="weui-grid__icon">
                         <img src="/icon/icon_nav_progress.png" alt="">
                     </div>
                     <p class="weui-grid__label">
-                        新增
+                        投诉
                     </p>
                 </a>
                 <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
@@ -114,12 +114,12 @@
                         消息
                     </p>
                 </a>
-                <a href="/complaint/save" class="emergy weui-grid js_grid" data-id="msg">
+                <a href="/wxindex/" class="emergy weui-grid js_grid" data-id="msg">
                     <div class="weui-grid__icon">
-                        <img src="/icon/icon_nav_msg.png" alt="">
+                        <img src="/icon/icon_gn.png" alt="">
                     </div>
                     <p class="weui-grid__label">
-                        添加员工
+                        首页
                     </p>
                 </a>
             </div>

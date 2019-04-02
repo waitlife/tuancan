@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    ">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/demos.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <!-- order Styles-->
+    <!--<link href="/css/order.css" type="text/css" rel="stylesheet">-->
+<!--
+    <link href="/webjars/amazeui/2.7.2/dist/css/amazeui.css" type="text/css" rel="stylesheet">
+-->
+
+</head>
+
+<body ontouchstart>
+<div class="weui-tab" id="tabbody">
+    <div class="weui-tab__bd">
+        <div class="weui-cell" style="border-bottom: 1px solid #ddd">
+            <a href="javacript:;">
+                <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
+                </div>
+            </a>
+            <div class="weui-cell__bd">
+                <p>账户</p>
+            </div>
+            <div class="weui-cell__ft">
+                <a href="javascript:;" class="weui-form-preview__btn weui-form-preview__btn_primary open-popup"
+                   data-target="#half">返回</a>
+            </div>
+        </div>
+
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+            <div th:if="${not #lists.isEmpty(page?.list)}" th:each="q,stat : ${page?.list}">
+                <div class="weui-cells__title" th:text="${stat.count+'.'+q.questionnaireDisc}"></div>
+                <div class="weui-cells weui-cells_radio">
+                    <label class="weui-cell weui-check__label" th:lang="${'A'}" th:for="${q?.questionnaireId*10+stat.count}">
+                        <div class="weui-cell__bd">
+                            <p th:text="${'A. '+q?.questionnaireChoiceA}">cell standard</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <input type="radio" class="weui-check" name="radio1" th:id="${q?.questionnaireId*10+stat.count}">
+                            <span class="weui-icon-checked"></span>
+                        </div>
+                    </label>
+                    <label class="weui-cell weui-check__label" th:lang="${'B'}" th:for="${q?.questionnaireId*10+stat.count+3}">
+                        <div class="weui-cell__bd">
+                            <p th:text="${'B. '+q?.questionnaireChoiceB}">cell standard</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <input type="radio" class="weui-check" name="radio1" th:id="${q?.questionnaireId*10+stat.count+3}">
+                            <span class="weui-icon-checked"></span>
+                        </div>
+                    </label>
+                    <label class="weui-cell weui-check__label" th:lang="${'C'}" th:for="${q?.questionnaireId*10+stat.count+1}">
+                        <div class="weui-cell__bd">
+                            <p th:text="${'C. '+q?.questionnaireChoiceC}">cell standard</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <input type="radio" class="weui-check" name="radio1" th:id="${q?.questionnaireId*10+stat.count+1}">
+                            <span class="weui-icon-checked"></span>
+                        </div>
+                    </label>
+                    <label class="weui-cell weui-check__label" th:lang="${'D'}" th:for="${q?.questionnaireId*10+stat.count+2}">
+                        <div class="weui-cell__bd">
+                            <p th:text="${'D. '+q?.questionnaireChoiceD}">cell standard</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <input type="radio" class="weui-check" name="radio1" th:id="${q?.questionnaireId*10+stat.count+2}">
+                            <span class="weui-icon-checked"></span>
+                        </div>
+                    </label>
+                </div>
+                <br>
+            </div>
+            <div class="weui-form-preview__ft">
+                <a class="weui-btn weui-btn_primary commit" href="javascript:">回答</a>
+            </div>
+            <!--<div th:include="manager/page::page"></div>-->
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-cell" style="padding: 5px 10px">
+                    <div class="weui-cell__hd">
+                        <img src="/icon/icon_doubleleft.png" alt="" style="width:20px;margin-right:5px;display:block">
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p></p>
+                    </div>
+                    <div class="weui-cell__ft">
+                       <a href="" style="background-image: url('/icon/icon_arrowleft.png')"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="half" class='weui-popup__container popup-bottom' style="z-index: 999;">
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                <!--<h1 class="title">操作</h1>-->
+            </div>
+        </div>
+        <div class="modal-content">
+            <div class="weui-grids">
+                <!--<button id="addtype" data-toggle="modal" data-target="#myModal" class="btn btn-primary" type="button">添加</button>-->
+                <a href="//" class="emergy weui-grid js_grid" data-id="dialog" >
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_progress.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        投诉
+                    </p>
+                </a>
+                <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_dialog.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        消息
+                    </p>
+                </a>
+                <a href="/wxindex/" class="emergy weui-grid js_grid" data-id="msg">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_gn.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        首页
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<script src="/webjars/jquery/3.3.0/jquery.js"></script>
+-->
+
+<!-- body 最后 -->
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<!--
+<script src="../lib/jquery-2.1.4.js"></script>
+-->
+<script src="/js/fastclick.js"></script>
+
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<!-- 如果使用了某些拓展插件还需要额外的JS -->
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/city-picker.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        FastClick.attach(document.body);
+
+        var quessize=[[page.size]];
+        var check=true;
+        $(".weui-check__label").click(function (e) {
+            $(e.currentTarget).parent("div").addClass("selected");
+        });
+        $(document).on("click", "#commit", function (e) {
+            var selectSize=$(".selected").length;
+            console.log(quessize+"??"+selectSize);
+            if (selectSize<quessize){
+                $.toast("你还有问题没回答","cancel");
+                return;
+            }
+            $.ajax({
+                url:"//",
+                type:"POST",
+                data:{
+
+                },
+                error:function (error) {
+                    $.toast("网络错误", "cancel");
+
+                },
+                success:function (result) {
+                    $.toast("提交成功！");
+                },
+            });
+
+        });
+
+        //搜索
+        var searchanme;
+        var searchnum=1;
+        function searchname() {
+            setTimeout(function () {
+                $.ajax({
+                    url: "/",
+                    type: "POST",
+                    data: {
+                        "asyc":true,
+                    },
+                    error: function (error) {
+                        $.toast("网络错误", "cancel");
+                    },
+                    success: function (result) {
+                        if (result == "" || result == null) {
+                            $.hideLoading();
+                            $.toast("没有更多数据了","cancel");
+                            return;
+                        }
+                        $("#searchtable").html(result);
+                        $.hideLoading();
+                        $('.weui-cell_swiped').swipeout();
+                    },
+                });
+            },1000);
+        }
+        $("#searchInput").keydown(function (e) {
+
+            if (e.keyCode == 13) {
+                e.preventDefault();
+               // alert($(e.currentTarget).val());
+                searchanme=$(e.currentTarget).val();
+                $.showLoading();
+                searchname();
+            }
+        });
+
+
+    });
+</script>
+
+</body>
+</html>

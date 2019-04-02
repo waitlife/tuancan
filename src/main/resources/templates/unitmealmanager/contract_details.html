@@ -1,650 +1,308 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <!-- Bootstrap Styles-->
-    <link href="/assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FontAwesome Styles-->
-    <link href="/assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- Custom Styles-->
-    <link href="/assets/css/custom-styles.css" rel="stylesheet" />
-    <!-- Google Fonts-->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' /> 
-     
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    ">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/demos.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <!-- order Styles-->
+    <!--<link href="/css/order.css" type="text/css" rel="stylesheet">-->
+    <!--
+        <link href="/webjars/amazeui/2.7.2/dist/css/amazeui.css" type="text/css" rel="stylesheet">
+    -->
+
 </head>
 
-<body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html"><i class="fa fa-gear"></i> <strong>团餐管理平台</strong></a>
+<body ontouchstart>
+<div class="weui-cell" style="border-bottom: 1px solid #ddd">
+    <a href="javacript:;">
+        <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
+        </div>
+    </a>
+    <div class="weui-cell__bd">
+        <p>账户</p>
+    </div>
+    <div class="weui-cell__ft">
+        <a href="javascript:;" class="weui-form-preview__btn weui-form-preview__btn_primary open-popup"
+           data-target="#half">操作</a>
+    </div>
+</div>
+<div class="weui-tab" id="tabbody">
+    <div class="weui-tab__bd">
+        <div class="weui-cell weui-cell_warn" th:if="${msg!=null}">
+            <div class="weui-cell__hd"><label for="" class="weui-label">消息</label></div>
+            <div class="weui-cell__bd">
+                <span class="weui-input" name="" th:text="${msg}"></span>
             </div>
-
-            <ul class="nav navbar-top-links navbar-right top_right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Doe</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Today</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div>
-                            </a>
-                        </li>
-
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-tasks">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 1</strong>
-                                        <span class="pull-right text-muted">60% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-
-                    </ul>
-                    <!-- /.dropdown-tasks -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-alerts -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down  top_right"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="/login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-        </nav>
-        <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-		<div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-
-                    <li>
-                        <a href="ui-elements.html"><i class="fa fa-desktop"></i>用餐单位</a>
-                        <ul class="nav nav-second-level">
-                            <li class="">
-                                <a href="" th:href="@{/groupMealUnit/yes_list}">用餐单位列表<span class="fa "></span></a>
-                            </li>
-                            <li>
-                                <a href="" th:href="@{/groupMealUnit/no_list}">未审核列表<span class="fa arrow"></span></a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-                    <li class="active">
-                        <a href="#"><i class="fa fa-desktop"></i>团餐机构</a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href=""  th:href="@{/deliveringCompany/yes_list}" >团餐机构列表</a>
-                            </li>
-
-                            <li>
-                                <a href="" th:href="@{/deliveringCompany/no_list}" >未审核列表</a>
-                            </li>
-                        </ul>
-                    </li>
-					<li>
-                        <a href=""><i class="fa fa-bar-chart-o"></i>菜系管理</a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href=""  th:href="@{/deliveringCompany/yes_list}" >菜谱类型列表</a>
-                            </li>
-                            <li>
-                                <a href="" th:href="@{/deliveringCompany/no_list}" >食材一级分类</a>
-                            </li>
-                            <li>
-                                <a href="" th:href="@{/deliveringCompany/no_list}" >食材二级分类</a>
-                            </li>
-                            <li>
-                                <a href="" th:href="@{/deliveringCompany/no_list}" >食材管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="tab-panel.html"><i class="fa fa-qrcode"></i> Tabs & Panels</a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href=""  th:href="@{/yes_list}" >列表</a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="table.html"><i class="fa fa-table"></i>权限设置</a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">设置团餐机构等级</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="form.html"><i class="fa fa-edit"></i> 处理投诉 </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">投诉列表</a>
-                            </li>
-                            <li>
-                                <a href="#">未处理列表</a>
-                            </li>
-                        </ul>
-                    </li>
-
-
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap"></i> 查询配送<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">xxxx</a>
-                            </li>
-                            <li>
-                                <a href="#">xxx</a>
-                            </li>
-                            <li>
-                                <a href="#">sanji<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li>
-
-                                </ul>
-
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
-
+            <div class="weui-cell__ft">
+                <i class="weui-icon-warn"></i>
             </div>
-
-        </nav>
-        <!-- /. NAV SIDE  -->
-
-
-        <div id="page-wrapper">
-            <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-
-
-						<ul class="breadcrumb" >
-                            <i style="text-align: left">合同表</i>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">用餐单位</a></li>
-                                <li class="active">合同表</li>
-
-                        </ul>
-
-                        <ul class="top_search">
-                            <div class="container-fluid">
-
-                                    <div class="span12">
-                                     <div class="row-fluid">
-                                         <form class="">
-                                             按公司名称查询： <input  class="input-medium search-query" id="dcnamesearch" type="text" />
-                                             &nbsp;&nbsp;&nbsp;<button  id="search" class="btn btn-primary" type="button">查询</button>
-                                             <!--<button class=" btn-mini btn_search" type="button">查询</button>-->
-                                         </form>
-                                         <div id="searchtable" >
-                                             <table  class="table_shadow table table-bordered table-striped table-hover ">
-                                                 <caption>团餐机构列表 </caption>
-                                                 <thead>
-                                                 <tr>
-                                                     <th scope="">序号</th>
-                                                     <th  scope="">公司名称</th>
-                                                     <th scope="">联系人</th>
-                                                     <th scope="">状态</th>
-                                                     <th scope="">地址</th>
-                                                     <th scope="">操作</th>
-                                                 </tr>
-                                                 </thead>
-                                                 <tbody>
-                                                 <tr th:each="dc,stat : ${page.list}" th:if="${not #lists.isEmpty(page.list)}">
-                                                     <td th:text="${stat.count+(pageNum-1)*10}"></td>
-                                                     <td class="zt"><a style="color:rgb(25,166,255);" th:text=" ${dc.deliveringCompanyName}" th:href="@{'/deliveringCompany/dc_details/'+${dc.deliveringCompanyNo} }"></a></td>
-                                                     <td th:text="${dc.deliveringCompanyContact}">公司联系人</td>
-                                                     <td th:text="${dc.deliveringCompanyAddress}">地址</td>
-                                                     <td >
-                                                         <i th:text="待审核" class="text-danger" th:if="${dc?.deliveringCompanyStatus==2}"></i>
-                                                         <i th:text="审核通过" class="text-success" th:if="${dc?.deliveringCompanyStatus==3}"></i>
-                                                         <i th:text="待完善信息" class="text-info" th:if="${dc?.deliveringCompanyStatus==1}"></i>
-                                                         <i th:text="已停用"  class="text-muted" th:if="${dc?.deliveringCompanyStatus==0}"></i>
-
-                                                     </td>
-                                                     <td>
-                                                         <a class="btn btn-xs btn-primary" th:onclick="'select('+${dc.deliveringCompanyNo}+',\''+${dc.deliveringCompanyName}+'\')'"  ><i class="fa fa-edit "></i>&nbsp;选择&nbsp;</a>
-                                                     </td>
-                                                 </tr>
-                                                 </tbody>
-                                             </table>
-                                             <ul class=" pagination pagination-lg pull-right">
-
-                                                 <li data-th-classappend="*{isFirstPage} ? 'disabled' : ''">
-                                                     <a href="javascript:void(0);" th:if="*{isFirstPage eq true}">&laquo;</a>
-                                                     <a href="javascript:void(0);" th:onclick="'Page('+${pageNum-1}+')'" th:if="*{isFirstPage eq false}">&laquo;</a>
-
-                                                 </li>
-                                                 <li  data-th-classappend="${pageNum eq pageNum} ? 'active' : ''">
-                                                     <a  href="javascript:void(0);">
-                                                         <span th:text="${pageNum}"></span>
-                                                     </a>
-                                                 </li>
-                                                 <li  data-th-classappend="*{isLastPage} ? 'disabled' : ''">
-                                                     <a href="javascript:void(0);" th:if="*{isLastPage}">&raquo;</a>
-                                                     <a href="javascript:void(0);" th:onclick="'Page('+${pageNum+1}+')'" th:if="*{!isLastPage}">&raquo;</a>
-                                                 </li>
-
-                                             </ul>
-                                         </div>
-                                        <br>
-
-                                     </div>
-                                    </div>
-                            </div>
-                        </ul>
-                        <hr>
-                        <ul class="top_search">
-                            <div class="container-fluid">
-
-                                <div class="span12">
-                                    <div class="row-fluid">
-                                        <form class="form-horizontal" role="form" id="savecontract" action="/groupMealContract/save" method="post">
-                                        <div class="col-lg-6">
-                                            <input type="hidden" name="deliveringCompanyNo" id="dcno" th:value="${dm?.deliveringMasterId}">
-
-                                            <br>
-                                           <div class="row">
-                                               <label  class="col-sm-2 control-label">团餐公司名称 ：</label>
-                                               <div class="col-lg-2">
-                                                   <span class="form-control-static" th:text="${dm?.groupMealUnit?.groupMealUnitName}" id="dcname"></span>
-                                               </div>
-                                           </div>
-                                           <br>
-                                           <div class="row">
-                                               <label  class="col-sm-2 control-label">餐标名称 ：</label>
-                                               <div class="col-lg-2">
-                                                   <select  id="dcdining" name="standard.standardId">
-                                                       <option>请选择公司</option>
-                                                   </select>
-                                               </div>
-                                           </div>
-                                            <br>
-                                           <div class="row">
-
-                                            <label class="col-sm-2 control-label">荤菜个数 ：</label>
-                                            <div class="col-lg-2">
-                                                <span class="form-control-static" th:text="${dm?.groupMealUnit?.groupMealUnitName}" id="dcmealnum"></span>
-
-                                            </div>
-                                            </div>
-                                            <br>
-                                           <div class="row">
-
-                                                <label  class="col-sm-2 control-label">素菜个数 ：</label>
-                                                <div class="col-lg-2">
-                                                    <span class="form-control-static" th:text="${dm?.groupMealUnit?.groupMealUnitName}" id="dcvegenum"></span>
-
-                                                </div>
-                                            </div>
-
-                                            <br>
-                                            <div class="row">
-                                                <label for="lastname" class="col-sm-2 control-label">是否赠送汤菜 ：</label>
-                                                <div class="col-lg-2">
-                                                    <span class="form-control-static" id="freesoup"></span>
-
-                                                </div>
-
-                                            </div>
-                                           <BR>
-                                           <div class="row">
-                                               <label for="lastname" class="col-sm-2 control-label">是否赠送糕点 ：</label>
-                                               <div class="col-lg-2">
-                                                   <span class="form-control-static" id="freedessert"></span>
-
-
-                                               </div>
-                                           </div>
-                                            <br>
-                                            <div class="row">
-                                                <label for="lastname" class="col-sm-2 control-label">是否赠送水果 ：</label>
-                                                <div class="col-lg-2">
-                                                    <span class="form-control-static" id="freefruit"></span>
-
-                                                </div>
-
-                                            </div>
-                                            <br>
-                                            <div class="row">
-
-                                                <label for="lastname" class="col-sm-2 control-label">单价 ：</label>
-                                                <div class="col-lg-2">
-                                                    <input type="text" name=""  id="price"></input>
-                                                </div>
-
-                                            </div>
-                                            <br>
-                                            <br>
-
-                             </div>
-                                <div class="col-lg-6">
-                                        <br>
-                                        <div class="row">
-                                            <label for="lastname" class="col-sm-2 control-label">用餐公司名称 ：</label>
-                                            <div class="col-lg-2">
-                                                <span class="form-control-static" th:text="${dm?.groupMealUnit?.groupMealUnitName}" id="firstname"></span>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-
-                                            <label for="lastname" class="col-sm-2 control-label">合同名称 ：</label>
-                                            <div class="col-lg-2">
-                                                <input type="text" name="gMlContractName" th:value="${#dates.format(dm?.deliveringMasterDelivedate,'yyyy-MM-dd HH:mm:ss')}" class="form-control " id="lastname" placeholder="无">
-                                            </div>
-                                        </div>
-                                            <br>
-                                        <div class="row">
-
-                                            <label for="lastname" class="col-sm-2 control-label">合同期限 ：</label>
-                                            <div class="col-lg-2">
-                                                <input type="text" name="datenum" class="form-control " id="lastname" placeholder="无">
-
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <input type="hidden" name="monthoryear"  class="form-control " value="1" id="monthoryear">
-                                                <div class="btn-toolbar" role="toolbar" >
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btnselect" th:text="月" lang="0" data-th-classappend="${dm?.deliveringMasterIsEmergency==0?'btn-success':'btn-default'}">否</button>
-                                                        <button type="button" class="btn btnselect btn-success" th:text="年" lang="1" data-th-classappend="${dm?.deliveringMasterIsEmergency==1?'btn-success':'btn-default'}">是</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                                <br>
-                                                <div class="row">
-                                                    <label for="lastname" class="col-sm-2 control-label">荤菜数量 ：</label>
-                                                    <div class="col-lg-2">
-                                                        <input type="number" name="gMContractMeatnumber" th:value="${1}" class="form-control" id="lastname" placeholder="无">
-                                                    </div>
-
-                                                </div>
-                                                <br>
-                                                <div class="row">
-                                                    <label for="lastname" class="col-sm-2 control-label">素菜数量 ：</label>
-                                                    <div class="col-lg-2">
-                                                        <input type="number" name="gMlContractVegetablenumber" th:value="${1}" class="form-control" id="lastname" placeholder="无">
-
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <div class="row">
-                                                    <label for="lastname" class="col-sm-2 control-label">甲方签名 ：</label>
-                                                    <div class="col-lg-2">
-                                                        <input type="text" name="gMlContractGroupA" th:value="${#dates.format(dm?.deliveringMasterDelivedate,'yyyy-MM-dd HH:mm:ss')}" class="form-control" id="lastname" placeholder="无">
-                                                    </div>
-
-                                                </div>
-                                                <br>
-                                                <div class="row">
-
-                                                    <label for="lastname" class="col-sm-2 control-label">合同描述 ：</label>
-                                                    <div class="col-lg-2">
-                                                        <textarea  name="gMlContractDisc" rows="5" cols="40" style="resize: none"  th:text="${dm?.deliveringMasterMemo}"></textarea>
-                                                    </div>
-
-                                                </div>
-                                                <br>
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col-sm-offset-2 col-lg-4">
-                                                        <input type="submit" class="btn btn-primary" value="提交">
-                                                        &nbsp;&nbsp;
-                                                        <a id="back" href="javascript:void(0);" class="btn btn-primary ">&nbsp;返回&nbsp;</a>
-                                                    </div>
-                                                </div>
-                                        </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ul>
-                        <div class="text_data">
-
-
-
-                               <div id="succAlert" hidden class="alert alert-success">
-                                   <a href="#" class="close" data-dismiss="alert">&times;</a>
-                                   <strong>提交成功！</strong>。
-                               </div>
-                               <div id="warnAlert" hidden="" class="alert alert-warning">
-                                   <a href="#" class="close" data-dismiss="alert">&times;</a>
-                                   <strong>错误！</strong>您的网络连接有问题。
-                               </div>
-
-                            </div>
+        </div>
+        <!--<div id="tab1" class="weui-tab__bd-item weui-tab__bd-item&#45;&#45;active">-->
+        <form class="form-horizontal" role="form" id="savedc">
+            <div class="weui-cells weui-cells_form">
+                <input type="hidden" th:if="${gc!=null}" th:value="${gc?.gmContractId}">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">合同名称：</label></div>
+                    <div class="weui-cell__bd" th:if="${gc==null}">
+                        <input class="weui-input" name="gmlContractName"
+                               th:value="${gc?.deliveringCompany?.deliveringCompanyName}"></input>
+                    </div>
+                    <div class="weui-cell__bd" th:if="${gc!=null}">
+                    <span class="weui-input" name="gmlContractName"
+                          th:value="${gc?.deliveringCompany?.deliveringCompanyName}"></span>
                     </div>
                 </div>
-
-
+                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                    <div class="weui-cell__hd">
+                        <label for="" class="weui-label">配送公司</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <select class="weui-select" id="dclist" name="select1">
+                            <option value="">请选择公司</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                    <div class="weui-cell__hd">
+                        <label for="" class="weui-label">公司餐标</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <select class="weui-select" id="dnlist" name="standard.standardId">
+                            <option value="">请选择餐标</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">荤菜数量：</label></div>
+                    <div class="weui-cell__bd">
+                        <div class="weui-count">
+                            <a class="weui-count__btn weui-count__decrease"></a>
+                            <input class="weui-count__number" name="gmContractMeatnumber" id="hunnum" type="number"
+                                   th:value="${gc==null? '1' : gc.gmContractMeatnumber}"/>
+                            <a class="weui-count__btn weui-count__increase"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">素菜数量：</label></div>
+                    <div class="weui-cell__bd">
+                        <div class="weui-count">
+                            <a class="weui-count__btn weui-count__decrease"></a>
+                            <input class="weui-count__number" name="gmlContractVegetablenumber" id="sunum" type="number"
+                                   VALUE="0" th:value="${gc==null? '1' : gc.gmlContractVegetablenumber}"/>
+                            <a class="weui-count__btn weui-count__increase"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label for="date2" class="weui-label">有效期至：</label></div>
+                    <div class="weui-cell__bd" th:if="${gc==null}">
+                        <input class="weui-input" id="date2" type="text" value="">
+                    </div>
+                    <div class="weui-cell__bd" th:if="${gc!=null}">
+                        <span class="weui-input" value="${gc?.gmlContractExpirydate}"></span>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">甲方签名:</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" name="gmlContractGroupA" th:if="${gc==null}"/>
+                        <span class="weui-input" name="" th:if="${gc!=null}" th:text="${gc?.gmlContractGroupA}"></span>
+                    </div>
+                </div>
+                <div class="weui-cell" th:if="${gc!=null}">
+                    <div class="weui-cell__hd"><label class="weui-label">乙方签名:</label></div>
+                    <div class="weui-cell__bd">
+                        <span class="weui-input" name="" th:text="${gc?.gmlContractGroupB}"></span>
+                    </div>
+                </div>
+                <div class="weui-cell" th:if="${gc!=null}">
+                    <div class="weui-cell__hd"><label class="weui-label">合同状态:</label></div>
+                    <div class="weui-cell__bd">
+                        <span class="weui-input" th:text="${gc?.gmlContractStatus==0?'合同提交':'合同确认'}">未支付</span>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">备注</label></div>
+                    <div class="weui-cell__bd">
+                        <textarea class="weui-textarea" name="gmlContractDisc" placeholder="请输入合同描述"
+                                  rows="3">[[${gc?.gmlContractDisc}]]</textarea>
+                        <div class="weui-textarea-counter"><span>0</span>/200</div>
+                    </div>
+                </div>
+                <label for="weuiAgree" class="weui-agree">
+                    <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+                    <span class="weui-agree__text">
+                    阅读并同意<a href="javascript:void(0);">《相关条款》</a>
+                    </span>
+                </label>
             </div>
-            <!-- /. PAGE INNER  -->
+        </form>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary confirm" href="javascript:"
+               th:if="${gc==null}">确定</a>
+            <a class="weui-btn weui-btn_primary update_cd" th:id="${gc?.gmContractId}" href="javascript:"
+               th:if="${gc!=null && gc?.gmlContractStatus==0}">修改</a>
         </div>
-        <!-- /. PAGE WRAPPER  -->
-        <!--<div class="foot_div">-->
-            <!--<p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>-->
-
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_default" href="javascript:">返回</a>
+        </div>
         <!--</div>-->
-        <!--隐藏框-->
-
     </div>
-    <!-- /. WRAPPER  -->
-    <!-- JS Scripts-->
-    <!-- jQuery Js -->
-    <!--<script src="/assets/js/jquery-1.10.2.js"></script>-->
-    <script src="/webjars/jquery/3.3.0/jquery.js"></script>
-    <!-- Bootstrap Js -->
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <!--<script src="/webjars/bootstrap/4.1.1/js/bootstrap.js"></script>-->
-    <!-- Metis Menu Js -->
-    <script src="/assets/js/jquery.metisMenu.js"></script>
+</div>
 
-	
-    <!-- Custom Js -->
-    <script src="/assets/js/custom-scripts.js"></script>
-    <script type="text/javascript">
+<!--//pop-->
 
-        function asyc(pagenum) {
-            $.ajax({
-                url:"/deliveringCompany/yes_list/"+pagenum,
-                type:"POST",
-                data:{
-                    asyc:true,
-                },
-                success:function (data) {
-                    $('#searchtable').html(data);
-                },
-                error:function (error) {
-                    alert(error);
-                }
-            });
-        }
-        /*异步请求*/
-        $(function () {
-            asyc(1);
+<!-- body 最后 -->
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+
+<script src="/js/fastclick.js"></script>
+<!--<script src="/assets/js/bootstrap.min.js"></script>-->
+
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<!-- 如果使用了某些拓展插件还需要额外的JS -->
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/city-picker.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+        FastClick.attach(document.body);
+        //数量增加
+        var num = 0;
+        var MAX = 99, MIN = 1;
+        $(document).on("click", ".weui-count__decrease", function (e) {
+            //$('.weui-count__decrease').click(function (e) {
+            var $input = $(e.currentTarget).parent().find('.weui-count__number');
+            var number = parseInt($input.val() || "0") - 1;
+            if (number < MIN) number = MIN;
+            //alert(number);
+            $input.val(number);
+            num = number;
         });
-        /*分页*/
-        function Page(pagenum) {
-            asyc(pagenum);
-
-        };
-        var dinings;
-        function select(dcno,dcname) {
-            $('#dcdining').find("option").remove();
+        $(document).on("click", ".weui-count__increase", function (e) {
+            // $('.weui-count__increase').click(function (e) {
+            var $input = $(e.currentTarget).parent().find('.weui-count__number');
+            var number = parseInt($input.val() || "0") + 1;
+            if (number > MAX) number = MAX;
+            $input.val(number);
+            num = number;
+        });
+        $("#date2").calendar({
+            value: ['2019-01-12'],
+            dateFormat: 'yyyy年mm月dd日', // 自定义格式的时候，不能通过 input 的value属性赋值 '2016年12月12日' 来定义初始值，这样会导致无法解析初始值而报错。只能通过js中设置 value 的形式来赋值，并且需要按标准形式赋值（yyyy-mm-dd 或者时间戳)
+            onChange: function (p, values, displayValues) {
+                console.log(p, values, displayValues);
+            }
+        });
+        $.ajax({
+            url: "/groupMealContract/yes_list",
+            type: "POST",
+            data: {},
+            error: function (error) {
+                $.toast("网络错误", "cancel");
+            },
+            success: function (result) {
+                $.each(result, function (index, i) {
+                    // console.log(data[index]);
+                    //var option=document.createElement("option");
+                    $('#dclist').append("<option value='" + i.deliveringCompanyNo + "'>" + i.deliveringCompanyName + "</option>");
+                })
+            },
+        });
+        //选择公司变化
+        $(document).on("change", "#dclist", function () {
+            var type = $.trim($('#dclist').val());
+            if (type == "" || $.isEmptyObject(type)) {
+                $.toast("请选择公司", "cancel");
+                return;
+            }
+            //查询餐标
             $.ajax({
-                url:"/groupMealContract/getdining",
-                type:"POST",
-                data:{
-                    'dcno':dcno,
+                url: "/groupMealContract/getdining",
+                type: "POST",
+                data: {
+                    "dcno": type,
                 },
-                success:function (data) {
-                    console.log(">>>"+data.length);
-                    dinings=new Array(data.length);
-                    $.each(data,function (i,e) {
-                        $('#dcdining').append("<option value='"+e.standardId+"'>"+e.standardName+"</option>");
-                        dinings[i]=e;
-                       if(i==0){
+                error: function (error) {
+                    $.toast("网络错误", "cancel");
+                },
+                success: function (result) {
+                    $.each(result, function (index, i) {
+                        console.log(result[index]);
+                        //var option=document.createElement("option");
+                        $('#dnlist').append("<option value='" + i.standardId + "' lang='" + i.standardMeatnumber + "," + i.standardVegetablenumber + "'>" + i.standardName + "</option>");
+                    })
+                },
+            });
+        });
+        //餐标变化
+        var numStr = "";
+        $(document).on("change", "#dnlist", function (e) {
+            var dn = $.trim($('#dnlist').val());
+            if (dn == "" || $.isEmptyObject(dn)) {
+                $.toast("请选择餐标", "cancel");
+                return;
+            }
+            numStr = $("#dnlist").find("option:selected").attr("lang");
+            if (numStr == "" || $.isEmptyObject(numStr)) {
+                $.toast("未选择餐标", "cancel");
+                return;
+            }
+            var arr = numStr.split(",");
+            console.log(arr[0], arr[1]);
+            $('#hunnum').val(arr[0]);
+            $('#sunum').val(arr[1]);
+        });
 
-                           $('#dcname').text(dcname);
-                           $('#dcmealnum').text(e.standardMeatnumber);
-                           $('#dcvegenum').text(e.standardVegetablenumber);
-                           $('#freesoup').text((e.standardIsFreeSoup==0)?'否':'是');
-                           $('#freedessert').text((e.standardIsFreeDessert==0)?'否':'是');
-                           $('#freefruit').text((e.standardIsFreeFruit==0)?'否':'是');
-                           $('#price').val(e.standardPrice);
+        var expireStr;
+        $(document).on("change", "#date2", function (e) {
+            expireStr = $("#date2").val();
+            expireStr = expireStr.replace('年', '-').replace('月', '-').replace('日', '');
+            console.log(expireStr);
+        });
+        $(".confirm").click(function (e) {
+            var savedata = $('#savedc').serialize();
 
-                       }
+            $.confirm({
+                title: '确认提交？',
+                text: '确认无误后提交',
+                onOK: function () {
+                    $.showLoading("正在提交");
+                    //点击确认
+                    $.ajax({
+                        url: "/groupMealContract/save?expireStr=" + expireStr,
+                        type: "POST",
+                        data: savedata,
+                        error: function (error) {
+                            $.toast("网络错误", "cancel");
+                        },
+                        success: function (result) {
+                            $.hideLoading();
+                            $.toast("合同提交成功！请等待对方确认!");
+                            setTimeout(function (e) {
+                                window.location.href = "http://localhost/msg?msg=" + "合同提交成功！请等待对方确认!";
+                            }, 100);
+                        },
                     });
                 },
-                error:function (error) {
-                    alert("error");
+                onCancel: function () {
+                    $.toast("取消操作", "cancel");
                 }
+
             });
-        };
-        $('#dcdining').change(function () {
-         var index=document.getElementById("dcdining").selectedIndex;
-         alert(index);
-         console.log(dinings[index]);
-            $('#dcmealnum').text(dinings[index].standardMeatnumber);
-            $('#dcvegenum').text(dinings[index].standardVegetablenumber);
-            $('#freesoup').text((dinings[index].standardIsFreeSoup==0)?'否':'是');
-            $('#freedessert').text((dinings[index].standardIsFreeDessert==0)?'否':'是');
-            $('#freefruit').text((dinings[index].standardIsFreeFruit==0)?'否':'是');
-            $('#price').val(dinings[index].standardPrice);
+
         });
-        $('.btnselect').click(function () {
-            var check=$(this).hasClass("btn-success");
-            if (check){
-                $(this).removeClass("btn-success");
-                $(this).addClass("btn-default");
-                $(this).siblings('button').addClass("btn-success");
-            }else {
-                $(this).removeClass("btn-default");
-                $(this).addClass("btn-success");
-                $(this).siblings('button').removeClass("btn-success");
-            }
-            $("#monthoryear").val($(this).attr("lang"));
-        });
-        $("#back").click(function () {
-            history.back();
-        });
-    </script>
+    });
+</script>
 
 </body>
-
 </html>

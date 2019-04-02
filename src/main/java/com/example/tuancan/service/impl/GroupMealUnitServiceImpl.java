@@ -38,6 +38,11 @@ public class GroupMealUnitServiceImpl implements GroupMealUnitService {
         return groupMealUnitMapper.selectByTicket(ticket);
     }
 
+    @Override
+    public GroupMealUnit selectByQrCode(String qrCode) {
+        return groupMealUnitMapper.selectByQrCode(qrCode);
+    }
+
     /*查询小于某个时间的数据*/
     @Override
     public List<GroupMealUnit> selectByReviewLtDate(Date date) {

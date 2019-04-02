@@ -24,7 +24,7 @@ public interface DeliveringMasterService {
 
     public int updateOne(DeliveringMaster deliveringMaster);
 
-    public int updateNumById(Integer id,Integer num);
+    public int updateNumById(Integer id,Integer num,String confirmer);
 
     public List<DeliveringMaster> selectByUnitAndCompanyAndByDeliverdate ( Integer unitid, Integer companyid, Date startTime, Date endTime);
 

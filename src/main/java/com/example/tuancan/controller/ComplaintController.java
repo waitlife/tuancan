@@ -3,9 +3,7 @@ package com.example.tuancan.controller;
 import com.example.tuancan.dto.Result;
 import com.example.tuancan.model.Complaint;
 import com.example.tuancan.service.ComplaintService;
-import com.example.tuancan.utils.JsonUtil;
-import com.example.tuancan.utils.PageUtil;
-import com.example.tuancan.utils.ResultUtil;
+import com.example.tuancan.utils.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -54,7 +52,7 @@ public class ComplaintController {
         if (pageNum==null||pageNum<=0){
             pageNum=1;
         }
-        Page<Object> page = PageHelper.startPage(pageNum, 9);
+        Page<Object> page = PageHelper.startPage(pageNum, 5);
         List<Complaint> complaints = complaintService.selectNULL();
         PageInfo<Complaint> pageInfo = new PageInfo<Complaint>(complaints);
 
@@ -65,12 +63,13 @@ public class ComplaintController {
     }
 
 
+    @AuthorizedAnnotation
     @RequestMapping(value = "/cp_details/{id}",method = {RequestMethod.GET})
     public String getOne(@PathVariable(value = "id")Integer id,Model model){
         log.info(id+">>>>cpdetails");
         Complaint complaint = complaintService.selectById(id);
         model.addAttribute("cp",complaint);
-        return "/manager/cp_update";
+        return "/unitmealmanager/cp_update";
     }
 
     /**
@@ -79,16 +78,18 @@ public class ComplaintController {
      * @param complaint
      * @return
      */
+    @AuthorizedAnnotation
     @RequestMapping(value = "/save",method = {RequestMethod.POST,RequestMethod.GET})
     public String  saveorupdate(Model model,Complaint  complaint){
         log.info(JsonUtil.toJson(complaint));
-        if (complaint.getComplaintId()!=null){
+        if (!StringUtil.isNullOrEmpty(complaint.getComplaintContent())){
             //更新
-            int updateOne = complaintService.updateOne(complaint);
+            complaint.setComplaintDate(new Date());
+            int updateOne = complaintService.insertOne(complaint);
             log.info(updateOne+"updateOne");
-            return "";
+            return "redirect:/complaint/unitcomplaintlist/1";
         }else {
-           return "manager/cp_update.html";
+           return "unitmealmanager/cp_update.html";
         }
     }
 

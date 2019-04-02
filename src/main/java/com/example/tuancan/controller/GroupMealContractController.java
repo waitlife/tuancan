@@ -1,5 +1,6 @@
 package com.example.tuancan.controller;
 
+import com.example.tuancan.dto.Result;
 import com.example.tuancan.enums.StatusEnum;
 import com.example.tuancan.model.DeliveringCompany;
 import com.example.tuancan.model.DiningStandard;
@@ -9,20 +10,21 @@ import com.example.tuancan.service.DeliveringCompanyService;
 import com.example.tuancan.service.DiningStandardService;
 import com.example.tuancan.service.GroupMealContractService;
 import com.example.tuancan.utils.JsonUtil;
-import com.example.tuancan.utils.PageUtil;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.example.tuancan.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -45,17 +47,11 @@ public class GroupMealContractController {
     @Autowired
     private DiningStandardService diningStandardService;
 
-    @RequestMapping(value = {"/yes_list/{pagenum}","/yes_list"})
-    public String dcStausYeslist(Model model,@PathVariable(value = "pagenum",required = false) Integer pageNum){
-        if (pageNum==null||pageNum<=0){
-            pageNum=1;
-        }
-        Page<Object> page = PageHelper.startPage(pageNum, 10);
+    @RequestMapping(value = {"/yes_list"})
+    @ResponseBody
+    public List<DeliveringCompany> dcStausYeslist(){
         List<DeliveringCompany> deliveringCompanies = deliveringCompanyService.selectAllByStatus(StatusEnum.StatusUP.getCode());
-        PageInfo<DeliveringCompany> pageInfo = new PageInfo<DeliveringCompany>(deliveringCompanies);
-        PageUtil.setPageModel(model,pageInfo,"/groupMealContract/yes_list");
-
-        return "/unitmealmanager/contract_details::#searchtable";
+        return deliveringCompanies;
     }
 
     /**
@@ -79,7 +75,6 @@ public class GroupMealContractController {
      * @return
      */
     @RequestMapping(value = "/show",method = {RequestMethod.GET})
-    @ResponseBody
     public String showContract(Model model, HttpServletRequest request){
          /*获取登录的用餐公司id*/
         String unitIDstr = String.valueOf(request.getSession().getAttribute("unitID"));
@@ -89,6 +84,7 @@ public class GroupMealContractController {
         log.info("unitID:{}>>>session>>",unitIDstr);
         Integer unitID=Integer.parseInt(unitIDstr);
         List<GroupMealContract> groupMealContracts = groupMealContractService.selectOneByUnitId(unitID);
+        log.info("groupMealContracts:{}",groupMealContracts);
         if (CollectionUtils.isEmpty(groupMealContracts)){
             //以前未签订合同  直接展示空页面提示无合同信息
             //TODO
@@ -101,13 +97,17 @@ public class GroupMealContractController {
             log.info("expirydate:{}>>now:{}",expirydate.getTime(),date.getTime());
             if(expirydate.getTime()>date.getTime()){
                 //合同在有效期内 直接展示或者计算还有多久过期并提示
-                return JsonUtil.toJson(groupMealContracts);
+                Long datenum=(expirydate.getTime()-date.getTime())/(24*60*60*1000);
+                model.addAttribute("msg","您的合同有效期还有"+datenum);
+                model.addAttribute("gc",groupMealContracts.get(0));
+
             }else {
                 //合同过期 页面提示过期
                 //TODO
+                return "redirect:/msg?msg="+"您的合同已过期";
             }
         }
-        return "ok";
+        return "/unitmealmanager/contract_details";
     }
 
 
@@ -115,32 +115,31 @@ public class GroupMealContractController {
      * 用餐公司保存合同信息，状态待确认
      * @param model
      * @param groupMealContract
-     * @param monthoryear
-     * @param datenum
+     * @param expireStr
      * @return
      */
     @RequestMapping(value = "/save",method = {RequestMethod.POST})
     @ResponseBody
-    public String  setContract(HttpServletRequest httpServletRequest,Model model,@RequestBody GroupMealContract groupMealContract,@RequestParam(value = "monthoryear")Integer monthoryear,
-                               @RequestParam(value = "datenum")Integer datenum){
+    public Result setContract(HttpServletRequest httpServletRequest, Model model,
+                              GroupMealContract groupMealContract,
+                              @RequestParam(value = "expireStr")String expireStr){
         Integer unitID = (Integer) httpServletRequest.getSession().getAttribute("unitID");
 
         log.info(JsonUtil.toJson(groupMealContract));
-        log.info("datenum:{},monthoryear:{}",datenum,monthoryear);
+        log.info("expireStr:{}",expireStr);
         List<GroupMealContract> groupMealContracts = groupMealContractService.selectOneByUnitId(unitID);
         if (CollectionUtils.isEmpty(groupMealContracts) || groupMealContracts.size() == 0){
             //以前未签订合同
-            //String s = dcStausYeslist(model, 1);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
-            if (monthoryear==0){
-                calendar.add(Calendar.MONTH,datenum);
-            }else {
-                calendar.add(Calendar.YEAR,datenum);
+
+            Date from = null;
+            try {
+                from = new SimpleDateFormat("yyyy-MM-dd").parse(expireStr);
+                log.info("expireStr:{}",from);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-            log.info(">>>"+calendar.getTime().toString());
             //设置合同有效期
-            groupMealContract.setGmlContractExpirydate(calendar.getTime());
+            groupMealContract.setGmlContractExpirydate(from);
             GroupMealUnit groupMealUnit = new GroupMealUnit();
             groupMealUnit.setGroupMealUnitId(unitID);
             groupMealContract.setGroupMealUnit(groupMealUnit);
@@ -150,22 +149,10 @@ public class GroupMealContractController {
             int insertOne = groupMealContractService.insertOne(groupMealContract);
             log.info("insertOne>>{}",JsonUtil.toJson(groupMealContract));
             //TODO websocket通知团餐公司确认合同信息
-            model.addAttribute("msg","合同提交成功！请等待对方确认");
         }else {
-            //有合同
-            GroupMealContract contract = groupMealContracts.get(0);
-            Date expirydate = contract.getGmlContractExpirydate();
-            Date date = new Date();
-            log.info("expirydate:{}>>now:{}",expirydate.getTime(),date.getTime());
-            if(expirydate.getTime()<date.getTime()){
-                //这步为安全操作 万一用户进入保存页面了 合同在有效期内 直接展示或者计算还有多久过期并提示
-                return JsonUtil.toJson(contract);
-            }else {
-                //合同过期 修改之前的合同为不可用
-                int update = groupMealContractService.updateByStatus(StatusEnum.StatusDOWN.getCode(),contract.getGmContractId());
-                log.info("更新合同id:{}》》{}",contract,update);
-            }
+
         }
-        return "manager/empty";
+
+        return ResultUtil.status(200,"ok");
     }
 }

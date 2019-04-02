@@ -5,10 +5,7 @@ import com.example.tuancan.dto.DeliverDetailVO;
 import com.example.tuancan.enums.StatusEnum;
 import com.example.tuancan.model.*;
 import com.example.tuancan.service.*;
-import com.example.tuancan.utils.CookieUtil;
-import com.example.tuancan.utils.JsonUtil;
-import com.example.tuancan.utils.PageUtil;
-import com.example.tuancan.utils.ResultUtil;
+import com.example.tuancan.utils.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -96,6 +93,7 @@ public class DeliveringMasterController {
     }
 
     /*用餐单位查看配送情况细节*/
+    @AuthorizedAnnotation
     @RequestMapping(value = "/dm_unit_details/{id}",method = {RequestMethod.GET})
     public String getUnitdm(HttpServletRequest request, @PathVariable(value = "id")Integer id,Model model){
         //Integer unitID = (Integer) httpServletRequest.getSession().getAttribute("unitID");
@@ -106,6 +104,7 @@ public class DeliveringMasterController {
     }
 
     /*用餐单位查看配送情况*/
+    @AuthorizedAnnotation
     @RequestMapping(value = {"/unitlist/{pagenum}","/unitlist"})
     public String unitDelivermaster(HttpServletRequest request,Model model, @PathVariable(value = "pagenum",required = false) Integer pageNum){
         /*获取登录的用餐公司id*/
@@ -114,13 +113,12 @@ public class DeliveringMasterController {
         if (pageNum == null || pageNum <= 0){
             pageNum=1;
         }
+        //TODO 公司二维码等于员工openid就是主管
+        PageHelper.startPage(1, 1);
+        GroupMealUnit groupMealUnit= groupMealUnitService.selectByQrCode("openid");
         Page<Object> page = PageHelper.startPage(pageNum, 1);
-
-        List<DeliveringMaster> deliveringMasters = deliveringMasterService.selectByUnitId(unitID);
+        List<DeliveringMaster> deliveringMasters = deliveringMasterService.selectByUnitId(groupMealUnit.getGroupMealUnitId());
         pageFun(model,deliveringMasters,"/deliveringMaster/unitlist");
-
-        GroupMealUnit groupMealUnit = groupMealUnitService.selectOneById(unitID);
-        model.addAttribute("unitVO",groupMealUnit);
 
         return "/unitmealmanager/index.html :: #delivers";
     }
@@ -130,13 +128,11 @@ public class DeliveringMasterController {
      * @param
      * @return
      */
+    @AuthorizedAnnotation
     @RequestMapping(value = {"/emergency"},method = {RequestMethod.POST})
     @ResponseBody
     public String emergencyMaster( HttpServletRequest request){
-       /* String unitIDstr = String.valueOf(request.getSession().getAttribute("unitID"));
-        if (Objects.isNull(unitIDstr)){
-            return "login";
-        }*/
+
         Map<String, String[]> parameterMap = request.getParameterMap();
         log.info(JsonUtil.toJson(parameterMap));
         String price=request.getParameter("price");
@@ -172,10 +168,13 @@ public class DeliveringMasterController {
      * @param num
      * @return
      */
+    @AuthorizedAnnotation
     @RequestMapping(value = "updatenum",method = {RequestMethod.POST})
     @ResponseBody
     public String updateNum(@RequestParam(value = "id")Integer id,@RequestParam(value = "num")Integer num){
-        int updateNumById = deliveringMasterService.updateNumById(id, num);
+        //TODO 当前用户信息
+        String confirmer="当前用户";
+        int updateNumById = deliveringMasterService.updateNumById(id, num,confirmer);
 
         return JsonUtil.toJson(ResultUtil.status(200,"确认成功！"));
     }

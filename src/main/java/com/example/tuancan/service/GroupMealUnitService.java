@@ -20,6 +20,8 @@ public interface GroupMealUnitService {
     /*通过ticket查询一条数据*/
     public GroupMealUnit selectOneByTicket(String name);
 
+    public GroupMealUnit selectByQrCode(String qrCode);
+
     /*查询小于某个时间的数据*/
     public List<GroupMealUnit> selectByReviewLtDate(Date date);
 

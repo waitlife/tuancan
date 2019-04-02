@@ -1,12 +1,13 @@
 package com.example.tuancan.controller;
 
-import com.example.tuancan.dao.ManagerMapper;
 import com.example.tuancan.model.DeliveringCompanyStaff;
-import com.example.tuancan.model.Manager;
+import com.example.tuancan.model.GroupMealUnit;
 import com.example.tuancan.service.DeliveringCompanyStaffService;
-import com.example.tuancan.service.ManagerService;
+import com.example.tuancan.service.GroupMealUnitService;
+import com.example.tuancan.utils.AuthorizedAnnotation;
+import com.example.tuancan.utils.JsonUtil;
 import com.example.tuancan.utils.StringUtil;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @Controller
+@Slf4j
 public class IndexController {
 
     @Autowired
     private DeliveringCompanyStaffService deliveringCompanyStaffService;
+
+    @Autowired
+    private GroupMealUnitService groupMealUnitService;
 
     private static Integer ENABLE_MANAGER = 1;
 
@@ -94,12 +100,40 @@ public class IndexController {
 
     /**
      * 微信首页
-     * @param httpServletRequest
+     * @param request
      * @return
      */
+    @AuthorizedAnnotation
     @RequestMapping("/wxindex")
-    public String weixinindex(HttpServletRequest httpServletRequest){
-        httpServletRequest.getSession().setAttribute("unitID",2);
-        return "/unitmealmanager/index";
+    public String weixinindex(HttpServletRequest request){
+        Object openId = request.getParameter("openId");
+        if (StringUtil.isNullOrEmpty(openId.toString())){
+            openId=request.getSession().getAttribute("openId");
+        }
+        log.info("openid:{}",openId);
+        GroupMealUnit groupMealUnit = groupMealUnitService.selectByQrCode(openId.toString());
+        if (Objects.nonNull(groupMealUnit)){
+            log.info("主管登录：{}，{}",openId, JsonUtil.toJson(groupMealUnit));
+            request.getSession().setAttribute("unitID",groupMealUnit.getGroupMealUnitId());
+            return "/unitmealmanager/index";
+        }
+        return "/webhtml/order.html";
+    }
+
+    @RequestMapping("/msg")
+    public String weixinmsg(HttpServletRequest request,Model model){
+        String msg = request.getParameter("msg");
+        if (StringUtil.isNullOrEmpty(msg) || msg.equals("")){
+            msg="您的消息已发送，我们会尽快处理,即将自动跳转首页";
+        }
+        //TODO 连接和消息
+        model.addAttribute("msg",msg);
+        model.addAttribute("href","http://localhost/wxindex");
+        return "/unitmealmanager/msg";
+    }
+
+    @RequestMapping("/kefu")
+    public String weixinkefu(HttpServletRequest request,Model model){
+        return "/unitmealmanager/kefu";
     }
 }

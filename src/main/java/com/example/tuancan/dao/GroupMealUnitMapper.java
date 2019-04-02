@@ -20,7 +20,9 @@ public interface GroupMealUnitMapper extends Mapper<GroupMealUnit>{
     /*根据ticket查询*/
     @Select("select * from groupmealunit where GroupMealUnit_ticker_id =#{ticket}")
     public GroupMealUnit selectByTicket(String ticket);
-
+    /*根据QR_Code查询*/
+    @Select("select * from groupmealunit where QR_Code =#{qrCode}")
+    public GroupMealUnit selectByQrCode(String qrCode);
 
     /*根据公司名模糊查询*/
     @Select("select * from groupmealunit where GroupMealUnit_name like '%${value}%' ")

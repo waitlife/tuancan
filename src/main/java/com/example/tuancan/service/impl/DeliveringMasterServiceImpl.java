@@ -80,8 +80,8 @@ public class DeliveringMasterServiceImpl implements DeliveringMasterService {
     }
 
     @Override
-    public int updateNumById(Integer id, Integer num) {
-        return deliveringMasterMapper.updateNumById(id,num);
+    public int updateNumById(Integer id, Integer num,String confirmer) {
+        return deliveringMasterMapper.updateNumById(id,num,confirmer);
     }
 
     /**
