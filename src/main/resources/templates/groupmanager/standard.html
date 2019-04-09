@@ -210,135 +210,147 @@
                                 <table class="table">
                                     <a href="javascript:void(0)" onclick="allStandard()">已有餐标</a>
 
-                                    <div  hidden="hidden" id="standards" style="margin-top: 5px; position:absolute;z-index:999;height:200px; min-width:163px;
+                                    <div hidden="hidden" id="standards" style="margin-top: 5px; position:absolute;z-index:999;height:200px; min-width:163px;
                                                background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
                                         <ul id="partTree" class="ztree">
-                                            <li th:each="s,count:${standards}" class="standard_name" style="margin: 10px 10px">
-                                                <a href="#" th:text=" ${s.standardName}  + '( '+ ${s.standardPrice}+'元)'"
-                                                th:onclick="'openModal(' + ${count.count} + ')'">两荤一素(15.00元)</a>
+                                            <li th:each="s,count:${standards}" class="standard_name"
+                                                style="margin: 10px 10px">
+                                                <a href="#"
+                                                   th:text=" ${s.standardName}  + '( '+ ${s.standardPrice}+'元)'"
+                                                   th:onclick="'openModal(' + ${count.count} + ')'">两荤一素(15.00元)</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <br>
                                     <br>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-group ">
-                                                    <label>餐标名称</label>
-                                                    <input id="standardName"  autocomplete="off"name="standardName" type="text" class="form-control"
-                                                           placeholder="请输入餐标名称">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label>荤菜个数</label>
-                                                    <select name="standardMeatnumber" class="form-control">
-                                                        <option disabled="disabled" selected style="display: none">请选择荤素
-                                                        </option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group ">
+                                                <label>餐标名称</label>
+                                                <input id="standardName" autocomplete="off" name="standardName"
+                                                       type="text" class="form-control"
+                                                       placeholder="请输入餐标名称">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>荤菜个数</label>
+                                                <select name="standardMeatnumber" class="form-control">
+                                                    <option disabled="disabled" selected style="display: none">请选择荤素
+                                                    </option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
 
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label>素菜个数</label>
-                                                    <select name="standardVegetablenumber" class="form-control">
-                                                        <option disabled="disabled" selected style="display: none">请选择荤素
-                                                        </option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>素菜个数</label>
+                                                <select name="standardVegetablenumber" class="form-control">
+                                                    <option disabled="disabled" selected style="display: none">请选择荤素
+                                                    </option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label>单价</label>
-                                                    <input autocomplete="off" name="standardPrice" type="text" class="form-control"
-                                                           placeholder="请输入餐标单价">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label>是否送汤菜</label>
-                                                    <select class="form-control" name="standardIsFreeSoup">
-                                                        <option disabled="disabled" selected style="display: none">请选择是否赠送汤菜</option>
-                                                        <option value="0">否</option>
-                                                        <option value="1">是</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label>是否送甜点</label>
-                                                    <select class="form-control" name="standardIsFreeDessert">
-                                                        <option disabled="disabled" selected style="display: none">请选择是否赠送甜点</option>
-                                                        <option value="0">否</option>
-                                                        <option value="1">是</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-group">
-                                                    <label>是否送水果</label>
-                                                    <select name="standardIsFreeFruit" class="form-control">
-                                                        <option disabled="disabled" selected style="display: none">请选择是否赠送水果</option>
-                                                        <option value="0">否</option>
-                                                        <option value="1">是</option>>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                </tbody>
-                            </table>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>单价</label>
+                                                <input autocomplete="off" name="standardPrice" type="text"
+                                                       class="form-control"
+                                                       placeholder="请输入餐标单价">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>是否送汤菜</label>
+                                                <select class="form-control" name="standardIsFreeSoup">
+                                                    <option disabled="disabled" selected style="display: none">
+                                                        请选择是否赠送汤菜
+                                                    </option>
+                                                    <option value="0">否</option>
+                                                    <option value="1">是</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>是否送甜点</label>
+                                                <select class="form-control" name="standardIsFreeDessert">
+                                                    <option disabled="disabled" selected style="display: none">
+                                                        请选择是否赠送甜点
+                                                    </option>
+                                                    <option value="0">否</option>
+                                                    <option value="1">是</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>是否送水果</label>
+                                                <select name="standardIsFreeFruit" class="form-control">
+                                                    <option disabled="disabled" selected style="display: none">
+                                                        请选择是否赠送水果
+                                                    </option>
+                                                    <option value="0">否</option>
+                                                    <option value="1">是</option>
+                                                    >
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
 
-                            <button type="button" id="Sub" class="btn btn-info pull-right" onclick="sub()">添加餐标</button>
+                                <button type="button" id="Sub" class="btn btn-info pull-right" onclick="sub()">添加餐标
+                                </button>
 
                             </div>
 
                         </form>
 
 
-
                     </ul>
                 </div>
-             </div>
+            </div>
         </div>
-    <!-- /. PAGE INNER  -->
+        <!-- /. PAGE INNER  -->
     </div>
 
-<!-- /. PAGE WRAPPER  -->
-<!--<div class="foot_div">-->
-<!--<p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>-->
+    <!-- /. PAGE WRAPPER  -->
+    <!--<div class="foot_div">-->
+    <!--<p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>-->
 
 </div>
 
 
 <!--添加员工的表单页面-->
-<div th:each="form,count:${standards}" class="modal fade" th:id="myModal + ${count.count}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div th:each="form,count:${standards}" class="modal fade" th:id="myModal + ${count.count}" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -351,114 +363,123 @@
             </div>
             <div class="modal-body">
                 <form th:id="new_form + ${count.count}" action="/standard/updatestandard">
-                      <table class="table">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group ">
-                                <label>餐标名称</label>
-                                <input  name="standardId" type="text" hidden="hidden"
-                                       th:value="${form.standardId}">
-                                <input autocomplete="off" name="standardName" type="text" class="form-control"
-                                      th:value="${form.standardName}">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <label>荤菜个数</label>
-                                <select name="standardMeatnumber" class="form-control">
-                                    <option selected style="display: none"
-                                            th:text="${form.standardMeatnumber}" th:value="${form.standardMeatnumber}">请选择荤素
-                                    </option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-group ">
+                                    <label>餐标名称</label>
+                                    <input name="standardId" type="text" hidden="hidden"
+                                           th:value="${form.standardId}">
+                                    <input autocomplete="off" name="standardName" type="text" class="form-control"
+                                           th:value="${form.standardName}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label>荤菜个数</label>
+                                    <select name="standardMeatnumber" class="form-control">
+                                        <option selected style="display: none"
+                                                th:text="${form.standardMeatnumber}"
+                                                th:value="${form.standardMeatnumber}">请选择荤素
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
 
-                                </select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <label>素菜个数</label>
-                                <select name="standardVegetablenumber" class="form-control">
-                                    <option selected style="display: none"
-                                            th:text="${form.standardVegetablenumber}" th:value="${form.standardVegetablenumber}">请选择荤素
-                                    </option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label>素菜个数</label>
+                                    <select name="standardVegetablenumber" class="form-control">
+                                        <option selected style="display: none"
+                                                th:text="${form.standardVegetablenumber}"
+                                                th:value="${form.standardVegetablenumber}">请选择荤素
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label>单价</label>
-                                <input autocomplete="off" name="standardPrice" type="text" class="form-control"
-                                       th:value="${form.standardPrice}">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <label>是否送汤菜</label>
-                                <select class="form-control" name="standardIsFreeSoup">
-                                    <option  selected style="display: none"
-                                             th:value="${form.standardIsFreeSoup}" th:if="${form.standardIsFreeSoup} == 0" th:text="否"></option>
-                                    <option  selected style="display: none"
-                                             th:value="${form.standardIsFreeSoup}" th:if="${form.standardIsFreeSoup} == 1" th:text="是"></option>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label>单价</label>
+                                    <input autocomplete="off" name="standardPrice" type="text" class="form-control"
+                                           th:value="${form.standardPrice}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label>是否送汤菜</label>
+                                    <select class="form-control" name="standardIsFreeSoup">
+                                        <option selected style="display: none"
+                                                th:value="${form.standardIsFreeSoup}"
+                                                th:if="${form.standardIsFreeSoup} == 0" th:text="否"></option>
+                                        <option selected style="display: none"
+                                                th:value="${form.standardIsFreeSoup}"
+                                                th:if="${form.standardIsFreeSoup} == 1" th:text="是"></option>
 
-                                    <option value="0">否</option>
-                                    <option value="1">是</option>
-                                </select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <label>是否送甜点</label>
-                                <select class="form-control" name="standardIsFreeDessert">
-                                    <option selected style="display: none"
-                                            th:value="${form.standardIsFreeDessert}" th:if="${form.standardIsFreeDessert} == 0" th:text="否"></option>
-                                    <option selected style="display: none"
-                                            th:value="${form.standardIsFreeDessert}" th:if="${form.standardIsFreeDessert} == 1" th:text="是"></option>
-                                    <option value="0">否</option>
-                                    <option value="1">是</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label>是否送水果</label>
-                                <select name="standardIsFreeFruit" class="form-control">
-                                    <option selected style="display: none"
-                                            th:value="${form.standardIsFreeFruit}" th:if="${form.standardIsFreeFruit} == 0" th:text="否"></option>
-                                    <option selected style="display: none"
-                                            th:value="${form.standardIsFreeFruit}" th:if="${form.standardIsFreeFruit} == 1" th:text="是"></option>
-                                    <option value="0">否</option>
-                                    <option value="1">是</option>>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                                        <option value="0">否</option>
+                                        <option value="1">是</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label>是否送甜点</label>
+                                    <select class="form-control" name="standardIsFreeDessert">
+                                        <option selected style="display: none"
+                                                th:value="${form.standardIsFreeDessert}"
+                                                th:if="${form.standardIsFreeDessert} == 0" th:text="否"></option>
+                                        <option selected style="display: none"
+                                                th:value="${form.standardIsFreeDessert}"
+                                                th:if="${form.standardIsFreeDessert} == 1" th:text="是"></option>
+                                        <option value="0">否</option>
+                                        <option value="1">是</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label>是否送水果</label>
+                                    <select name="standardIsFreeFruit" class="form-control">
+                                        <option selected style="display: none"
+                                                th:value="${form.standardIsFreeFruit}"
+                                                th:if="${form.standardIsFreeFruit} == 0" th:text="否"></option>
+                                        <option selected style="display: none"
+                                                th:value="${form.standardIsFreeFruit}"
+                                                th:if="${form.standardIsFreeFruit} == 1" th:text="是"></option>
+                                        <option value="0">否</option>
+                                        <option value="1">是</option>
+                                        >
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </form>
             </div>
             <div class="modal-footer">
@@ -489,9 +510,9 @@
 
     /*提交添加*/
     function sub() {
-        if($.trim($("#standardName").val()) == ""||$("#standardName").val() == null){
+        if ($.trim($("#standardName").val()) == "" || $("#standardName").val() == null) {
             alert("餐标名不能为空!");
-        }else{
+        } else {
             alert("添加成功!");
             $("#form").submit();
         }
@@ -500,22 +521,28 @@
 
     /*查看餐标*/
     function allStandard() {
-        $("#standards").show();
+        var display = $('#standards').css('display');
+        if (display == 'none') {
+            $("#standards").show();
+        }else {
+            $("#standards").hide();
+        }
     }
 
     /*点击餐标*/
     function openModal(obj) {
         $("#standards").hide();
-        $("#myModal"+obj).modal("show");
+        $("#myModal" + obj).modal("show");
 
     }
 
     /*提交更新*/
     function modalSub(obj) {
+        $("#new_form" + obj).submit();
         alert("修改成功!");
-        $("#new_form"+obj).submit();
     }
-//
+
+    //
     /*隐藏*/
     function hideMenu() {
         $('#standards').hide();

@@ -1,14 +1,9 @@
 package com.example.tuancan.controller;
 
-import com.example.tuancan.enums.StatusEnum;
 import com.example.tuancan.model.DeliveringCompany;
 import com.example.tuancan.model.DeliveringCompanyStaff;
 import com.example.tuancan.service.DeliveringCompanyStaffService;
 import com.example.tuancan.utils.JsonUtil;
-import com.example.tuancan.utils.PageUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,12 +31,6 @@ public class DeliveringCompanyStaffControl {
         return "redirect:/companystaff/staff_list/1";
     }
 
-
-    /*跳转到员工列表页面*/
-    @RequestMapping(value = {"/staff_page/{pagenum}"})
-    public String getStaffListByNumber(@PathVariable(value = "pagenum", required = false) Integer pageNum) {
-        return "redirect:/companystaff/staff_list/" + pageNum;
-    }
 
 
     /*跳转到员工列表页面*/
