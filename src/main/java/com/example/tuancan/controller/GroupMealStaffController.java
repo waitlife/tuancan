@@ -56,7 +56,7 @@ public class GroupMealStaffController {
 
         log.info(JsonUtil.toJson(groupMealStaffs));
 
-         return "unitmealmanager/index :: #manager";
+         return "unitmealmanager/unitstaff_list.html :: #manager";
     }
 
     /*查询员工*/
@@ -88,7 +88,7 @@ public class GroupMealStaffController {
 
         model.addAttribute("groupMealStaffs",groupMealStaffs);
 
-        return "/unitmealmanager/index :: #manager";
+        return "/unitmealmanager/unitstaff_list.html :: #manager";
     }
     /*添加员工*/
     @RequestMapping(value = "/addstaff",method = {RequestMethod.POST})

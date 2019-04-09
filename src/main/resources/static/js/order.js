@@ -54,7 +54,7 @@ var cartlist3 = "</span>\n" +
         console.log(recipeids);
         cartpricesum=cartpricesum+recipeprice;
         $("#cartlist").append(cartlist1+recipeIcon+imgpath+recipeName+cartlist2+recipeprice+cartlist3);
-        $(".cartdesc").html(cartnum+"件商品, 共计 <strong>"+cartpricesum+"</strong> 元");
+        $("#cartdesc").html(cartnum+"件商品, 共计 <strong>"+cartpricesum+"</strong> 元");
 
     }
     $(document).on('click', '.rmcart', function (e) {
@@ -63,7 +63,7 @@ var cartlist3 = "</span>\n" +
         --cartnum;
         $("#cart_msg").text(cartnum);
         cartpricesum=cartpricesum-currprice;
-        $(".cartdesc").html(cartnum+"件商品, 共计 <strong>"+cartpricesum+"</strong> 元");
+        $("#cartdesc").html(cartnum+"件商品, 共计 <strong>"+cartpricesum+"</strong> 元");
     });
     $(document).on('click', '#paycart', function (e) {
         if (recipeids=="" || $.isEmptyObject(recipeids)){
@@ -84,10 +84,11 @@ var cartlist3 = "</span>\n" +
             },
             success: function (result) {
                 $("#cartlist").find(".weui-cell_swiped").remove();
-                $(".cartdesc").html("0件商品, 共计 <strong>0</strong> 元");
+                $("#cartdesc").html("0件商品, 共计 <strong>0</strong> 元");
                 $("#cart_msg").text(0);
                 cartnum=0;
                 cartpricesum=0;
+                recipeids="";
                 $.hideLoading();
                 $.toast("提交成功！");
             },

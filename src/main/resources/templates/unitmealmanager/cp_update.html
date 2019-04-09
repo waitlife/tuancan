@@ -41,7 +41,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">投诉人 ：</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="complainter" type="text"  th:value="${cp?.complainter}" placeholder="请输入qq号">
+                    <input class="weui-input" name="complainter" type="text"  th:value="${cp?.complainter}" placeholder="请输入匿名">
                 </div>
             </div>
             <div class="weui-cell">
@@ -53,13 +53,14 @@
             <div class="weui-cell" th:if="${cp!=null}">
                 <div class="weui-cell__hd"><label class="weui-label">投诉日期 ：</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" th:value="${#dates.format(cp.complaintDate,'yyyy-MM-dd HH:mm:ss')}" placeholder="请输入qq号">
+                    <input class="weui-input" type="text" th:value="${#dates.format(cp.complaintDate,'yyyy-MM-dd HH:mm:ss')}" placeholder="">
                 </div>
             </div>
             <div class="weui-cell" th:if="${cp!=null}">
                 <div class="weui-cell__hd"><label class="weui-label">回复内容 ：</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" th:text="${cp?.complaintSettle}" placeholder="请输入qq号">
+                    <input class="weui-input" type="text" th:if="${cp?.complaintSettle!=null}" th:text="${cp?.complaintSettle}" placeholder="">
+                    <input class="weui-input" type="text" th:if="${cp?.complaintSettle==null}" th:text="${cp?.complaintSettle}" placeholder="暂无内容">
                 </div>
             </div>
         </div>

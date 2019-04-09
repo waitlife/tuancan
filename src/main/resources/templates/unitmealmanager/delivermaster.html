@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="tab1" id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active" style="">
+    <div id="deliverpreview" style="margin-bottom: 10em;">
+        <div class="weui-form-preview" id="delivers" th:each="dm,stat : ${page?.list}"
+             th:if="${not #lists.isEmpty(page.list)}">
+            <div class="weui-form-preview__hd">
+                <label class="weui-form-preview__label">单价</label>
+                <em class="weui-form-preview__value" th:text="${'¥'+dm.deliveringMasterPrice}">¥24.00</em>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">份数</label>
+                    <div class="weui-count">
+                        <a class="weui-count__btn weui-count__decrease"></a>
+                        <input class="weui-count__number" type="number" th:value="${dm?.deliveringMasterAmount}"/>
+                        <a class="weui-count__btn weui-count__increase"></a>
+                    </div>
+                    <!--<span class="weui-form-preview__value" th:text="${dm?.deliveringMasterAmount}">11</span>-->
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">配送公司</label>
+                    <span class="weui-form-preview__value"
+                          th:text="${dm?.deliveringCompany?.deliveringCompanyName}">名字名字名字</span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">配送时间</label>
+                    <span class="weui-form-preview__value time"
+                          th:text="${#dates.format(dm?.deliveringMasterDelivedate,'yyyy-MM-dd')}"></span>
+                    <!--<input style="right: 2em;" class="" type="date" value="2017-08-15" th:value="${#dates.format(dm.deliveringMasterDelivedate,'yyyy-MM-dd')}">-->
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">状态</label>
+                    <span class="weui-form-preview__value time"
+                          th:text="${(dm?.deliveringMasterIsEmergency==0?'普通配送':'应急配送')+','+(dm?.deliveringMasterStatus==0?'未确认':(dm?.deliveringMasterStatus==1?'已确认':'已支付'))}">
+                        </span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">备注</label>
+                    <span class="weui-form-preview__value" th:text="${dm.deliveringMasterMemo}">备注</span>
+                </div>
+            </div>
+            <div class="weui-form-preview__ft">
+                <a class="weui-form-preview__btn weui-form-preview__btn_default"
+                   th:href="@{'/deliveringMaster/dm_unit_details/'+${dm.deliveringMasterId} }">查看详情</a>
+                <!--th:onclick="'statusbtn('+${dc?.deliveringCompanyNo}+','+${dc?.deliveringCompanyStatus+1}+')'" onclick="javascript:confirmSubmit(2);"-->
+                <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary confirm"
+                        th:id="${dm?.deliveringMasterId}"
+                        th:if="${dm?.deliveringMasterIsEmergency ==0 && dm?.deliveringMasterStatus==0}" th:lang="0">确认
+                </button>
+                <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                        th:if="${dm?.deliveringMasterIsEmergency ==0 && dm?.deliveringMasterStatus==1}" th:lang="0">您已确认
+                </button>
+                <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                        th:if="${dm?.deliveringMasterIsEmergency ==1 && dm?.deliveringMasterStatus==0}" th:lang="0">等待确认
+                </button>
+                <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                        th:if="${dm?.deliveringMasterIsEmergency ==1 && dm?.deliveringMasterStatus==1}" th:lang="0">已被确认
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="weui-loadmore loadmo" style=" ">
+        <i class="weui-loading"></i>
+        <span class="weui-loadmore__tips">正在加载</span>
+    </div>
+    <div style="height: 8em;"></div>
+</div>
+
+</body>
+</html>

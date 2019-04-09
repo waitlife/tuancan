@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="tab4" id="tab4" class="weui-tab__bd-item">
+    <header class='demos-header' style="background-color: #58b2e1;padding: 15px 0;">
+        <div style="display: inline;">
+            <img src="/icon/avatar2.jpg" style="width: 30px;border: 2px solid #3f8ae6;width: 80px;height: 80px;border-radius: 50%;background-color: aliceblue;line-height: 70px;text-align: center;margin: 0 0 0 15px;">
+        </div>
+        <div style="display: inline;float: right;margin-right: 10px;">
+            <a href=";"><img src="/icon/icon_arrowleft.png" width=""></a>
+        </div>
+    </header>
+
+    <div class="weui-grids" style="padding-bottom: 80px;">
+        <a th:href="@{'/questionNaire/show'}" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_edit.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                问卷调查
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_nav_cell.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                评价
+            </p>
+        </a>
+        <a href="/order/unitorderlist" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_report.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                订单
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_personal.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                个人
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_share.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                分享
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_nav_dialog.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                消息
+            </p>
+        </a>
+        <a href="/groupMealContract/show" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_gn.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我的合同
+            </p>
+        </a>
+        <a th:href="@{'/kefu' }" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_kefu.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                客服
+            </p>
+        </a>
+        <a th:href="@{'/complaint/unitcomplaintlist' }" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/icon/icon_nav_article.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                投诉
+            </p>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -80,10 +80,12 @@ public class OrderController {
         log.info(recipeids);
         String[] ids = recipeids.split(",");
         StaffOrder staffOrder;
+        Date date = new Date();
+        Date from = Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant());
         for (String id : ids) {
             staffOrder=new StaffOrder();
-            staffOrder.setStaffOrderUsedate(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
-            staffOrder.setStaffOrderDate(new Date());
+            staffOrder.setStaffOrderUsedate(from);
+            staffOrder.setStaffOrderDate(date);
             Recipe recipe = new Recipe();
             recipe.setRecipeId(Integer.parseInt(id));
             staffOrder.setRecipe(recipe);

@@ -42,7 +42,7 @@ public class WechatController {
         String echostr=request.getParameter("echostr");
         String timestamp=request.getParameter("timestamp");
         String nonce=request.getParameter("nonce");
-        log.info(echostr);
+        log.info("echostr{}",echostr);
         if (signature!=null&&echostr!=null&&!echostr.equals("")){
           //微信服务器验证
             log.info("======================");
@@ -56,7 +56,7 @@ public class WechatController {
         WxMenuButton button1 = new WxMenuButton();
         button1.setType("view");
         button1.setName("点餐");
-        button1.setUrl(projectUrlConfig.getWhchatAuthorize()+"/wxindex/");
+        button1.setUrl(projectUrlConfig.getWhchatAuthorize()+"/wechat/authorize/");
         //一级菜单
         WxMenuButton button2 = new WxMenuButton();
         button2.setName("个人管理");
@@ -64,7 +64,7 @@ public class WechatController {
         List<WxMenuButton> subButtons = new ArrayList<WxMenuButton>();
         WxMenuButton subButton1 = new WxMenuButton();
         subButton1.setType("view");
-        subButton1.setName("首页");
+        subButton1.setName("签约合同");
         subButton1.setUrl(projectUrlConfig.getWhchatAuthorize()+"/");
 
         WxMenuButton subButton2 = new WxMenuButton();
@@ -173,13 +173,13 @@ public class WechatController {
         try {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
-            log.error("【微信网页授权】{}", e);
+            log.error("【微信网页授权异常】{}", e.getMessage());
         }
 
         String openId = wxMpOAuth2AccessToken.getOpenId();
         //设置session
         request.getSession(true).setAttribute("openId",openId);
-        log.info("returnUrl={},openid={}",returnUrl,openId);
+        log.info("returnUrl={}",returnUrl+"?openId="+openId);
         return "redirect:" + returnUrl+"?openId="+openId;
     }
 }

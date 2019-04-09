@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="tab3" id="tab3" class="weui-tab__bd-item">
+    <div class="content-list" id="outer" style="border-top: 1px solid #ddd">
+        <div class="list-left" id="tab" style="">
+            <li class="current" style="list-style-type: none"><a style="text-decoration: none" href="#tuijian">明日推荐</a></li>
+            <li><a href="#huncai">荤菜</a></li>
+            <li><a href="#sucai">素菜</a></li>
+
+        </div>
+        <div class="list-right" id="ordercontent" style="" th:if="${cmv!=null}">
+            <ul class="list-pro" style="display: block;">
+                <a class="target-fix" name="tuijian"></a>
+                <li><i href="#" style="color: dodgerblue">明日推荐</i></li>
+                <li th:each="t : ${cmv?.commends}">
+                    <a href="#"><img src="/img/greentea.png" class="list-pic"></a>
+                    <div class="shop-list-mid">
+                        <div class="tit" style=""><a href="#" th:text="${t.recipeName+'           ￥'+t.recipeCostprice}"></a> </div>
+                        <div class="am-gallery-desc"
+                             th:text="${t.recipeType == 1}? '炒菜' : (${t.recipeType == 2}? '凉菜' : (${t.recipeType == 3}? '汤菜' : (${t.recipeType == 4}? '蒸菜' : '烧菜')))">
+                            ￥52
+                        </div>
+
+                    </div>
+                    <div class="list-cart">
+                        <div class="d-stock ">
+                            <a class="add_to_cart" href="#" th:lang="${t.recipeId}" th:onclick="'addtocart(\''+${t.recipeName}+'\',\''+${t.recipeIcon}+'\','+${t.recipeCostprice}+','+event+')'">
+                                <img src="/icon/add.png" style="width:25px;height:25px">
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                <a class="target-fix" name="huncai"></a>
+                <li><i href="#" style="color: dodgerblue">荤菜</i></li>
+                <li th:each="t : ${cmv?.meals}">
+                    <a href="#"><img src="/img/greentea.png" class="list-pic"></a>
+                    <div class="shop-list-mid">
+                        <div class="tit"><a href="#" th:text="${t.recipeName}">青椒肉丝</a></div>
+                        <div class="am-gallery-desc"
+                             th:text="${t.recipeType == 1}? '炒菜' : (${t.recipeType == 2}? '凉菜' : (${t.recipeType == 3}? '汤菜' : (${t.recipeType == 4}? '蒸菜' : '烧菜')))">
+                            ￥52
+                        </div>
+                    </div>
+                    <div class="list-cart">
+                        <div class="d-stock ">
+                            <a class="add_to_cart" href="#" th:lang="${t.recipeId}" th:onclick="'addtocart(\''+${t.recipeName}+'\',\''+${t.recipeIcon}+'\','+${t.recipeCostprice}+','+event+')'">
+                                <img src="/icon/add.png" style="width:25px;height:25px">
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                <a class="target-fix" name="sucai"></a>
+                <li><i href="#" style="color: dodgerblue">素菜</i></li>
+                <li th:each="t : ${cmv?.veges}">
+                    <a href="#"><img src="/img/greentea.png" class="list-pic"></a>
+                    <div class="shop-list-mid">
+                        <div class="tit"><a href="#" th:text="${t.recipeName}">青椒肉丝</a></div>
+                        <div class="am-gallery-desc"
+                             th:text="${t.recipeType == 1}? '炒菜' : (${t.recipeType == 2}? '凉菜' : (${t.recipeType == 3}? '汤菜' : (${t.recipeType == 4}? '蒸菜' : '烧菜')))">
+                            炒菜
+                        </div>
+                    </div>
+                    <div class="list-cart">
+                        <div class="d-stock ">
+                            <a class="add_to_cart" href="#" th:lang="${t.recipeId}" th:onclick="'addtocart(\''+${t.recipeName}+'\',\''+${t.recipeIcon}+'\','+${t.recipeCostprice}+','+event+')'">
+                                <img src="/icon/add.png" style="width:25px;height:25px">
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                <div class="weui-loadmore loadmorerr weui-loadmore_line weui-loadmore_dot">
+                    <span class="weui-loadmore__tips">我是有底线的</span>
+                </div>
+                <a href="#" class="open-popup" data-target="#cart" style="position: fixed;bottom: 60px;right: 20px;width: 60px;height: 60px;border-radius: 50%;background-color: aliceblue;line-height: 60px;text-align: center;">
+                    <img src="/icon/cart.png"><i id="cart_msg">0</i></a>
+
+                <style>
+                    .list-left .current {
+                        border-left: 3px solid #39b867;
+                    }
+                    .list-left .current a {
+                        color: #39b867;
+                    }
+                    .list-left {
+                        float: left;
+                        width: 25%;
+                        height: 90%;
+                        overflow: auto;
+                        border-right: 1px solid #ddd;
+                    }
+                    .list-left li {
+                        width: 100%;
+                        height: 4rem;
+                        line-height: 4rem;
+                        text-align: center;
+                        border-bottom: 1px solid #ddd;
+                        overflow: hidden;
+                    }
+                    .list-left li a{
+                        color: #0d0d0d;
+                    }
+                    li {
+                        list-style-type: none;
+                    }
+                    a {
+                        text-decoration: none;
+                    }
+                    .list-right {
+                        float: right;
+                        width: 75%;
+                        padding-bottom: 50px;
+                    }
+                    .shop-list-mid {
+                        margin-left: 0.625rem;
+                    }
+                    .shop-list-mid .tit a {
+                        color: #909090;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        white-space: normal;
+                        text-overflow: ellipsis;
+                    }
+                    .tit {
+                        padding-left: 30%;
+                    }
+                    .list-pro li {
+                        position: relative;
+                        border-bottom: 1px solid #ddd;
+                        margin: 0px 3%;
+                        padding: 15px 0;
+                        overflow: hidden;
+                    }
+                    .list-pro .am-gallery-desc {
+                        color: #cb2527;
+                        padding-left: 30%;
+                        /* margin-top: 20px; */
+                    }
+                    .list-cart {
+                        height: 45px;
+                        text-align: center;
+                        position: absolute;
+                        right: 20px;
+                        bottom: 0px;
+                        border-radius: 50%;
+                    }
+                    .target-fix {
+                        position: relative;
+                        top: -95px;
+                        display: block;
+                        height: 0;
+                        overflow: hidden;
+                    }
+                    .list-pic {
+                        float: left;
+                        width: 30%;
+                        padding: 3px;
+                        border: 1px solid #ddd;
+                    }
+                    #cart_msg {
+                        position: absolute;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: red;
+                        color: #fff;
+                        text-align: center;
+                        line-height: 20px;
+                        font-style: normal;
+                        top: -5px;
+                        left: 40px;
+                    }
+                    .summary {
+                        padding: 8px;
+                        text-align: right;
+                        background-color: white;
+                    }
+                </style>
+            </ul>
+        </div>
+    </div>
+
+    <div id="cart" class='weui-popup__container popup-bottom' style="z-index: 999;">
+        <div class="weui-popup__overlay"></div>
+        <div class="weui-popup__modal">
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                    <h1 class="title" style="bottom: -10px;">我的购物车</h1>
+                </div>
+            </div>
+            <div class="modal-content" style="border: none;box-shadow: none;">
+                <div class="weui-cells" id="cartlist">
+
+                </div>
+            </div>
+            <p class="summary" style="">
+                <span id="cartdesc">0 件商品, 共计 <strong>0</strong> 元</span>
+                <a href="javascript:;" id="paycart" class="picker-button btn btn-primary" style="right: 36px;">选好了</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

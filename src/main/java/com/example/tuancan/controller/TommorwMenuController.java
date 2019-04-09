@@ -209,7 +209,7 @@ public class TommorwMenuController {
 
 
         model.addAttribute("cmv",commendOrMealOrVegetable);
-        return "unitmealmanager/index :: #ordercontent";
+        return "unitmealmanager/order.html :: #ordercontent";
     }
 
 }

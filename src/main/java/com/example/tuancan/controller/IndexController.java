@@ -4,7 +4,6 @@ import com.example.tuancan.model.DeliveringCompanyStaff;
 import com.example.tuancan.model.GroupMealUnit;
 import com.example.tuancan.service.DeliveringCompanyStaffService;
 import com.example.tuancan.service.GroupMealUnitService;
-import com.example.tuancan.utils.AuthorizedAnnotation;
 import com.example.tuancan.utils.JsonUtil;
 import com.example.tuancan.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -103,21 +102,26 @@ public class IndexController {
      * @param request
      * @return
      */
-    @AuthorizedAnnotation
     @RequestMapping("/wxindex")
-    public String weixinindex(HttpServletRequest request){
-        Object openId = request.getParameter("openId");
-        if (StringUtil.isNullOrEmpty(openId.toString())){
-            openId=request.getSession().getAttribute("openId");
+    public String weixinindex(HttpServletRequest request,@RequestParam(value = "openId",required = false) String openId){
+        if (Objects.nonNull(openId)){
+            log.info("paramopenid:{}",openId);
+            request.getSession().setAttribute("openId","o81TH1TH9szWjykZQcY2-1S1_eWI");
         }
-        log.info("openid:{}",openId);
-        GroupMealUnit groupMealUnit = groupMealUnitService.selectByQrCode(openId.toString());
+        if (StringUtil.isNullOrEmpty(openId)){
+            openId=request.getSession().getAttribute("openId").toString();
+            log.info("openid:{}",openId);
+        }
+
+        GroupMealUnit groupMealUnit = groupMealUnitService.selectByQrCode(openId);
         if (Objects.nonNull(groupMealUnit)){
             log.info("主管登录：{}，{}",openId, JsonUtil.toJson(groupMealUnit));
             request.getSession().setAttribute("unitID",groupMealUnit.getGroupMealUnitId());
             return "/unitmealmanager/index";
         }
-        return "/webhtml/order.html";
+        return "/unitmealmanager/index";
+
+        //return "redirect:/msg";
     }
 
     @RequestMapping("/msg")

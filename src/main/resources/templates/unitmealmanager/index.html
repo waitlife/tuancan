@@ -21,7 +21,7 @@
 </head>
 
 <body ontouchstart>
-<div class="weui-cell" id="headavr">
+<div class="weui-cell" id="headavr" style="top: 0px;z-index: 100;">
     <a href="javacript:;">
         <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
         </div>
@@ -36,430 +36,19 @@
 </div>
 <div class="weui-tab" id="tabbody">
     <div class="weui-tab__bd">
-        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-            <div class="weui-form-preview" id="delivers" th:each="dm,stat : ${page?.list}"
-                 th:if="${not #lists.isEmpty(page.list)}">
-                <div class="weui-form-preview__hd">
-                    <label class="weui-form-preview__label">单价</label>
-                    <em class="weui-form-preview__value" th:text="${'¥'+dm.deliveringMasterPrice}">¥24.00</em>
-                </div>
-                <div class="weui-form-preview__bd">
-                    <div class="weui-form-preview__item">
-                        <label class="weui-form-preview__label">份数</label>
-                        <div class="weui-count">
-                            <a class="weui-count__btn weui-count__decrease"></a>
-                            <input class="weui-count__number" type="number" th:value="${dm?.deliveringMasterAmount}"/>
-                            <a class="weui-count__btn weui-count__increase"></a>
-                        </div>
-                        <!--<span class="weui-form-preview__value" th:text="${dm?.deliveringMasterAmount}">11</span>-->
-                    </div>
-                    <div class="weui-form-preview__item">
-                        <label class="weui-form-preview__label">配送公司</label>
-                        <span class="weui-form-preview__value"
-                              th:text="${dm?.deliveringCompany?.deliveringCompanyName}">名字名字名字</span>
-                    </div>
-                    <div class="weui-form-preview__item">
-                        <label class="weui-form-preview__label">配送时间</label>
-                        <span class="weui-form-preview__value time"
-                              th:text="${#dates.format(dm?.deliveringMasterDelivedate,'yyyy-MM-dd')}"></span>
-                        <!--<input style="right: 2em;" class="" type="date" value="2017-08-15" th:value="${#dates.format(dm.deliveringMasterDelivedate,'yyyy-MM-dd')}">-->
-                    </div>
-                    <div class="weui-form-preview__item">
-                        <label class="weui-form-preview__label">状态</label>
-                        <span class="weui-form-preview__value time"
-                              th:text="${(dm?.deliveringMasterIsEmergency==0?'普通配送':'应急配送')+','+(dm?.deliveringMasterStatus==0?'未确认':(dm?.deliveringMasterStatus==1?'已确认':'已支付'))}">
-                        </span>
-                    </div>
-                    <div class="weui-form-preview__item">
-                        <label class="weui-form-preview__label">备注</label>
-                        <span class="weui-form-preview__value" th:text="${dm.deliveringMasterMemo}">备注</span>
-                    </div>
-                </div>
-                <div class="weui-form-preview__ft">
-                    <a class="weui-form-preview__btn weui-form-preview__btn_default"
-                       th:href="@{'/deliveringMaster/dm_unit_details/'+${dm.deliveringMasterId} }">查看详情</a>
-                    <!--th:onclick="'statusbtn('+${dc?.deliveringCompanyNo}+','+${dc?.deliveringCompanyStatus+1}+')'" onclick="javascript:confirmSubmit(2);"-->
-                    <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary confirm"
-                            th:id="${dm?.deliveringMasterId}"
-                            th:if="${dm?.deliveringMasterIsEmergency ==0 && dm?.deliveringMasterStatus==0}" th:lang="0">确认
-                    </button>
-                    <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary"
-                            th:if="${dm?.deliveringMasterIsEmergency ==0 && dm?.deliveringMasterStatus==1}" th:lang="0">您已确认
-                    </button>
-                    <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary"
-                            th:if="${dm?.deliveringMasterIsEmergency ==1 && dm?.deliveringMasterStatus==0}" th:lang="0">等待确认
-                    </button>
-                    <button type="button" class="weui-form-preview__btn weui-form-preview__btn_primary"
-                            th:if="${dm?.deliveringMasterIsEmergency ==1 && dm?.deliveringMasterStatus==1}" th:lang="0">已被确认
-                    </button>
-                </div>
-            </div>
 
-        </div>
+        <div th:replace="unitmealmanager/delivermaster :: tab1"></div>
 
-        <div id="tab2" class="weui-tab__bd-item">
-            <div class="weui-search-bar" id="searchBar">
-                <form class="weui-search-bar__form">
-                <div class="weui-search-bar__box">
-                    <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索"
-                           required="">
-                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
-                </div>
-                <label class="weui-search-bar__label" id="searchText"
-                       style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
-                    <i class="weui-icon-search"></i>
-                    <span>搜索</span>
-                </label>
-                </form>
-                <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
-            </div>
-            <div class="page__bd" >
-                <div class="weui-panel weui-panel_access" >
-                    <div class="weui-panel__hd">员工列表</div>
-                    <div class="weui-panel__bd"  id="searchtable">
-                        <div class="weui-cell weui-cell_swiped" id="manager" th:each="us,stat : ${page?.list}"
-                             th:if="${not #lists.isEmpty(page.list)}" th:lang="${path}">
-                            <div class="weui-cell__bd"
-                                 style="padding-top: 2px;padding-right: 2px;padding-bottom: 2px;">
-                                <a href="javascript:void(0);" th:lang="${'/groupmealstaff/updatestatus/'+us?.gMStaffId}"
-                                   class="weui-media-box weui-media-box_appmsg ">
-                                    <div class="weui-media-box__hd">
-                                        <img class="weui-media-box__thumb" src="/icon/avatar.jpg" alt="">
-                                    </div>
-                                    <div class="weui-media-box__bd">
-                                        <h4 class="weui-media-box__title" th:text="${us?.gMStaffName}"></h4>
-                                        <!--<p class="weui-media-box__desc" th:text="'手机号：'+${us?.gMStafMobile}+'  性别：'+${us?.gMStaffSex}"></p>-->
-                                        <ul class="weui-media-box__info">
-                                            <li class="weui-media-box__info__meta"
-                                                th:text="${us?.groupMealUnitId?.groupMealUnitName}">文字来源
-                                            </li>
-                                            <li class="weui-media-box__info__meta" th:text="${us?.gMStaffSex}">男
-                                            </li>
-                                            <li class="weui-media-box__info__meta weui-media-box__info__meta_extra"
-                                                th:text="${#dates.format(us?.gMStafCreateDate,'yyyy-MM-dd')}">其它信息
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="weui-cell__ft">
-                                <a class="weui-swiped-btn weui-swiped-btn_warn delete-swipeout statuswipe"
-                                   href="javascript:" th:lang="${'/updatestatus/'+us?.gMStaffId}" th:if="${us?.gMStaffStatus==1}">停用</a>
-                                <a class="weui-swiped-btn weui-swiped-btn_warn delete-swipeout statuswipe"
-                                   href="javascript:" th:lang="${'/updatestatus/'+us?.gMStaffId}"  th:if="${us?.gMStaffStatus==0}">启用</a>
-                                <a class="weui-swiped-btn weui-swiped-btn_default close-swipeout"
-                                   href="javascript:"  th:id="${us?.gMStaffId}">关闭</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="weui-panel__ft">
-                        <a href="javascript:void(0);" th:lang="${path}" id="seemore" class="weui-cell weui-cell_access weui-cell_link">
-                            <div class="weui-cell__bd">查看更多</div>
-                            <span class="weui-cell__ft"></span>
-                        </a>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                </div>
-            </div>
-        </div>
+        <div th:replace="unitmealmanager/unitstaff_list :: tab2"></div>
 
-        <div id="tab3" class="weui-tab__bd-item">
-            <div class="content-list" id="outer" style="border-top: 1px solid #ddd">
-                <div class="list-left" id="tab" style="">
-                    <li class="current" style="list-style-type: none"><a style="text-decoration: none" href="#tuijian">明日推荐</a></li>
-                    <li><a href="#huncai">荤菜</a></li>
-                    <li><a href="#sucai">素菜</a></li>
+        <div th:replace="unitmealmanager/order :: tab3"></div>
 
-                </div>
-                <div class="list-right" id="ordercontent" style="" th:if="${cmv!=null}">
-                    <ul class="list-pro" style="display: block;">
-                        <a class="target-fix" name="tuijian"></a>
-                        <li><i href="#" style="color: dodgerblue">明日推荐</i></li>
-                        <li th:each="t : ${cmv?.commends}">
-                            <a href="#"><img src="/img/greentea.png" class="list-pic"></a>
-                            <div class="shop-list-mid">
-                                <div class="tit" style=""><a href="#" th:text="${t.recipeName+'           ￥'+t.recipeCostprice}"></a> </div>
-                                <div class="am-gallery-desc"
-                                     th:text="${t.recipeType == 1}? '炒菜' : (${t.recipeType == 2}? '凉菜' : (${t.recipeType == 3}? '汤菜' : (${t.recipeType == 4}? '蒸菜' : '烧菜')))">
-                                    ￥52
-                                </div>
+        <div th:replace="unitmealmanager/personal :: tab4"></div>
 
-                            </div>
-                            <div class="list-cart">
-                                <div class="d-stock ">
-                                    <a class="add_to_cart" href="#" th:lang="${t.recipeId}" th:onclick="'addtocart(\''+${t.recipeName}+'\',\''+${t.recipeIcon}+'\','+${t.recipeCostprice}+','+event+')'">
-                                        <img src="/icon/add.png" style="width:25px;height:25px">
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
 
-                        <a class="target-fix" name="huncai"></a>
-                        <li><i href="#" style="color: dodgerblue">荤菜</i></li>
-                        <li th:each="t : ${cmv?.meals}">
-                            <a href="#"><img src="/img/greentea.png" class="list-pic"></a>
-                            <div class="shop-list-mid">
-                                <div class="tit"><a href="#" th:text="${t.recipeName}">青椒肉丝</a></div>
-                                <div class="am-gallery-desc"
-                                     th:text="${t.recipeType == 1}? '炒菜' : (${t.recipeType == 2}? '凉菜' : (${t.recipeType == 3}? '汤菜' : (${t.recipeType == 4}? '蒸菜' : '烧菜')))">
-                                    ￥52
-                                </div>
-                            </div>
-                            <div class="list-cart">
-                                <div class="d-stock ">
-                                    <a class="add_to_cart" href="#" th:lang="${t.recipeId}" th:onclick="'addtocart(\''+${t.recipeName}+'\',\''+${t.recipeIcon}+'\','+${t.recipeCostprice}+','+event+')'">
-                                        <img src="/icon/add.png" style="width:25px;height:25px">
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-
-                        <a class="target-fix" name="sucai"></a>
-                        <li><i href="#" style="color: dodgerblue">素菜</i></li>
-                        <li th:each="t : ${cmv?.veges}">
-                            <a href="#"><img src="/img/greentea.png" class="list-pic"></a>
-                            <div class="shop-list-mid">
-                                <div class="tit"><a href="#" th:text="${t.recipeName}">青椒肉丝</a></div>
-                                <div class="am-gallery-desc"
-                                     th:text="${t.recipeType == 1}? '炒菜' : (${t.recipeType == 2}? '凉菜' : (${t.recipeType == 3}? '汤菜' : (${t.recipeType == 4}? '蒸菜' : '烧菜')))">
-                                    炒菜
-                                </div>
-                            </div>
-                            <div class="list-cart">
-                                <div class="d-stock ">
-                                    <a class="add_to_cart" href="#" th:lang="${t.recipeId}" th:onclick="'addtocart(\''+${t.recipeName}+'\',\''+${t.recipeIcon}+'\','+${t.recipeCostprice}+','+event+')'">
-                                        <img src="/icon/add.png" style="width:25px;height:25px">
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-
-                        <div class="weui-loadmore loadmorerr weui-loadmore_line weui-loadmore_dot">
-                          <span class="weui-loadmore__tips">我是有底线的</span>
-                        </div>
-                        <a href="#" class="open-popup" data-target="#cart" style="position: fixed;bottom: 60px;right: 20px;width: 60px;height: 60px;border-radius: 50%;background-color: aliceblue;line-height: 60px;text-align: center;">
-                            <img src="/icon/cart.png"><i id="cart_msg">0</i></a>
-
-                        <style>
-                            .list-left .current {
-                                border-left: 3px solid #39b867;
-                            }
-                            .list-left .current a {
-                                color: #39b867;
-                            }
-                            .list-left {
-                                float: left;
-                                width: 25%;
-                                height: 90%;
-                                overflow: auto;
-                                border-right: 1px solid #ddd;
-                            }
-                            .list-left li {
-                                width: 100%;
-                                height: 4rem;
-                                line-height: 4rem;
-                                text-align: center;
-                                border-bottom: 1px solid #ddd;
-                                overflow: hidden;
-                            }
-                            .list-left li a{
-                                color: #0d0d0d;
-                            }
-                            li {
-                                list-style-type: none;
-                            }
-                            a {
-                                text-decoration: none;
-                            }
-                            .list-right {
-                                float: right;
-                                width: 75%;
-                                padding-bottom: 50px;
-                            }
-                            .shop-list-mid {
-                                margin-left: 0.625rem;
-                            }
-                            .shop-list-mid .tit a {
-                                color: #909090;
-                                display: -webkit-box;
-                                -webkit-line-clamp: 2;
-                                -webkit-box-orient: vertical;
-                                overflow: hidden;
-                                white-space: normal;
-                                text-overflow: ellipsis;
-                            }
-                            .tit {
-                                padding-left: 30%;
-                            }
-                            .list-pro li {
-                                position: relative;
-                                border-bottom: 1px solid #ddd;
-                                margin: 0px 3%;
-                                padding: 15px 0;
-                                overflow: hidden;
-                            }
-                            .list-pro .am-gallery-desc {
-                                color: #cb2527;
-                                padding-left: 30%;
-                                /* margin-top: 20px; */
-                            }
-                            .list-cart {
-                                height: 45px;
-                                text-align: center;
-                                position: absolute;
-                                right: 20px;
-                                bottom: 0px;
-                                border-radius: 50%;
-                            }
-                            .target-fix {
-                                position: relative;
-                                top: -95px;
-                                display: block;
-                                height: 0;
-                                overflow: hidden;
-                            }
-                            .list-pic {
-                                float: left;
-                                width: 30%;
-                                padding: 3px;
-                                border: 1px solid #ddd;
-                            }
-                            #cart_msg {
-                                position: absolute;
-                                width: 20px;
-                                height: 20px;
-                                border-radius: 50%;
-                                background: red;
-                                color: #fff;
-                                text-align: center;
-                                line-height: 20px;
-                                font-style: normal;
-                                top: -5px;
-                                left: 40px;
-                            }
-                            .summary {
-                                padding: 8px;
-                                text-align: right;
-                                background-color: white;
-                            }
-                        </style>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="cart" class='weui-popup__container popup-bottom' style="z-index: 999;">
-                <div class="weui-popup__overlay"></div>
-                <div class="weui-popup__modal">
-                    <div class="toolbar">
-                        <div class="toolbar-inner">
-                            <a href="javascript:;" class="picker-button close-popup">关闭</a>
-                            <h1 class="title" style="bottom: -10px;">我的购物车</h1>
-                        </div>
-                    </div>
-                    <div class="modal-content" style="border: none;box-shadow: none;">
-                        <div class="weui-cells" id="cartlist">
-
-                        </div>
-                    </div>
-                    <p class="summary" style="">
-                        <span id="cartdesc">0 件商品, 共计 <strong>0</strong> 元</span>
-                        <a href="javascript:;" id="paycart" class="picker-button btn btn-primary" style="right: 36px;">选好了</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab4" class="weui-tab__bd-item">
-            <header class='demos-header' style="background-color: #58b2e1;padding: 15px 0;">
-                <div style="display: inline;">
-                    <img src="/icon/avatar2.jpg" style="width: 30px;border: 2px solid #3f8ae6;width: 80px;height: 80px;border-radius: 50%;background-color: aliceblue;line-height: 70px;text-align: center;margin: 0 0 0 15px;">
-                </div>
-                <div style="display: inline;float: right;margin-right: 10px;">
-                    <a href=";"><img src="/icon/icon_arrowleft.png" width=""></a>
-                </div>
-            </header>
-
-            <div class="weui-grids" style="padding-bottom: 80px;">
-                <a th:href="@{'/questionNaire/show'}" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_edit.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        问卷调查
-                    </p>
-                </a>
-                <a href="" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_nav_cell.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        评价
-                    </p>
-                </a>
-                <a href="/order/unitorderlist" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_report.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        订单
-                    </p>
-                </a>
-                <a href="" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_personal.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        个人
-                    </p>
-                </a>
-                <a href="" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_share.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        分享
-                    </p>
-                </a>
-                <a href="" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_nav_dialog.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        消息
-                    </p>
-                </a>
-                <a href="/groupMealContract/show" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_gn.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        我的合同
-                    </p>
-                </a>
-                <a th:href="@{'/kefu' }" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_kefu.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        客服
-                    </p>
-                </a>
-                <a th:href="@{'/complaint/unitcomplaintlist' }" class="weui-grid js_grid">
-                    <div class="weui-grid__icon">
-                        <img src="/icon/icon_nav_article.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        投诉
-                    </p>
-                </a>
-            </div>
-        </div>
     </div>
 
-    <div class="weui-tabbar" style="position: absolute;bottom: 0em;">
+    <div class="weui-tabbar" style="position: fixed;bottom: 0em;">
         <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
             <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
             <div class="weui-tabbar__icon">
@@ -486,13 +75,8 @@
             <p class="weui-tabbar__label">其他</p>
         </a>
     </div>
-
-
 </div>
-<div class="weui-loadmore loadmo">
-    <i class="weui-loading"></i>
-    <span class="weui-loadmore__tips">正在加载</span>
-</div>
+
 <!--//pop-->
 <div id="half" class='weui-popup__container popup-bottom' style="z-index: 999;">
     <div class="weui-popup__overlay"></div>
@@ -680,7 +264,7 @@
             },
             success: function (result) {
                 //alert("ok");
-                $("#tab1").append(result + "<div class=\"weui-loadmore weui-loadmore_line\">\n" +
+                $("#deliverpreview").append(result + "<div class=\"weui-loadmore weui-loadmore_line\">\n" +
                     "               <span class=\"weui-loadmore__tips\">以下为历史消息</span>\n" +
                     "              </div>");
             },
@@ -790,7 +374,7 @@
         var loading = false;  //状态标记
 
         //$(document.body).infinite(200);
-        $(document.body).infinite().on("infinite", function () {
+        $("#tab1").infinite().on("infinite", function () {
             if (loading) return;
             loading = true;
             //$("body").append(loadhtm);
@@ -806,15 +390,15 @@
                     },
                     success: function (result) {
                         if (result == "" || result == null) {
-                            $(document.body).destroyInfinite();
+                            $("#tab1").destroyInfinite();
                             $(".loadmo").remove();
-                            $("#tab1").append("<div class=\"weui-loadmore  weui-loadmore_line\">\n" +
+                            $("#deliverpreview").append("<div class=\"weui-loadmore  weui-loadmore_line\">\n" +
                                 "  <span class=\"weui-loadmore__tips\">暂无数据</span>\n" +
                                 "</div><br><br>");
                             $(".loadmorerr").last().remove();
                             return;
                         }
-                        $("#tab1").append(result + htm);
+                        $("#deliverpreview").append(result + htm);
                         // $('.loadmo').hide();
                     },
                 });
@@ -944,30 +528,6 @@
             $('#inputmemo').val('');
         });
 
-        /*
-                    $(".emergy").click(function () {
-                        var model = $(".form1").html();
-                        $.closePopup();
-                        //alert(model);
-                        $.modal({
-                            title: "填写应急配送单",
-                            text: model,
-                            buttons: [
-                                {
-                                    text: "取消", className: "default", onClick: function () {
-                                    console.log(price + "/" + memo + "/" + num + "/" + datetimer);
-                                }
-                                },
-                                {
-                                    text: "确认", onClick: function () {
-                                    //alert(datetimer + ">>" + num);
-
-                                }
-                                }
-                            ]
-                        });
-                    });
-        */
 
         //搜索
         var searchanme;

@@ -93,7 +93,7 @@ public class DeliveringMasterController {
     }
 
     /*用餐单位查看配送情况细节*/
-    @AuthorizedAnnotation
+   //@AuthorizedAnnotation
     @RequestMapping(value = "/dm_unit_details/{id}",method = {RequestMethod.GET})
     public String getUnitdm(HttpServletRequest request, @PathVariable(value = "id")Integer id,Model model){
         //Integer unitID = (Integer) httpServletRequest.getSession().getAttribute("unitID");
@@ -104,7 +104,7 @@ public class DeliveringMasterController {
     }
 
     /*用餐单位查看配送情况*/
-    @AuthorizedAnnotation
+    //@AuthorizedAnnotation
     @RequestMapping(value = {"/unitlist/{pagenum}","/unitlist"})
     public String unitDelivermaster(HttpServletRequest request,Model model, @PathVariable(value = "pagenum",required = false) Integer pageNum){
         /*获取登录的用餐公司id*/
@@ -115,12 +115,14 @@ public class DeliveringMasterController {
         }
         //TODO 公司二维码等于员工openid就是主管
         PageHelper.startPage(1, 1);
-        GroupMealUnit groupMealUnit= groupMealUnitService.selectByQrCode("openid");
+        String openId = request.getSession().getAttribute("openId").toString();
+        GroupMealUnit groupMealUnit= groupMealUnitService.selectByQrCode(openId);
+        //如果为空就不是主管
         Page<Object> page = PageHelper.startPage(pageNum, 1);
         List<DeliveringMaster> deliveringMasters = deliveringMasterService.selectByUnitId(groupMealUnit.getGroupMealUnitId());
         pageFun(model,deliveringMasters,"/deliveringMaster/unitlist");
 
-        return "/unitmealmanager/index.html :: #delivers";
+        return "/unitmealmanager/delivermaster.html :: #delivers";
     }
 
     /**

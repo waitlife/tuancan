@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    ">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/demos.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <!-- order Styles-->
+    <!--<link href="/css/order.css" type="text/css" rel="stylesheet">-->
+<!--
+    <link href="/webjars/amazeui/2.7.2/dist/css/amazeui.css" type="text/css" rel="stylesheet">
+-->
+
+</head>
+
+<body ontouchstart>
+<div class="weui-cell" id="headavr" style="top: 0px;z-index: 100;">
+    <a href="javacript:;">
+        <div class="weui-cell__hd"><img src="/icon/avatar.jpg" alt="" style="width:20px;margin-right:5px;display:block">
+        </div>
+    </a>
+    <div class="weui-cell__bd">
+        <p>账户</p>
+    </div>
+    <div class="weui-cell__ft">
+        <a href="javascript:;" class="weui-form-preview__btn weui-form-preview__btn_primary open-popup"
+           data-target="#half">操作</a>
+    </div>
+</div>
+<div class="weui-tab" id="tabbody">
+    <div class="weui-tab__bd">
+        <div th:replace="unitmealmanager/order :: tab3"></div>
+
+        <div th:replace="webhtml/order_list :: tab2"></div>
+
+        <div id="tab4" class="weui-tab__bd-item">
+            <header class='demos-header' style="background-color: #58b2e1;padding: 15px 0;">
+                <div style="display: inline;">
+                    <img src="/icon/avatar2.jpg" style="width: 30px;border: 2px solid #3f8ae6;width: 80px;height: 80px;border-radius: 50%;background-color: aliceblue;line-height: 70px;text-align: center;margin: 0 0 0 15px;">
+                </div>
+                <div style="display: inline;float: right;margin-right: 10px;">
+                    <a href=";"><img src="/icon/icon_arrowleft.png" width=""></a>
+                </div>
+            </header>
+
+            <div class="weui-grids" style="padding-bottom: 80px;">
+                <a th:href="@{'/questionNaire/show'}" class="weui-grid js_grid">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_edit.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        问卷调查
+                    </p>
+                </a>
+                <a href="" class="weui-grid js_grid">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_cell.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        评价
+                    </p>
+                </a>
+                <a href="/order/unitorderlist" class="weui-grid js_grid">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_report.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        订单
+                    </p>
+                </a>
+                <a href="" class="weui-grid js_grid">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_share.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        分享
+                    </p>
+                </a>
+                <a href="" class="weui-grid js_grid">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_dialog.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        消息
+                    </p>
+                </a>
+                <a th:href="@{'/kefu' }" class="weui-grid js_grid">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_kefu.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        客服
+                    </p>
+                </a>
+                <a th:href="@{'/complaint/unitcomplaintlist' }" class="weui-grid js_grid">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_article.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        投诉
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-tabbar" style="position: fixed;bottom: 0em;">
+        <a href="#tab3" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/icon/icon_nav_article.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">点餐</p>
+        </a>
+        <a href="#tab2" class="weui-tabbar__item weui-bar__item--on">
+            <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+            <div class="weui-tabbar__icon">
+                <img src="/icon/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">订单</p>
+        </a>
+        <a href="#tab4" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/icon/icon_nav_cell.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">其他</p>
+        </a>
+    </div>
+</div>
+
+<!--//pop-->
+<div id="half" class='weui-popup__container popup-bottom' style="z-index: 999;">
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                <!--<h1 class="title">操作</h1>-->
+            </div>
+        </div>
+        <div class="modal-content">
+            <div class="weui-grids">
+                <!--<button id="addtype" data-toggle="modal" data-target="#myModal" class="btn btn-primary" type="button">添加</button>-->
+                <a href="javascript:;" class="emergy weui-grid js_grid" data-id="dialog" data-toggle="modal"
+                   data-target="#myModal">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_progress.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        应急
+                    </p>
+                </a>
+                <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_dialog.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        消息
+                    </p>
+                </a>
+                <a href="javascript:;" class="emergy weui-grid js_grid" data-id="msg" data-toggle="modal"
+                   data-target="#myModal1">
+                    <div class="weui-grid__icon">
+                        <img src="/icon/icon_nav_msg.png" alt="">
+                    </div>
+                    <p class="weui-grid__label">
+                        添加员工
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<script src="/webjars/jquery/3.3.0/jquery.js"></script>
+-->
+
+<!-- body 最后 -->
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<!--
+<script src="../lib/jquery-2.1.4.js"></script>
+-->
+<script src="/js/fastclick.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<!-- 如果使用了某些拓展插件还需要额外的JS -->
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/city-picker.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var pageNum = 1;
+        FastClick.attach(document.body);
+        $("#headavr").show();
+        //页面加载完成，载入配送单
+        orderlist();
+        //tabar状态转换
+        $(".weui-tabbar__item").click(function () {
+            var $this = $(this);
+            //var id = $this.attr("id");
+            var href = $this.attr("href");
+            if ($this.hasClass("weui-bar__item--on")) {
+                return;
+            }
+            $(href).siblings("div").removeClass("weui-tab__bd-item--active").addClass("weui-tab__bd-item--active");
+
+            if (href == '#tab2') {
+                //alert(href);
+                $("#headavr").show();
+                $.showLoading();
+                setTimeout(function() {
+                    $.ajax({
+                        url: "/",
+                        type: "POST",
+                        data: {},
+                        error: function (error) {
+                            $.toast("网络错误", "cancel");
+                        },
+                        success: function (result) {
+                            $("#searchtable").html(result);
+                            $.hideLoading();
+                            $('.weui-cell_swiped').swipeout()
+                        },
+                    });
+                }, 1000);
+            } else if (href == '#tab3') {
+                //alert(href);
+                $("#headavr").show();
+                //$("#cart_msg").hide();
+                orderlist();
+
+            } else if (href == "#tab4") {
+              //  alert(href);
+                $("#headavr").hide();
+            } else {
+                $("#headavr").show();
+                return;
+            }
+        });
+
+        function orderlist(){
+            $.showLoading();
+            setTimeout(function() {
+                $.ajax({
+                    url: "/tomorrowmenu/show",
+                    type: "GET",
+                    data: {},
+                    error: function (error) {
+                        $.toast("网络错误", "cancel");
+                    },
+                    success: function (result) {
+                        $("#ordercontent").remove();
+                        $("#outer").append(result);
+                        $.hideLoading();
+                        $('.weui-cell_swiped').swipeout();
+                    },
+                });
+            }, 1000);
+        }
+
+        $('#myModal').on('hidden.bs.modal', function () {
+            // 执行一些动作...
+            $('#inputdate').val('');
+            $('#inputprice').val('');
+            $('#inputnum').val('');
+            $('#inputmemo').val('');
+        });
+
+
+        $('#myModal1').on('hidden.bs.modal', function () {
+            // 执行一些动作...
+            $('#staffname').val('');
+            $('#staffmobile').val('');
+        });
+
+    });
+</script>
+<script src="/js/order.js" type="text/javascript"></script>
+
+</body>
+</html>
